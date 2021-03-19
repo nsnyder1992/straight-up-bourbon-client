@@ -4,3 +4,26 @@
   justify-content: flex-start;
   align-items: center;
 }
+
+.pay-section {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cart-footer {
+  position: fixed;
+  bottom: 0;
+  width: 400px;
+  margin: 0px;
+  text-align: center;
+}
+
+.pay-section {
+  margin: 10px;
+}
+
+#pay-button {
+  width: 95%;
+  margin: 10px;
+}

@@ -88,7 +88,9 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
           <AddIcon id="add-icon" className={classes.button} />
         </div>
       </div>
-      <Typography variant="caption">{`$${product.cost}.00`}</Typography>
+      <div className="cost">
+        <Typography variant="body2">${product.cost}.00</Typography>
+      </div>
     </div>
   );
 };

@@ -104,7 +104,7 @@ function App() {
         //update cart
         tempCart.numItems =
           tempCart.numItems - (tempCart.products[prod].qty - product.qty);
-        tempCart.subtotal =
+        tempCart.subtotal -=
           product.cost * (tempCart.products[prod].qty - product.qty);
         tempCart.products[prod].qty = product.qty;
 

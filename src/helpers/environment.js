@@ -10,3 +10,7 @@ switch (window.location.hostname) {
 }
 
 export default APIURL;
+
+//YOUTUBE
+export const CHANNEL_ID = "UCxwXL_8hCcTUhhRvx_eYE2g";
+export const YOUTUBE_API_KEY = "AIzaSyAUHutqAE9n7FeMjxvgJlMvOZasGwKSngA";

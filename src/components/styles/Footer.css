@@ -1,0 +1,20 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #101316;
+
+  color: white;
+  margin: 0px;
+  padding: 20px;
+}
+
+.follow-icons {
+  color: white;
+  font-size: 17px;
+  margin: 0px 10px;
+}
+
+.follow-icons:hover {
+  cursor: pointer;
+}

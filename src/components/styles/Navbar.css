@@ -1,0 +1,88 @@
+.apps {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+  margin: 0px 20px;
+  min-width: 100px;
+  max-width: 1450px;
+}
+
+.left-nav {
+  display: flex;
+}
+
+.right-nav {
+  display: flex;
+  justify-content: flex-end;
+  height: 50px;
+  padding-top: 5px;
+}
+
+.flex-item {
+  margin-right: 10px;
+}
+
+a {
+  color: black;
+}
+
+.navbar {
+  border-bottom: 1px solid #bbbbbb;
+}
+
+.nav-link {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 17px 0px;
+  margin: 0px 10px;
+  display: inline-block;
+  color: #101316;
+  position: relative;
+  opacity: 0.75;
+}
+
+.nav-link:hover {
+  opacity: 1;
+}
+
+.nav-link::before {
+  transition: 300ms;
+  height: 3px;
+  content: "";
+  position: absolute;
+  background-color: #101316;
+}
+
+.nav-link-fade-up::before {
+  width: 100%;
+  bottom: 5px;
+  opacity: 0;
+}
+
+.nav-link-fade-up:hover::before {
+  bottom: 12px;
+  opacity: 1;
+}
+
+.flex-item {
+  text-decoration: none;
+}
+
+.flex-item-panel {
+  text-decoration: none;
+  margin: 0px;
+}

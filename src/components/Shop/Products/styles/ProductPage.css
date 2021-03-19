@@ -1,0 +1,30 @@
+.product-page {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-content {
+  width: 100%;
+  max-width: 1450px;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 500px;
+}
+
+.left-in-stock {
+  margin-top: 30px;
+}
+
+#add-to-cart {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.product-description {
+  margin-top: 30px;
+}

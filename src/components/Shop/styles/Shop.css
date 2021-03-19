@@ -1,0 +1,21 @@
+.content-shop {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.products {
+  width: 100%;
+  max-width: 1450px;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 350px;
+}
+
+.product:hover {
+  cursor: pointer;
+}

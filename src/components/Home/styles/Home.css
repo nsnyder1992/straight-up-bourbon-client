@@ -1,0 +1,16 @@
+.content-home {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.videos {
+  width: 100%;
+  max-width: 1450px;
+}
+
+#title {
+  margin-top: 20px;
+}

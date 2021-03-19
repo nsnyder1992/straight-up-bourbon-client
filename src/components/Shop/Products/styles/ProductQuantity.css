@@ -1,0 +1,43 @@
+.quantity-container {
+  margin-left: 30px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.quantity {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 100px;
+  height: 35px;
+  border: 1px solid lightgray;
+}
+
+.icon-button {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-button:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.icon-button-left {
+  border-right: 1px solid lightgray;
+}
+
+.icon-button-right {
+  border-left: 1px solid lightgray;
+}
+
+#add-icon,
+#remove-icon {
+  font-size: 15px;
+}

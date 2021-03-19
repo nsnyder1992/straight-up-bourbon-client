@@ -1,0 +1,28 @@
+.sizes-container {
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.sizes {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.size {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: 1px solid gray;
+}
+
+.selected-size {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: 2px solid black;
+}
+
+.size:hover {
+  cursor: pointer;
+}

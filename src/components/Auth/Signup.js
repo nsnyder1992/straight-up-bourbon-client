@@ -34,7 +34,7 @@ const Signup = () => {
   //states
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -43,9 +43,9 @@ const Signup = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
-    fetch(`${APIURL}/user/create`, {
+    fetch(`${APIURL}/user/signup`, {
       method: "POST",
-      body: JSON.stringify({ firstName, lastName, username, password }),
+      body: JSON.stringify({ firstName, lastName, email, password }),
       headers: new Headers({
         "Content-Type": "application/json",
       }),
@@ -54,7 +54,7 @@ const Signup = () => {
       .then((data) => {
         setLoading(false);
         if (data.error) return setError(data.error);
-        updateToken(data.sessionToken);
+        updateToken(data.sessionToken, data.user);
       });
   };
 
@@ -86,8 +86,8 @@ const Signup = () => {
           label="Email"
           defaultValue="Email"
           variant="outlined"
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
         />
         <TextField
           required

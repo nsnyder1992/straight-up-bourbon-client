@@ -1,4 +1,7 @@
 import { useContext, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+
+//material components
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,7 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const ResetPassword = () => {
+  const history = useHistory();
+
+  //get parameter from url query
+  const { token } = useParams();
+
   //styles
   const classes = useStyles();
 
@@ -32,7 +40,6 @@ const Login = () => {
   const { updateToken } = useContext(TokenContext);
 
   //states
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,18 +48,22 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
-    fetch(`${APIURL}/user/login`, {
-      method: "POST",
-      body: JSON.stringify({ email: email, password: password }),
+    fetch(`${APIURL}/user/updatePasswordViaEmail`, {
+      method: "PUT",
+      body: JSON.stringify({
+        password: password,
+        resetPasswordToken: token,
+      }),
       headers: new Headers({
         "Content-Type": "application/json",
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         setLoading(false);
         if (data.error) return setError(data.error);
-        updateToken(data?.sessionToken, data.user);
+        await updateToken(data?.sessionToken, data.user);
+        history.push("/profile");
       })
       .catch((err) => setLoading(false));
   };
@@ -60,20 +71,10 @@ const Login = () => {
   return (
     <div className="account-fields">
       <Typography className="form-title" variant="h4">
-        LOGIN
+        RESET PASSWORD
       </Typography>
       <form className={classes.root} noValidate onSubmit={handleSubmit}>
         <TextField
-          required
-          id="outlined-required"
-          label="Email"
-          defaultValue="username"
-          variant="outlined"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <TextField
-          required
           id="outlined-password-input"
           label="Password"
           type="password"
@@ -88,7 +89,7 @@ const Login = () => {
           type="submit"
           disabled={loading}
         >
-          {loading ? <CircularProgress size={25} color="inherit" /> : "LOGIN"}
+          {loading ? <CircularProgress size={25} color="inherit" /> : "RESET"}
         </Button>
       </form>
       {error ? <Typography color="secondary">{error}</Typography> : null}
@@ -96,4 +97,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

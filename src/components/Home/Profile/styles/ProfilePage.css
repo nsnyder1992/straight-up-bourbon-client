@@ -1,0 +1,15 @@
+.profile-page {
+  margin-top: 7rem;
+}
+
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-content {
+  width: 100%;
+  max-width: 1450px;
+}

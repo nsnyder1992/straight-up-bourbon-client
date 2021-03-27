@@ -27,6 +27,7 @@ import Suggestions from "./Home/Bourbon/Bourbon";
 import Shop from "./Shop/Shop";
 import Profile from "./Home/Profile/Profile";
 import ProductPage from "./Shop/Products/ProductPage";
+import ResetPassword from "./Auth/ResetPassword";
 
 //sub-components
 import ShoppingCart from "./Shop/ShoppingCart/ShoppingCart";
@@ -196,6 +197,9 @@ const Navbar = ({ numItems }) => {
           </Route>
           <Route exact path="/profile">
             <Profile />
+          </Route>
+          <Route exact path="/reset/:token">
+            <ResetPassword />
           </Route>
         </Switch>
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, createContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 //material styling
@@ -13,8 +13,12 @@ import Navbar from "./components/Navbar";
 import { TokenContext } from "./helpers/context/token-context";
 import { CartContext } from "./helpers/context/shopping-cart";
 
+//helpers
+import APIURL from "./helpers/environment";
+
 //styles
 import "./App.css";
+
 //set up base theme
 const theme = createMuiTheme({
   palette: {
@@ -32,25 +36,51 @@ function App() {
   // SIGN IN/OUT (USING CONTEXT)
   ///////////////////////////////////////////////////////////
   const [sessionToken, setSessionToken] = useState("");
+  const [username, setUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   //every time the app re-renders check for token in local storage
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setSessionToken(localStorage.getItem("token"));
+
+      fetch(`${APIURL}/user/self`, {
+        method: "GET",
+        headers: new Headers({
+          Authorization: localStorage.getItem("token"),
+        }),
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.error) {
+            clearToken();
+          } else {
+            setUsername(json.user.firstName + " " + json.user.lastName);
+            setUserEmail(json.user.email);
+            setIsAdmin(json.user.isAdmin);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }, []);
 
   //updates token in local storage and in the state sessionToken
-  const updateToken = (newToken) => {
+  const updateToken = (newToken, user) => {
     localStorage.setItem("token", newToken);
     setSessionToken(newToken);
+    setUsername(user.firstName + " " + user.lastName);
+    setUserEmail(user.email);
   };
 
   //deletes all local storage... used mainly for logout
   const clearToken = () => {
     localStorage.clear();
     setSessionToken("");
+    setUsername("");
+    setUserEmail("");
     clearCart();
+    setNumItems(0);
   };
 
   ///////////////////////////////////////////////////////////
@@ -137,7 +167,16 @@ function App() {
 
   return (
     <div className="App">
-      <TokenContext.Provider value={{ sessionToken, updateToken, clearToken }}>
+      <TokenContext.Provider
+        value={{
+          sessionToken,
+          updateToken,
+          clearToken,
+          username,
+          userEmail,
+          isAdmin,
+        }}
+      >
         <CartContext.Provider
           value={{ cart, addToCart, removeFromCart, clearCart }}
         >

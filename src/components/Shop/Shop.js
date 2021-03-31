@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 //material components
 import { Typography, Grid } from "@material-ui/core";
+
+//components
+import AddProduct from "../Admin/Products/AddProduct";
+
+//context
+import { TokenContext } from "../../helpers/context/token-context";
 
 //styles
 import "./styles/Shop.css";
@@ -13,6 +19,9 @@ import { PRODUCTS } from "../../helpers/test/products";
 const Shop = () => {
   const history = useHistory();
   const [products, setProducts] = useState(PRODUCTS); //currently using test products
+
+  //context
+  const { isAdmin, adminView } = useContext(TokenContext);
 
   useEffect(() => {
     console.log("get products");
@@ -43,6 +52,7 @@ const Shop = () => {
             );
           })}
         </Grid>
+        {isAdmin && adminView ? <AddProduct /> : null}
       </div>
     </div>
   );

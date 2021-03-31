@@ -12,6 +12,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
@@ -33,7 +34,7 @@ import ResetPassword from "./Auth/ResetPassword";
 import ShoppingCart from "./Shop/ShoppingCart/ShoppingCart";
 
 //context
-import { CartContext } from "../helpers/context/shopping-cart";
+import { TokenContext } from "../helpers/context/token-context";
 
 //images
 import logo from "./images/logo.png";
@@ -55,7 +56,7 @@ const Navbar = ({ numItems }) => {
   const history = useHistory();
 
   //context
-  const { cart } = useContext(CartContext);
+  const { isAdmin, toggleAdmin } = useContext(TokenContext);
 
   //nav panel
   const [open, setOpen] = useState(false);
@@ -133,7 +134,6 @@ const Navbar = ({ numItems }) => {
             <IconButton onClick={handleProfile}>
               <PersonOutlineIcon />
             </IconButton>
-
             <IconButton onClick={(e) => e.preventDefault()}>
               <AttachMoneyIcon />
             </IconButton>
@@ -142,6 +142,7 @@ const Navbar = ({ numItems }) => {
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
+            {isAdmin ? <Button onClick={toggleAdmin}>Admin</Button> : null}
           </div>
         </nav>
       </div>

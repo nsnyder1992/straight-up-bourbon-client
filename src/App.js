@@ -39,6 +39,7 @@ function App() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminView, setAdminView] = useState(false);
 
   //every time the app re-renders check for token in local storage
   useEffect(() => {
@@ -65,12 +66,18 @@ function App() {
     }
   }, []);
 
+  //toggle admin view
+  const toggleAdmin = () => {
+    setAdminView(!adminView);
+  };
+
   //updates token in local storage and in the state sessionToken
   const updateToken = (newToken, user) => {
     localStorage.setItem("token", newToken);
     setSessionToken(newToken);
     setUsername(user.firstName + " " + user.lastName);
     setUserEmail(user.email);
+    setIsAdmin(user.isAdmin);
   };
 
   //deletes all local storage... used mainly for logout
@@ -175,6 +182,8 @@ function App() {
           username,
           userEmail,
           isAdmin,
+          adminView,
+          toggleAdmin,
         }}
       >
         <CartContext.Provider

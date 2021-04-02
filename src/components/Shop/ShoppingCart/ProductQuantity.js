@@ -89,7 +89,9 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
         </div>
       </div>
       <div className="cost">
-        <Typography variant="body2">${product.cost}.00</Typography>
+        <Typography variant="body2">
+          ${(product.cost / 100).toFixed(2)}
+        </Typography>
       </div>
     </div>
   );

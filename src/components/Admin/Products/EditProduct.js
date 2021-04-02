@@ -1,4 +1,5 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 //material components
 import {
@@ -25,7 +26,9 @@ import "./styles/AddProduct.css";
 import APIURL from "../../../helpers/environment";
 import { uploadImg } from "../../../helpers/functions/cloudinary";
 
-const AddProduct = () => {
+const EditProduct = ({ product }) => {
+  const history = useHistory();
+
   //context
   const { sessionToken } = useContext(TokenContext);
 
@@ -36,17 +39,37 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
 
   //states
-  const [descriptionPoints, setDescriptionPoints] = useState([""]);
-  const [sizes, setSizes] = useState([""]);
-  const [stocks, setStocks] = useState([0]);
-  const [fileUrl, setFileUrl] = useState();
+  const [descriptionPoints, setDescriptionPoints] = useState([]);
+  //   const [descriptionPointIds, setDescriptionPointIds] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [stocks, setStocks] = useState([]);
+  const [fileUrl, setFileUrl] = useState(product.photoUrl);
+
+  useEffect(() => {
+    let tempArray1 = [];
+    let tempArray2 = [];
+    for (let size of product.stock.bySize) {
+      tempArray1.push(size.size);
+      tempArray2.push(size.numItems);
+    }
+
+    setSizes(tempArray1);
+    setStocks(tempArray2);
+
+    tempArray1 = [];
+    for (let desc of product.description.points) {
+      tempArray1.push([desc.id, desc.description]);
+    }
+
+    setDescriptionPoints(tempArray1);
+  }, [product]);
 
   //field states
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [color, setColor] = useState("");
-  const [description, setDescription] = useState("");
-  const [cost, setCost] = useState("");
+  const [name, setName] = useState(product.name);
+  const [type, setType] = useState(product.type);
+  const [color, setColor] = useState(product.color);
+  const [description, setDescription] = useState(product.description_main);
+  const [cost, setCost] = useState((product.cost / 100).toFixed(2));
 
   //cloudinary
   const signatureUrl = `${APIURL}/cloudinary`;
@@ -57,15 +80,9 @@ const AddProduct = () => {
   const handleSubmit = async () => {
     const file = fileUpload.current.files[0];
     setLoading(true);
+    console.log(file);
 
     try {
-      const cloudinaryJson = await uploadImg(
-        signatureUrl,
-        cloudinaryUrl,
-        file,
-        sessionToken
-      );
-
       let body = {
         name: name,
         type: type,
@@ -73,12 +90,23 @@ const AddProduct = () => {
         description_main: description,
         description_points: ["100% cool", "cotton"],
         cost: cost,
-        photoUrl: cloudinaryJson.url,
         stripeProductId: 1,
+        photoUrl: product.photoUrl,
         stock: {},
-        description_points: [],
+        description_points: {},
       };
-      console.log();
+
+      if (file !== undefined) {
+        const cloudinaryJson = await uploadImg(
+          signatureUrl,
+          cloudinaryUrl,
+          file,
+          sessionToken
+        );
+        console.log(cloudinaryJson);
+
+        body.photoUrl = cloudinaryJson.url;
+      }
 
       sizes.reverse();
       for (let index in sizes) {
@@ -88,16 +116,18 @@ const AddProduct = () => {
       }
       sizes.reverse();
 
-      console.log(descriptionPoints);
       for (let description of descriptionPoints) {
-        if (description !== null && description !== "") {
-          body.description_points.push(description[1]);
+        console.log(description);
+        if (description[1] !== null && description[1] !== "") {
+          body.description_points[description[0]] = description[1];
         }
       }
 
+      console.log(body);
+
       //post to backend
-      await fetch(`${APIURL}/product/create`, {
-        method: "Post",
+      await fetch(`${APIURL}/product/${product.id}`, {
+        method: "Put",
         body: JSON.stringify(body),
         headers: new Headers({
           "Content-Type": "application/json",
@@ -107,6 +137,7 @@ const AddProduct = () => {
         .then((res) => res.json())
         .then((json) => {
           setLoading(false);
+          history.push(`/product/${product.id}`);
         });
     } catch (err) {
       console.log(err);
@@ -154,7 +185,8 @@ const AddProduct = () => {
 
   //add a description point to product
   const addDescriptionPoint = () => {
-    let tempArray = [...descriptionPoints, [Date.now(), ""]];
+    let date = Date.now();
+    let tempArray = [...descriptionPoints, [date, ""]];
     setDescriptionPoints(tempArray);
   };
 
@@ -302,4 +334,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

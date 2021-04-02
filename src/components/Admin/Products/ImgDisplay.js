@@ -8,7 +8,7 @@ const ImgDisplay = ({ fileUrl, fileUpload, addImage }) => {
   const handleFileUpload = (e) => {
     let file = e.target.files[0];
     let url = URL.createObjectURL(file);
-
+    console.log(fileUpload);
     addImage(url);
   };
 
@@ -23,14 +23,14 @@ const ImgDisplay = ({ fileUrl, fileUpload, addImage }) => {
 
           <ImageOutlinedIcon style={{ fontSize: 100 }} />
         )}
-        <input
-          type="file"
-          hidden
-          inputRef={fileUpload}
-          onChange={handleFileUpload}
-          id="file-upload"
-        />
       </Paper>
+      <input
+        type="file"
+        hidden
+        ref={fileUpload}
+        onChange={handleFileUpload}
+        id="file-upload"
+      />
     </ButtonBase>
   );
 };

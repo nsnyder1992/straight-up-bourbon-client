@@ -53,6 +53,7 @@ const Signup = () => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
+        console.log(data.error);
         if (data.error) return setError(data.error);
         updateToken(data.sessionToken, data.user);
       });

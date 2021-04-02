@@ -56,7 +56,7 @@ const Navbar = ({ numItems }) => {
   const history = useHistory();
 
   //context
-  const { isAdmin, toggleAdmin } = useContext(TokenContext);
+  const { isAdmin, toggleAdmin, adminView } = useContext(TokenContext);
 
   //nav panel
   const [open, setOpen] = useState(false);
@@ -142,7 +142,15 @@ const Navbar = ({ numItems }) => {
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
-            {isAdmin ? <Button onClick={toggleAdmin}>Admin</Button> : null}
+            {isAdmin ? (
+              <Button
+                color={adminView ? "primary" : ""}
+                variant={adminView ? "contained" : ""}
+                onClick={toggleAdmin}
+              >
+                Admin
+              </Button>
+            ) : null}
           </div>
         </nav>
       </div>

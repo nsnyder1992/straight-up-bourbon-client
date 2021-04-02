@@ -20,8 +20,8 @@ const DescriptionPoint = ({
             type="description"
             autoComplete="current-description"
             variant="outlined"
-            onChange={(e) => updatePoints(e.target.value, index)}
-            value={point}
+            onChange={(e) => updatePoints(e.target.value, point[0], index)}
+            value={point[1]}
           />
         </Grid>
         <Grid item xs={1}>

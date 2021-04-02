@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar";
 //context
 import { TokenContext } from "./helpers/context/token-context";
 import { CartContext } from "./helpers/context/shopping-cart";
+import { ProductContext } from "./helpers/context/product-context";
 
 //helpers
 import APIURL from "./helpers/environment";
@@ -86,9 +87,62 @@ function App() {
     setSessionToken("");
     setUsername("");
     setUserEmail("");
+    setIsAdmin(false);
     clearCart();
     setNumItems(0);
   };
+
+  ///////////////////////////////////////////////////////////
+  // PRODUCTS (USING CONTEXT)
+  //////////////////////////////////////////////////////////
+  const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalProducts, setTotalProducts] = useState();
+
+  const addProducts = () => {
+    setPage(page + 1);
+  };
+
+  //Get Paginated Products
+  const fetchProducts = () => {
+    fetch(`${APIURL}/product/${page}/${limit}`)
+      .then((res) => res.json())
+      .then((json) => {
+        setTotalProducts(json.total);
+        if (products.length >= totalProducts) return;
+
+        let newProducts = [...products, ...json.products];
+
+        for (let product of newProducts) {
+          product.sizes = [];
+          product.stock = {
+            total: 0,
+            bySize: product["product-stocks"],
+          };
+          product.stock.total = 0;
+          product.description = {
+            main: product.description_main,
+            points: [],
+          };
+
+          for (let stock of product["product-stocks"]) {
+            product.sizes.push(stock.size);
+            product.stock.total += stock.numItems;
+          }
+
+          for (let point of product["product-descriptions"]) {
+            product.description.points.push(point);
+          }
+        }
+        setProducts(newProducts);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   ///////////////////////////////////////////////////////////
   // SHOPPING CART (USING CONTEXT)
@@ -189,11 +243,15 @@ function App() {
         <CartContext.Provider
           value={{ cart, addToCart, removeFromCart, clearCart }}
         >
-          <Router>
-            <ThemeProvider theme={theme}>
-              <Navbar numItems={numItems} />
-            </ThemeProvider>
-          </Router>
+          <ProductContext.Provider
+            value={{ products, addProducts, fetchProducts }}
+          >
+            <Router>
+              <ThemeProvider theme={theme}>
+                <Navbar numItems={numItems} />
+              </ThemeProvider>
+            </Router>
+          </ProductContext.Provider>
         </CartContext.Provider>
       </TokenContext.Provider>
     </div>

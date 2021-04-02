@@ -10,7 +10,7 @@ const ShoppingCartItem = ({ product, addToCart, removeFromCart, key }) => {
       <img
         width={75}
         style={{ margin: 10 }}
-        src={product.img}
+        src={product.photoUrl}
         alt="product-image"
       />
 

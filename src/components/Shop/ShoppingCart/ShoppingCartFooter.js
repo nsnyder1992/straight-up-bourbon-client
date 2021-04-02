@@ -13,7 +13,7 @@ const ShoppingCartFooter = ({ cart }) => {
         <Grid container spacing={0}>
           <Grid item xs={12}>
             <Typography variant="body2">
-              Subtotal: ${cart.subtotal}.00
+              Subtotal: ${(cart.subtotal / 100).toFixed(2)}
             </Typography>
           </Grid>
           <Grid item xs={12}>

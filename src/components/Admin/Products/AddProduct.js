@@ -1,28 +1,38 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 
 //material components
-import {
-  IconButton,
-  Button,
-  Grid,
-  TextField,
-  Divider,
-} from "@material-ui/core";
+import { Button, Grid, TextField, Divider } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 //components
 import DescriptionPoint from "./DescriptionPoint";
+import Stock from "./Stock";
 import ImgDisplay from "./ImgDisplay";
+
+//context
+import { TokenContext } from "../../../helpers/context/token-context";
 
 //styles
 import "./styles/AddProduct.css";
 
+//get helpers
+import APIURL from "../../../helpers/environment";
+import { uploadImg } from "../../../helpers/functions/cloudinary";
+
 const AddProduct = () => {
+  //context
+  const { sessionToken } = useContext(TokenContext);
+
   //refs
   const fileUpload = useRef();
 
+  //loading
+  const [loading, setLoading] = useState(false);
+
   //states
   const [descriptionPoints, setDescriptionPoints] = useState([""]);
+  const [sizes, setSizes] = useState([""]);
+  const [stocks, setStocks] = useState([0]);
   const [fileUrl, setFileUrl] = useState();
 
   //field states
@@ -32,14 +42,106 @@ const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [cost, setCost] = useState("");
 
+  //cloudinary
+  const signatureUrl = `${APIURL}/cloudinary`;
+  const cloudinaryUrl =
+    "https://api.cloudinary.com/v1_1/nsnyder1992/image/upload";
+
   //submit product
-  const addProduct = () => {
-    console.log("post product");
+  const handleSubmit = async () => {
+    const file = fileUpload.current.files[0];
+    setLoading(true);
+
+    console.log("is loading");
+
+    try {
+      const cloudinaryJson = await uploadImg(
+        signatureUrl,
+        cloudinaryUrl,
+        file,
+        sessionToken
+      );
+
+      let body = {
+        name: name,
+        type: type,
+        color: color,
+        description_main: description,
+        description_points: ["100% cool", "cotton"],
+        cost: cost,
+        photoUrl: cloudinaryJson.url,
+        stripProductId: 1,
+        stock: {},
+        description_points: [],
+      };
+
+      for (let index in sizes) {
+        if (sizes[index] !== null) {
+          body.stock[sizes[index]] = stocks[index];
+        }
+      }
+
+      for (let description in descriptionPoints) {
+        if (description !== null) {
+          body.description_points.push(description);
+        }
+      }
+
+      //post to backend
+      await fetch(`${APIURL}/create`, {
+        method: "Post",
+        body: JSON.stringify(body),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          authorization: sessionToken,
+        }),
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          setLoading(false);
+        });
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
   };
 
   //add and image to product
   const addImage = (image) => {
     setFileUrl(image);
+  };
+
+  //add a stock size and qty to product
+  const addStock = () => {
+    let tempArray1 = [...stocks, 0];
+    let tempArray2 = [...sizes, ""];
+    setStocks(tempArray1);
+    setSizes(tempArray2);
+  };
+
+  //on input field change update corresponding stock
+  const updateStocks = (stock, index) => {
+    let tempArray = [...stocks];
+    tempArray[index] = stock;
+    setStocks(tempArray);
+  };
+
+  //on input field change update corresponding size
+  const updateSizes = (size, index) => {
+    let tempArray = [...sizes];
+    tempArray[index] = size;
+    setSizes(tempArray);
+  };
+
+  //remove corresponding point
+  const removeStock = (e, index) => {
+    e.preventDefault();
+    let tempArray1 = [...stocks];
+    let tempArray2 = [...sizes];
+    tempArray1.splice(index, 1);
+    tempArray2.splice(index, 1);
+    setStocks(tempArray1);
+    setSizes(tempArray2);
   };
 
   //add a description point to product
@@ -99,7 +201,7 @@ const AddProduct = () => {
               value={type}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <TextField
               required
               id="outlined-color-input"
@@ -111,17 +213,18 @@ const AddProduct = () => {
               value={color}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={3}>
             <TextField
               required
-              id="outlined-cost-input"
+              id="outlined-number"
               label="Cost"
-              className="address"
-              type="cost"
-              autoComplete="current-cost"
-              variant="outlined"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
               onChange={(e) => setCost(e.target.value)}
               value={cost}
+              variant="outlined"
             />
           </Grid>
           <Grid item xs={12}>
@@ -139,6 +242,25 @@ const AddProduct = () => {
               value={description}
             />
           </Grid>
+          {sizes?.map((size, key) => {
+            return (
+              <Stock
+                key={key}
+                index={key}
+                size={size}
+                updateSizes={updateSizes}
+                stock={stocks[key]}
+                updateStocks={updateStocks}
+                removeStock={removeStock}
+              />
+            );
+          })}
+          <Grid item xs={12}>
+            <Button onClick={addStock} startIcon={<AddIcon />}>
+              Stock Size
+            </Button>
+          </Grid>
+
           {descriptionPoints?.map((point, key) => {
             return (
               <DescriptionPoint
@@ -151,13 +273,15 @@ const AddProduct = () => {
             );
           })}
           <Grid item xs={12}>
-            <IconButton onClick={addDescriptionPoint}>
-              <AddIcon />
-            </IconButton>
+            <Button onClick={addDescriptionPoint} startIcon={<AddIcon />}>
+              Description
+            </Button>
           </Grid>
 
           <Grid item xs={12}>
-            <Button onSubmit={addProduct}>Add Product</Button>
+            <Button variant="contained" color="primary" onSubmit={handleSubmit}>
+              {loading ? "Loading..." : "Add Product"}
+            </Button>
           </Grid>
         </Grid>
       </div>

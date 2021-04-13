@@ -1,9 +1,48 @@
 //material ui components
 import { Typography, Divider, Grid, Button } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+
+//Backend url
+import APIURL, { STIPE_KEY } from "../../../helpers/environment";
 
 const ShoppingCartFooter = ({ cart }) => {
-  const handleCheckout = () => {
-    console.log("checkout");
+  const [stripe, setStripe] = useState();
+
+  const fetchCheckoutSession = () => {
+    const body = {
+      products: cart.products,
+      currency: "usd",
+    };
+
+    return fetch(`${APIURL}/checkout/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+  };
+
+  const asyncLoad = async () => {
+    const stripeLoad = await loadStripe(STIPE_KEY);
+    setStripe(stripeLoad);
+  };
+
+  useEffect(() => {
+    asyncLoad();
+  }, []);
+
+  const handleCheckout = async () => {
+    const { sessionId } = await fetchCheckoutSession();
+
+    const { error } = await stripe.redirectToCheckout({ sessionId });
+
+    if (error) {
+      console.log(error);
+    }
   };
 
   return (

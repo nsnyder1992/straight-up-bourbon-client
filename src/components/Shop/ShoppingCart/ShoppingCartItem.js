@@ -10,17 +10,17 @@ const ShoppingCartItem = ({ product, addToCart, removeFromCart, key }) => {
       <img
         width={75}
         style={{ margin: 10 }}
-        src={product.photoUrl}
+        src={product.product.photoUrl}
         alt="product-image"
       />
 
       <ListItemText>
         <Grid container spacing={0}>
           <Grid item xs={12}>
-            <Typography variant="body1">{product.name}</Typography>
+            <Typography variant="body1">{product.product.name}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="caption">{product.size}</Typography>
+            <Typography variant="caption">{product.product.size}</Typography>
           </Grid>
           <Grid item xs={12}></Grid>
         </Grid>

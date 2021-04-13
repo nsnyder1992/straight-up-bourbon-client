@@ -35,16 +35,14 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [points, setPoints] = useState();
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     let newProduct = JSON.parse(JSON.stringify(product));
     console.log("product page quantity", quantity);
     console.log("product page product", newProduct);
-    newProduct.qty = 0; //null out qty before send
-    newProduct.qty = quantity;
     console.log("product page product", newProduct);
     newProduct.size = newProduct.sizes[sizeIndex];
 
-    addToCart(newProduct);
+    await addToCart({ product: newProduct, quantity }, quantity);
     history.push("/shop");
   };
 

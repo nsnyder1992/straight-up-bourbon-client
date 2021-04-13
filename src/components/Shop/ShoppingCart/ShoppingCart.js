@@ -41,14 +41,15 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
         <Divider style={{ marginTop: 25 }} />
         <List>
           {cart.products.map((product, key) => {
-            return (
-              <ShoppingCartItem
-                product={product}
-                key={key}
-                addToCart={addToCart}
-                removeFromCart={removeFromCart}
-              />
-            );
+            if (product.quantity > 0)
+              return (
+                <ShoppingCartItem
+                  product={product}
+                  key={key}
+                  addToCart={addToCart}
+                  removeFromCart={removeFromCart}
+                />
+              );
           })}
         </List>
       </div>

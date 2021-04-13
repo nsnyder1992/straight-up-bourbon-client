@@ -109,12 +109,14 @@ const EditProduct = ({ product }) => {
       }
 
       sizes.reverse();
+      stocks.reverse();
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
           body.stock[sizes[index].toLowerCase()] = stocks[index];
         }
       }
       sizes.reverse();
+      stocks.reverse();
 
       for (let description of descriptionPoints) {
         console.log(description);
@@ -325,7 +327,7 @@ const EditProduct = ({ product }) => {
               onClick={handleSubmit}
               disabled={loading}
             >
-              {loading ? <CircularProgress /> : "Add Product"}
+              {loading ? <CircularProgress /> : "Edit Product"}
             </Button>
           </Grid>
         </Grid>

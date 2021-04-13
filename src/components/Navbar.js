@@ -29,6 +29,10 @@ import Shop from "./Shop/Shop";
 import Profile from "./Home/Profile/Profile";
 import ProductPage from "./Shop/Products/ProductPage";
 import ResetPassword from "./Auth/ResetPassword";
+import Canceled from "./Shop/Checkout/Canceled";
+import Success from "./Shop/Checkout/Success";
+import Orders from "./Admin/Orders/Orders";
+import Order from "./Admin/Orders/Order";
 
 //sub-components
 import ShoppingCart from "./Shop/ShoppingCart/ShoppingCart";
@@ -121,6 +125,13 @@ const Navbar = ({ numItems }) => {
                   Shop
                 </Typography>
               </Link>
+              {isAdmin ? (
+                <Link to="/order" className="flex-item">
+                  <Typography className="nav-link nav-link-fade-up">
+                    Orders
+                  </Typography>
+                </Link>
+              ) : null}
             </Hidden>
 
             <Hidden only={["sm", "md", "lg", "xl"]}>
@@ -201,6 +212,12 @@ const Navbar = ({ numItems }) => {
           <Route exact path="/shop">
             <Shop />
           </Route>
+          <Route exact path="/order">
+            <Orders />
+          </Route>
+          <Route exact path="/order/:id">
+            <Order />
+          </Route>
           <Route exact path="/product/:id">
             <ProductPage />
           </Route>
@@ -209,6 +226,12 @@ const Navbar = ({ numItems }) => {
           </Route>
           <Route exact path="/reset/:token">
             <ResetPassword />
+          </Route>
+          <Route exact path="/success">
+            <Success />
+          </Route>
+          <Route exact path="/cancel">
+            <Canceled />
           </Route>
         </Switch>
       </div>

@@ -150,32 +150,37 @@ function App() {
   const [cart, setCart] = useState({ products: [], subtotal: 0, numItems: 0 });
   const [numItems, setNumItems] = useState(0);
 
-  const addToCart = (product) => {
+  const addToCart = (product, quantity) => {
     let tempCart = cart;
 
     if (tempCart.products.length >= 0) {
-      for (let prod in tempCart.products) {
-        let tempProd = tempCart.products[prod];
-        if (tempProd.id === product.id && tempProd.size === product.size) {
+      for (let prod of tempCart.products) {
+        console.log(prod, product);
+        if (
+          prod.product.id === product.product.id &&
+          prod.product.size === product.product.size
+        ) {
           //update temp cart
-          tempCart.products[prod].qty += product.qty;
-          tempCart.numItems += product.qty;
-          tempCart.subtotal += product.cost * product.qty;
+          prod.quantity += quantity;
+          tempCart.numItems += quantity;
+          tempCart.subtotal += product.product.cost * quantity;
 
           setNumItems(tempCart.numItems);
 
           //set cart and local storage
           setCart(tempCart);
+          console.log("add to cart", tempCart);
           localStorage.setItem("cart", JSON.stringify(tempCart));
           return;
         }
       }
     }
 
+    console.log("add to cart", tempCart);
     //first item or item not found
-    tempCart.products.push(product);
-    tempCart.numItems += product.qty;
-    tempCart.subtotal += product.cost * product.qty;
+    tempCart.products.push({ product: product.product, quantity });
+    tempCart.numItems += quantity;
+    tempCart.subtotal += product.product.cost * quantity;
 
     //set cart and local storage
     setNumItems(tempCart.numItems);
@@ -183,25 +188,21 @@ function App() {
     setCart(tempCart);
   };
 
-  const removeFromCart = (product, index) => {
+  const removeFromCart = (product, quantity) => {
     let tempCart = cart;
     if (tempCart.products.length <= 0) return;
 
-    console.log(product);
-
-    for (let prod in tempCart.products) {
-      let tempProd = tempCart.products[prod];
-      if (tempProd.id === product.id && tempProd.size === product.size) {
+    for (let prod of tempCart.products) {
+      console.log(prod.product.id, product);
+      if (
+        prod.product.id === product.product.id &&
+        prod.product.size === product.product.size
+      ) {
+        console.log(prod.quantity, quantity);
         //update cart
-        tempCart.numItems =
-          tempCart.numItems - (tempCart.products[prod].qty - product.qty);
-        tempCart.subtotal -=
-          product.cost * (tempCart.products[prod].qty - product.qty);
-        tempCart.products[prod].qty = product.qty;
-
-        if (tempCart.products[prod].qty <= 0)
-          tempCart.products.splice(index, 1);
-
+        tempCart.numItems = tempCart.numItems - quantity;
+        tempCart.subtotal -= product.product.cost * quantity;
+        prod.quantity -= quantity;
         setNumItems(tempCart.numItems);
         setCart(tempCart);
         localStorage.setItem("cart", JSON.stringify(tempCart));
@@ -214,8 +215,14 @@ function App() {
     setCart(tempCart);
   };
 
-  const clearCart = () => {
-    setCart({ products: [], subtotal: 0, numItems: 0 });
+  const clearCart = async () => {
+    let tempCart = { products: [], subtotal: 0, numItems: 0 };
+    await setCart(tempCart);
+    await setNumItems(0);
+    await localStorage.setItem(
+      "cart",
+      JSON.stringify({ products: [], subtotal: 0, numItems: 0 })
+    );
   };
 
   //every time the app re-renders check for cart in local storage

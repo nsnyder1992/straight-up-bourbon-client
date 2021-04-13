@@ -30,21 +30,20 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
   const classes = useStyles();
 
   //local states
-  const [qty, setQty] = useState(product.qty);
+  const [qty, setQty] = useState(product.quantity);
 
   const addOne = () => {
     let tempProduct = JSON.parse(JSON.stringify(product));
-    tempProduct.qty = 1;
-    addToCart(tempProduct);
+    addToCart(tempProduct, 1);
 
     setQty(qty + 1);
   };
 
   const removeOne = () => {
-    if (product.qty > 0) {
+    if (product.quantity > 0) {
       let tempProduct = JSON.parse(JSON.stringify(product));
-      tempProduct.qty -= 1;
-      removeFromCart(tempProduct, index);
+      console.log(tempProduct);
+      removeFromCart(tempProduct, 1, index);
 
       setQty(qty - 1);
     }
@@ -61,13 +60,13 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
 
     //if couldn't turn to int set to last qty
     if (isNaN(value)) {
-      product.qty = qty;
+      product.quantity = qty;
       setQty(qty);
       return;
     }
 
     //if number change to entered qty
-    product.qty = value;
+    product.quantity = value;
     setQty(value);
   };
 
@@ -90,7 +89,7 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
       </div>
       <div className="cost">
         <Typography variant="body2">
-          ${(product.cost / 100).toFixed(2)}
+          ${(product.product.cost / 100).toFixed(2)}
         </Typography>
       </div>
     </div>

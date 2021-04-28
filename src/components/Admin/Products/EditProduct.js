@@ -43,26 +43,7 @@ const EditProduct = ({ product }) => {
   //   const [descriptionPointIds, setDescriptionPointIds] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [stocks, setStocks] = useState([]);
-  const [fileUrl, setFileUrl] = useState(product.photoUrl);
-
-  useEffect(() => {
-    let tempArray1 = [];
-    let tempArray2 = [];
-    for (let size of product.stock.bySize) {
-      tempArray1.push(size.size);
-      tempArray2.push(size.numItems);
-    }
-
-    setSizes(tempArray1);
-    setStocks(tempArray2);
-
-    tempArray1 = [];
-    for (let desc of product.description.points) {
-      tempArray1.push([desc.id, desc.description]);
-    }
-
-    setDescriptionPoints(tempArray1);
-  }, [product]);
+  const [fileUrl, setFileUrl] = useState(product?.photoUrl);
 
   //field states
   const [name, setName] = useState(product.name);
@@ -145,6 +126,7 @@ const EditProduct = ({ product }) => {
       console.log(err);
       setLoading(false);
     }
+    window.location.reload();
   };
 
   //add and image to product
@@ -206,6 +188,25 @@ const EditProduct = ({ product }) => {
     tempArray.splice(index, 1);
     setDescriptionPoints(tempArray);
   };
+
+  useEffect(() => {
+    let tempArray1 = [];
+    let tempArray2 = [];
+    for (let size of product.stock.bySize) {
+      tempArray1.push(size.size);
+      tempArray2.push(size.numItems);
+    }
+
+    setSizes(tempArray1);
+    setStocks(tempArray2);
+
+    tempArray1 = [];
+    for (let desc of product.description.points) {
+      tempArray1.push([desc.id, desc.description]);
+    }
+
+    setDescriptionPoints(tempArray1);
+  }, [product]);
 
   return (
     <div>

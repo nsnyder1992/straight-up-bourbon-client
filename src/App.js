@@ -104,9 +104,18 @@ function App() {
     setPage(page + 1);
   };
 
+  const updateProducts = (prods) => {
+    setProducts(prods);
+  };
+
+  const updateTotalProducts = (total) => {
+    setTotalProducts(total);
+  };
+
   //Get Paginated Products
-  const fetchProducts = () => {
-    fetch(`${APIURL}/product/${page}/${limit}`)
+  const fetchProducts = async () => {
+    let newProds;
+    await fetch(`${APIURL}/product/${page}/${limit}`)
       .then((res) => res.json())
       .then((json) => {
         setTotalProducts(json.total);
@@ -135,6 +144,8 @@ function App() {
             product.description.points.push(point);
           }
         }
+        console.log(newProducts);
+        newProds = newProducts;
         setProducts(newProducts);
       })
       .catch((err) => console.log(err));
@@ -142,7 +153,7 @@ function App() {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [sessionToken]);
 
   ///////////////////////////////////////////////////////////
   // SHOPPING CART (USING CONTEXT)
@@ -251,7 +262,13 @@ function App() {
           value={{ cart, addToCart, removeFromCart, clearCart }}
         >
           <ProductContext.Provider
-            value={{ products, addProducts, fetchProducts }}
+            value={{
+              products,
+              addProducts,
+              fetchProducts,
+              updateProducts,
+              updateTotalProducts,
+            }}
           >
             <Router>
               <ThemeProvider theme={theme}>

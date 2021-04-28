@@ -33,6 +33,7 @@ import Canceled from "./Shop/Checkout/Canceled";
 import Success from "./Shop/Checkout/Success";
 import Orders from "./Admin/Orders/Orders";
 import Order from "./Admin/Orders/Order";
+import Users from "./Admin/Users/Users";
 
 //sub-components
 import ShoppingCart from "./Shop/ShoppingCart/ShoppingCart";
@@ -126,11 +127,18 @@ const Navbar = ({ numItems }) => {
                 </Typography>
               </Link>
               {isAdmin ? (
-                <Link to="/order" className="flex-item">
-                  <Typography className="nav-link nav-link-fade-up">
-                    Orders
-                  </Typography>
-                </Link>
+                <div>
+                  <Link to="/order" className="flex-item">
+                    <Typography className="nav-link nav-link-fade-up">
+                      Orders
+                    </Typography>
+                  </Link>
+                  <Link to="/user" className="flex-item">
+                    <Typography className="nav-link nav-link-fade-up">
+                      Users
+                    </Typography>
+                  </Link>
+                </div>
               ) : null}
             </Hidden>
 
@@ -217,6 +225,9 @@ const Navbar = ({ numItems }) => {
           </Route>
           <Route exact path="/order/:id">
             <Order />
+          </Route>
+          <Route exact path="/user">
+            <Users />
           </Route>
           <Route exact path="/product/:id">
             <ProductPage />

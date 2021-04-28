@@ -5,6 +5,7 @@ import { Button, Grid, Typography } from "@material-ui/core";
 
 //components
 import Addresses from "./Addresses";
+import Orders from "./Orders";
 
 //context
 import { TokenContext } from "../../../helpers/context/token-context";
@@ -13,14 +14,7 @@ import { TokenContext } from "../../../helpers/context/token-context";
 import "./styles/ProfilePage.css";
 
 const ProfilePage = () => {
-  const {
-    username,
-    userEmail,
-    isAdmin,
-    clearToken,
-    orders,
-    addresses,
-  } = useContext(TokenContext);
+  const { username, userEmail, isAdmin, clearToken } = useContext(TokenContext);
 
   return (
     <div className="profile-page">
@@ -29,20 +23,15 @@ const ProfilePage = () => {
       <Button onClick={clearToken}>Logout</Button>
       <div className="profile-wrapper">
         <div className="profile-content">
-          <Grid container spacing={3}>
+          <Grid container spacing={0}>
             <Grid item sm={6}>
               <Typography variant="h4">Order History</Typography>
-              {!orders ? (
-                <Typography variant="caption">
-                  You have not placed any orders yet
-                </Typography>
-              ) : null}
+              <Orders />
             </Grid>
             <Grid item sm={6}>
               <Typography variant="h4">Account Details</Typography>
               <Typography variant="caption">{userEmail}</Typography>
               <br />
-              <Addresses addresses={addresses} />
             </Grid>
           </Grid>
         </div>

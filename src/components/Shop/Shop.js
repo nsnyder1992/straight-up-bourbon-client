@@ -25,7 +25,9 @@ import APIURL from "../../helpers/environment";
 
 const Shop = () => {
   const history = useHistory();
+
   const [loading, setLoading] = useState(false);
+  const [updating, setUpdating] = useState(false);
 
   //context
   const { isAdmin, adminView, sessionToken } = useContext(TokenContext);
@@ -33,18 +35,17 @@ const Shop = () => {
   const { products, fetchProducts } = useContext(ProductContext);
 
   //remove a product
-  const deleteProduct = (e, id) => {
+  const deleteProduct = async (e, id) => {
     e.preventDefault();
     setLoading(true);
-    fetch(`${APIURL}/product/${id}`, {
+    await fetch(`${APIURL}/product/${id}`, {
       method: "DELETE",
       headers: new Headers({
         Authorization: sessionToken,
       }),
     })
-      .then(async (res) => {
-        //update products to display
-        await fetchProducts();
+      .then((res) => {
+        window.location.reload();
         setLoading(false);
       })
       .catch((err) => setLoading(false));
@@ -52,6 +53,7 @@ const Shop = () => {
 
   useEffect(() => {
     fetchProducts();
+    console.log("fetching");
   }, [products]);
 
   return (

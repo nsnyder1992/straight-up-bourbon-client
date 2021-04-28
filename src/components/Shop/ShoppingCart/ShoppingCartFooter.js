@@ -1,12 +1,16 @@
 //material ui components
 import { Typography, Divider, Grid, Button } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+
+//context
+import { TokenContext } from "../../../helpers/context/token-context";
 
 //Backend url
 import APIURL, { STIPE_KEY } from "../../../helpers/environment";
 
 const ShoppingCartFooter = ({ cart }) => {
+  const { sessionToken } = useContext(TokenContext);
   const [stripe, setStripe] = useState();
 
   const fetchCheckoutSession = () => {
@@ -15,13 +19,17 @@ const ShoppingCartFooter = ({ cart }) => {
       currency: "usd",
     };
 
-    return fetch(`${APIURL}/checkout/create`, {
+    let fetchContent = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    })
+    };
+
+    if (sessionToken) fetchContent.headers.authorization = sessionToken;
+
+    return fetch(`${APIURL}/checkout/create`, fetchContent)
       .then((res) => res.json())
       .catch((err) => console.log(err));
   };

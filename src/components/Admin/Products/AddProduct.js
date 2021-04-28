@@ -25,7 +25,7 @@ import "./styles/AddProduct.css";
 import APIURL from "../../../helpers/environment";
 import { uploadImg } from "../../../helpers/functions/cloudinary";
 
-const AddProduct = () => {
+const AddProduct = ({ updateFetch }) => {
   //context
   const { sessionToken } = useContext(TokenContext);
 
@@ -110,10 +110,13 @@ const AddProduct = () => {
         .then((json) => {
           setLoading(false);
         });
+      updateFetch();
     } catch (err) {
       console.log(err);
       setLoading(false);
     }
+
+    window.location.reload();
   };
 
   //add and image to product

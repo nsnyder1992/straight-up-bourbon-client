@@ -1,32 +1,33 @@
 import { Typography } from "@material-ui/core";
 import { useContext, useEffect } from "react";
+import { Redirect, useHistory } from "react-router";
 
 //context
 import { CartContext } from "../../../helpers/context/shopping-cart";
 
-//Backend url
-import APIURL from "../../../helpers/environment";
-
 const Success = (props) => {
+  const history = useHistory();
+
   let sessionId = new URLSearchParams(window.location.search).get("session_id");
+  let redirect = new URLSearchParams(window.location.search).get("redirect");
 
   //context
-  const { clearCart } = useContext(CartContext);
+  const { removeFromCart, cart, clearCart } = useContext(CartContext);
 
   useEffect(() => {
     clearCart();
 
-    sessionId = sessionId.slice(0, sessionId.length - 1);
+    console.log("USE EFFECT");
+    for (let product of cart.products) {
+      console.log("Produt: ", product);
+    }
 
-    // fetch(`${APIURL}/checkout/updateInventory`, {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ sessionId }),
-    // }).catch((err) => console.log(err));
+    sessionId = sessionId.slice(0, sessionId.length - 1);
   }, []);
 
+  if (!redirect) {
+    window.location.href = window.location.href + "&redirect=true";
+  }
   return (
     <div>
       <Typography variant="h6" style={{ margin: 20 }}>

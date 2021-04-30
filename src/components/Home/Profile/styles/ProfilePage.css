@@ -1,5 +1,6 @@
 .profile-page {
   margin-top: 7rem;
+  margin-bottom: 100px;
 }
 
 .profile-wrapper {
@@ -12,4 +13,11 @@
 .profile-content {
   width: 100%;
   max-width: 1450px;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
 }

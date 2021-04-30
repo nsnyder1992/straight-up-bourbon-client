@@ -102,7 +102,7 @@ const Navbar = ({ numItems }) => {
       <div className="navbar">
         <nav>
           <div className="left-nav">
-            <Hidden xsDown>
+            <Hidden smDown>
               <Link to="/" className="flex-item">
                 <img src={logo} style={{ width: 100 }} alt="logo" />
               </Link>
@@ -114,11 +114,6 @@ const Navbar = ({ numItems }) => {
               <Link to="/about" className="flex-item">
                 <Typography className="nav-link nav-link-fade-up">
                   About
-                </Typography>
-              </Link>
-              <Link to="/bourbon" className="flex-item">
-                <Typography className="nav-link nav-link-fade-up">
-                  Bourbon
                 </Typography>
               </Link>
               <Link to="/shop" className="flex-item">
@@ -142,7 +137,7 @@ const Navbar = ({ numItems }) => {
               ) : null}
             </Hidden>
 
-            <Hidden only={["sm", "md", "lg", "xl"]}>
+            <Hidden only={["md", "lg", "xl"]}>
               <IconButton onClick={toggleNav(true)}>
                 <MenuIcon />
               </IconButton>
@@ -152,9 +147,6 @@ const Navbar = ({ numItems }) => {
           <div className="right-nav">
             <IconButton onClick={handleProfile}>
               <PersonOutlineIcon />
-            </IconButton>
-            <IconButton onClick={(e) => e.preventDefault()}>
-              <AttachMoneyIcon />
             </IconButton>
             <IconButton onClick={toggleCart(true)}>
               <Badge badgeContent={numItems} color="secondary">
@@ -192,17 +184,26 @@ const Navbar = ({ numItems }) => {
                 <ListItemText>About</ListItemText>
               </ListItem>
             </Link>
-            <Link to="/bourbon" className="flex-item-panel">
-              <ListItem button>
-                <ListItemText>BOURBON</ListItemText>
-              </ListItem>
-            </Link>
             <Link to="/shop" className="flex-item-panel">
               <ListItem button>
                 <ListItemText>SHOP</ListItemText>
               </ListItem>
             </Link>
           </List>
+          {isAdmin ? (
+            <div>
+              <Link to="/order" className="flex-item-panel">
+                <ListItem button>
+                  <ListItemText>ORDERS</ListItemText>
+                </ListItem>
+              </Link>
+              <Link to="/user" className="flex-item-panel">
+                <ListItem button>
+                  <ListItemText>USERS</ListItemText>
+                </ListItem>
+              </Link>
+            </div>
+          ) : null}
         </div>
       </Drawer>
 
@@ -238,10 +239,10 @@ const Navbar = ({ numItems }) => {
           <Route exact path="/reset/:token">
             <ResetPassword />
           </Route>
-          <Route exact path="/success">
+          <Route path="/success">
             <Success />
           </Route>
-          <Route exact path="/cancel">
+          <Route path="/cancel">
             <Canceled />
           </Route>
         </Switch>

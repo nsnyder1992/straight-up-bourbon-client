@@ -98,6 +98,7 @@ const Orders = () => {
         if (!json.auth) {
           setOrders(json.orders);
           setTotal(json.count);
+          console.log("PROFILE ORDERS", json);
         }
         setLoading(false);
       })
@@ -131,7 +132,7 @@ const Orders = () => {
               </TableHead>
               <TableBody>
                 {orders ? (
-                  orders.map((order, index) => {
+                  orders?.map((order, index) => {
                     let status;
                     switch (true) {
                       case order.order.isCanceled:

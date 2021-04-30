@@ -23,15 +23,14 @@ const ProfilePage = () => {
       <Button onClick={clearToken}>Logout</Button>
       <div className="profile-wrapper">
         <div className="profile-content">
-          <Grid container spacing={0}>
-            <Grid item sm={6}>
+          <Grid container spacing={0} justify="center">
+            <Grid item lg={6}>
               <Typography variant="h4">Order History</Typography>
               <Orders />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item lg={6}>
               <Typography variant="h4">Account Details</Typography>
               <Typography variant="caption">{userEmail}</Typography>
-              <br />
             </Grid>
           </Grid>
         </div>

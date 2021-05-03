@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Route, Link, Switch, useHistory } from "react-router-dom";
 import clsx from "clsx";
 
@@ -17,7 +17,6 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import MenuIcon from "@material-ui/icons/Menu";
 
 //components
@@ -31,7 +30,7 @@ import ProductPage from "./Shop/Products/ProductPage";
 import ResetPassword from "./Auth/ResetPassword";
 import Canceled from "./Shop/Checkout/Canceled";
 import Success from "./Shop/Checkout/Success";
-import Orders from "./Admin/Orders/Orders";
+import Orders from "./class-components/Orders/Orders";
 import Order from "./Admin/Orders/Order";
 import Users from "./Admin/Users/Users";
 

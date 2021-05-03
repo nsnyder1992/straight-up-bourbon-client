@@ -67,7 +67,7 @@ const Orders = () => {
     history.push(`/order/${id}`);
   };
 
-  const handleFulfilled = async (checked) => {
+  const handleFulfilled = (checked) => {
     setFulfilled(checked);
   };
 
@@ -89,8 +89,8 @@ const Orders = () => {
     console.log(page + 1);
   };
 
-  const handleChangeRowsPerPage = async (e) => {
-    await setLimit(e.target.value);
+  const handleChangeRowsPerPage = (e) => {
+    setLimit(e.target.value);
   };
 
   const handleEditView = (index) => {

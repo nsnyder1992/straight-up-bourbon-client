@@ -6,7 +6,7 @@ You will find that most of the components contained in the project are functiona
 
 Styling was done mostly using Material-ui but some css was used in order to complete look desired
 
-## Page and Major Components Functionality
+## Pages and Major Components Functionality
 
 1. NavBar
 

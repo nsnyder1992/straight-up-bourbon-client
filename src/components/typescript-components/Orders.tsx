@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 //material ui components
@@ -18,10 +18,10 @@ import {
 
 //components
 // @ts-ignore
-import {OrderRow} from './OrderRow.tsx';
+import { OrderRow } from "./OrderRow.tsx";
 
 // @ts-ignore
-import { OrderType } from './dataStructure.tsx';
+import { OrderType } from "./dataStructure.tsx";
 
 //context
 import { TokenContext } from "../../helpers/context/token-context";
@@ -69,16 +69,18 @@ export function Orders(): React.ReactNode {
     setLoading(false);
   };
 
-  const handleChangePage = (newPage : number) => {
+  const handleChangePage = (newPage: number) => {
     if (newPage > page - 1) setPage(page + 1);
     if (newPage < page - 1) setPage(page - 1);
   };
 
-  const handleChangeRowsPerPage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     await setLimit(parseInt(e.target.value));
   };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
     setLoading(true);
     await fetch(`${APIURL}/customer/order/${page}/${limit}`, {
       headers: new Headers({
@@ -103,8 +105,7 @@ export function Orders(): React.ReactNode {
     fetchData();
   }, [sessionToken, limit, page]);
 
-
-    return (
+  return (
     <div className="content-home">
       <div className="videos">
         <div>
@@ -122,28 +123,46 @@ export function Orders(): React.ReactNode {
               </TableHead>
               <TableBody>
                 {orders ? (
-                  orders?.map((order: OrderType, index: number): JSX.Element  => {
-                        let status;
-                        switch (true) {
-                            case order?.order.isCanceled:
-                                status = "Canceled";
-                                break;
-                            case order?.order.isComplete:
-                                status = "Complete";
-                                break;
-                            case order?.order.isShipped:
-                                status = "Shipped";
-                                break;
-                            case order?.order.isFulfilled:
-                                status = "Fulfilled";
-                                break;
-                            default:
-                                status = "Waiting to be Fulfilled";
-                        }
+                  orders?.map(
+                    (order: OrderType, index: number): JSX.Element => {
+                      let status;
+                      switch (true) {
+                        case order?.order.isCanceled:
+                          status = "Canceled";
+                          break;
+                        case order?.order.isComplete:
+                          status = "Complete";
+                          break;
+                        case order?.order.isShipped:
+                          status = "Shipped";
+                          break;
+                        case order?.order.isFulfilled:
+                          status = "Fulfilled";
+                          break;
+                        default:
+                          status = "Waiting to be Fulfilled";
+                      }
 
-                        return <OrderRow key={index} id={order?.order.id} status={status} diabled={order?.order.isCanceled ||order?.order.isShipped || order?.order.isComplete} trackingNumber={order?.order.trackingNumber} createdAt={order?.order.createdAt} updatedAt={order?.order.updatedAt} handleCancel={handleCancel}/>
-                  })) : (
-                        <Typography>Your orders will appear here</Typography>
+                      return (
+                        <OrderRow
+                          key={index}
+                          id={order?.order.id}
+                          status={status}
+                          diabled={
+                            order?.order.isCanceled ||
+                            order?.order.isShipped ||
+                            order?.order.isComplete
+                          }
+                          trackingNumber={order?.order.trackingNumber}
+                          createdAt={order?.order.createdAt}
+                          updatedAt={order?.order.updatedAt}
+                          handleCancel={handleCancel}
+                        />
+                      );
+                    }
+                  )
+                ) : (
+                  <Typography>Your orders will appear here</Typography>
                 )}
               </TableBody>
             </Table>
@@ -160,5 +179,6 @@ export function Orders(): React.ReactNode {
           {loading ? <CircularProgress /> : null}
         </div>
       </div>
-    </div>)
+    </div>
+  );
 }

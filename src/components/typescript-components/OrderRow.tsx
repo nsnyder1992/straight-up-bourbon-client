@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 
 //material ui components
@@ -16,7 +16,7 @@ type Props = {
   createdAt: string;
   updatedAt: string;
   handleCancel: (id: number) => void;
-}
+};
 
 export function OrderRow({
   id,
@@ -25,59 +25,37 @@ export function OrderRow({
   trackingNumber,
   createdAt,
   updatedAt,
-  handleCancel}: Props): JSX.Element {
-    const history = useHistory();
+  handleCancel,
+}: Props): JSX.Element {
+  const history = useHistory();
 
-    function onClick (id: number) {
+  function onClick(id: number) {
     console.log(id);
     history.push(`/order/${id}`);
-    }
+  }
 
-    return(      
-      <TableRow hover key={id}>
-        <TableCell
-          component="th"
-          scope="row"
-          onClick={() => onClick(id)}
-        >
-          {id}
-        </TableCell>
-        <TableCell
-          align="right"
-          onClick={() => onClick(id)}
-        >
-          {status}
-        </TableCell>
-        <TableCell
-          align="right"
-          onClick={() => onClick(id)}
-        >
-          {trackingNumber
-            ? trackingNumber
-            : "None given yet"}
-        </TableCell>
-        <TableCell
-          align="right"
-          onClick={() => onClick(id)}
-        >
-          {moment(createdAt).format("MMM Do YY, h:mm:ss a")}
-        </TableCell>
-        <TableCell
-          align="right"
-          onClick={() => onClick(id)}
-        >
-          {moment(updatedAt).format("MMM Do YY, h:mm:ss a")}
-        </TableCell>
-        <TableCell>
-            <Button
-                disabled={disabled}
-                onClick={() =>
-                handleCancel(id)
-                }
-            >
-                Cancel
-            </Button>
-        </TableCell>
-      </TableRow>
-    )
+  return (
+    <TableRow hover key={id}>
+      <TableCell component="th" scope="row" onClick={() => onClick(id)}>
+        {id}
+      </TableCell>
+      <TableCell align="right" onClick={() => onClick(id)}>
+        {status}
+      </TableCell>
+      <TableCell align="right" onClick={() => onClick(id)}>
+        {trackingNumber ? trackingNumber : "None given yet"}
+      </TableCell>
+      <TableCell align="right" onClick={() => onClick(id)}>
+        {moment(createdAt).format("MMM Do YY, h:mm:ss a")}
+      </TableCell>
+      <TableCell align="right" onClick={() => onClick(id)}>
+        {moment(updatedAt).format("MMM Do YY, h:mm:ss a")}
+      </TableCell>
+      <TableCell>
+        <Button disabled={disabled} onClick={() => handleCancel(id)}>
+          Cancel
+        </Button>
+      </TableCell>
+    </TableRow>
+  );
 }

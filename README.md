@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# Straight Up Bourbon
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This website is for the Straight Up Bourbon YouTube channel to sell merchandise and interact with customers. The contents of this repo only contain the client-side. This project was created using React.
 
-## Available Scripts
+You will find that most of the components contained in the project are functional components, but there are some Class components (found in ./src/components/class-components) and typescript components (found in ./src/components/typescript-components) these were added to meet the curriculum of Eleven Fifty Academy to count for the final project.
 
-In the project directory, you can run:
+Styling was done mostly using Material-ui but some css was used in order to complete look desired
 
-### `npm start`
+## Page and Major Components Functionality
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. NavBar
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+   - Regular User:
+     - HOME
+     - ABOUT
+     - SHOP
+     - PROFILE (profile icon)
+     - SHOPPING CART (shopping cart icon)
+   - Admin User (additional options):
+     - ORDERS
+     - USERS
+     - ADMIN MODE BUTTON (Toggles admin mode off and on)
 
-### `npm test`
+2. Home Page
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   - Displays the latest Video the channel puts out
+   - Allows user to explore older videos
 
-### `npm run build`
+3. About
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   - Tells users what the channel is all about
+   - Needs more content from actual channel (To come from Luke and Jp)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Shop
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   - Regular User:
+   - Allows user to view all merchandise items
+   - If user clicks on an item it will reroute them to that products page
+     - Admin user:
+     - If in admin mode admin can add or delete an item
+     - Error messages have been added to help guide the admin not to make a mistake
+     - In admin mode the navigation to products page is turned off
 
-### `npm run eject`
+5. ProductPage
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+   - Regular User:
+     - Allows user to view specified product
+     - Allows user to add item to cart
+   - Admin user:
+     - If in admin mode admin can update the item
+     - Error messages have been added to help guide the admin not to make a mistake
+     - This is the place the admin can add to their stock
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+6. Profile
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+   - Allows users to view their information
+   - Allows users to logout
+   - Allows users to view their orders
+   - Allows users to cancel their orders
+   - If user clicks on the orders row it will redirect them to the Order page
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+7. Order
 
-## Learn More
+   - Regular User:
+     - Allows user to view order details and get a more accurate status straight from shipEngine
+   - Admin User:
+     - if in admin mode the admin can download the label
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+8. Shopping Cart
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   - Regular User:
+     - Allows user to update their items and checkout
+     - If checkout is requested the customer is off loaded to the stripe checkout session
+     - If the session is completed successfully the customer is redirected to the Success page
+     - If failure or the user cancels the session occurs then the customer is redirected to the Canceled page
+     - A webhook on the backend does a lot
 
-### Code Splitting
+9. Success
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   - Clears Shopping Cart
 
-### Analyzing the Bundle Size
+10. Canceled
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    - Leaves Shopping Cart unaffected
 
-### Making a Progressive Web App
+### Admin **_ONLY_** Views
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+11. Orders
 
-### Advanced Configuration
+    - Allows admins to view and edit all orders
+    - If admin clicks on a row they are redirected to that orders page
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+12. Users
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    - Allows admins to view all users
+    - Allows admins to edit users admin rights

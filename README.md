@@ -2,7 +2,7 @@
 
 This website is for the Straight Up Bourbon YouTube channel to sell merchandise and interact with customers. The contents of this repo only contain the client-side. This project was created using React.
 
-You will find that most of the components contained in the project are functional components, but there are some Class components (found in ./src/components/class-components) and typescript components (found in ./src/components/typescript-components) these were added to meet the curriculum of Eleven Fifty Academy to count for the final project.
+You will find that most of the components contained in the project are functional components, but there are some Class components (found in `./src/components/class-components`) and typescript components (found in `./src/components/typescript-components`) these were added to meet the curriculum of Eleven Fifty Academy to count for the final project.
 
 Styling was done mostly using Material-ui but some css was used in order to complete look desired
 
@@ -34,9 +34,9 @@ Styling was done mostly using Material-ui but some css was used in order to comp
 4. Shop
 
    - Regular User:
-   - Allows user to view all merchandise items
-   - If user clicks on an item it will reroute them to that products page
-     - Admin user:
+     - Allows user to view all merchandise items
+     - If user clicks on an item it will reroute them to that products page
+   - Admin user:
      - If in admin mode admin can add or delete an item
      - Error messages have been added to help guide the admin not to make a mistake
      - In admin mode the navigation to products page is turned off

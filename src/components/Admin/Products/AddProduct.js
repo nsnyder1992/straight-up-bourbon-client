@@ -18,6 +18,7 @@ import ImgDisplay from "./ImgDisplay";
 
 //context
 import { TokenContext } from "../../../helpers/context/token-context";
+import { ProductContext } from "../../../helpers/context/product-context";
 
 //styles
 import "./styles/AddProduct.css";
@@ -28,8 +29,8 @@ import { uploadImg } from "../../../helpers/functions/cloudinary";
 
 const AddProduct = () => {
   //context
-  const { sessionToken } = useContext(TokenContext);
-
+  const { sessionToken, setAdminView } = useContext(TokenContext);
+  const { updateProducts } = useContext(ProductContext);
   //refs
   const fileUpload = useRef(null);
 
@@ -115,12 +116,18 @@ const AddProduct = () => {
           "Content-Type": "application/json",
           authorization: sessionToken,
         }),
-      }).then(() => setLoading(false));
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          updateProducts(json.product);
+          setAdminView(false);
+        })
+        .catch(() => setLoading(false));
+
+      setLoading(false);
     } catch (err) {
       setLoading(false);
     }
-
-    window.location.reload();
   };
 
   //add and image to product

@@ -31,21 +31,24 @@ const Shop = () => {
   const [error, setError] = useState("");
 
   //context
-  const { isAdmin, adminView, sessionToken } = useContext(TokenContext);
-  const { products, fetchProducts } = useContext(ProductContext);
+  const { isAdmin, adminView, sessionToken, setAdminView } = useContext(
+    TokenContext
+  );
+  const { products, deleteProduct } = useContext(ProductContext);
 
   //remove a product
-  const deleteProduct = async (e, id) => {
+  const removeProduct = async (e, product) => {
     e.preventDefault();
     setLoading(true);
-    await fetch(`${APIURL}/product/${id}`, {
+    await fetch(`${APIURL}/product/${product.id}`, {
       method: "DELETE",
       headers: new Headers({
         Authorization: sessionToken,
       }),
     })
       .then(() => {
-        window.location.reload();
+        deleteProduct(product);
+        setAdminView(false);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -57,10 +60,6 @@ const Shop = () => {
       return setError("Disable Admin View to navigate to Product Page");
     history.push(`/product/${id}`);
   };
-
-  useEffect(() => {
-    fetchProducts();
-  }, [products]);
 
   //clear error on disabled admin view
   useEffect(() => {
@@ -95,7 +94,7 @@ const Shop = () => {
 
                   {isAdmin && adminView ? (
                     <Grid item sm={12} md={12}>
-                      <IconButton onClick={(e) => deleteProduct(e, product.id)}>
+                      <IconButton onClick={(e) => removeProduct(e, product)}>
                         <DeleteIcon />
                       </IconButton>
                     </Grid>

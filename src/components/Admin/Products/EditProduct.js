@@ -1,5 +1,4 @@
 import { useRef, useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 
 //material components
 import {
@@ -19,6 +18,7 @@ import ImgDisplay from "./ImgDisplay";
 
 //context
 import { TokenContext } from "../../../helpers/context/token-context";
+import { ProductContext } from "../../../helpers/context/product-context";
 
 //styles
 import "./styles/AddProduct.css";
@@ -27,12 +27,10 @@ import "./styles/AddProduct.css";
 import APIURL from "../../../helpers/environment";
 import { uploadImg } from "../../../helpers/functions/cloudinary";
 
-const EditProduct = ({ product }) => {
-  const history = useHistory();
-
+const EditProduct = ({ product, setReload }) => {
   //context
-  const { sessionToken } = useContext(TokenContext);
-
+  const { sessionToken, setAdminView } = useContext(TokenContext);
+  const { updateProduct } = useContext(ProductContext);
   //refs
   const fileUpload = useRef(null);
 
@@ -128,15 +126,15 @@ const EditProduct = ({ product }) => {
         }),
       })
         .then((res) => res.json())
-        .then(() => {
+        .then((json) => {
           setLoading(false);
-          history.push(`/product/${product.id}`);
+          updateProduct(json.product);
+          setReload(true);
+          setAdminView(false);
         });
     } catch (err) {
       setLoading(false);
     }
-
-    window.location.reload();
   };
 
   //add and image to product

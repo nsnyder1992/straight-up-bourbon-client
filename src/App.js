@@ -104,18 +104,39 @@ function App() {
     setPage(page + 1);
   };
 
+  const findIndex = (id) => {
+    for (let index in products) {
+      if (products[index].id == id) return index;
+    }
+  };
+
+  const deleteProduct = (product) => {
+    let index = findIndex(product.id);
+    let tempProducts = products;
+
+    tempProducts.splice(index, 1);
+    setProducts(tempProducts);
+  };
+
+  const updateProduct = (product) => {
+    let index = findIndex(product.id);
+    let tempProducts = products;
+
+    tempProducts[index] = product;
+    formatProducts(tempProducts);
+  };
+
   const updateProducts = (prods) => {
     if (!Array.isArray(prods)) prods = [prods];
-    formatProducts(prods);
+    let newProducts = [...products, ...prods];
+    formatProducts(newProducts);
   };
 
   const updateTotalProducts = (total) => {
     setTotalProducts(total);
   };
 
-  const formatProducts = (prods) => {
-    let newProducts = [...products, ...prods];
-
+  const formatProducts = (newProducts) => {
     for (let product of newProducts) {
       product.sizes = [];
       product.stock = {
@@ -142,12 +163,14 @@ function App() {
 
   //Get Paginated Products
   const fetchProducts = async () => {
+    console.log(products);
     await fetch(`${APIURL}/product/${page}/${limit}`)
       .then((res) => res.json())
       .then((json) => {
         setTotalProducts(json.total);
         if (products.length >= totalProducts) return;
-        formatProducts(json.products);
+        let newProducts = [...products, ...json.products];
+        formatProducts(newProducts);
       })
       .catch(() => null);
   };
@@ -251,6 +274,7 @@ function App() {
           userEmail,
           isAdmin,
           adminView,
+          setAdminView,
           toggleAdmin,
         }}
       >
@@ -262,6 +286,8 @@ function App() {
               products,
               nextPage,
               fetchProducts,
+              deleteProduct,
+              updateProduct,
               updateProducts,
               updateTotalProducts,
             }}

@@ -32,6 +32,7 @@ const ProductPage = () => {
   const [stock, setStock] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [points, setPoints] = useState();
+  const [reload, setReload] = useState(false);
 
   const handleAddToCart = async (e) => {
     let newProduct = JSON.parse(JSON.stringify(product));
@@ -41,8 +42,7 @@ const ProductPage = () => {
     history.push("/shop");
   };
 
-  const asyncFetchProducts = async () => {
-    await fetchProducts();
+  const getProduct = () => {
     if (products) {
       let tempProduct;
       for (let product of products) {
@@ -52,6 +52,7 @@ const ProductPage = () => {
       }
 
       if (tempProduct) {
+        console.log(tempProduct);
         setProduct(tempProduct);
 
         let tempStock = [];
@@ -72,8 +73,15 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    asyncFetchProducts();
+    getProduct();
   }, [products]);
+
+  useEffect(() => {
+    if (reload === true) {
+      setReload(false);
+      getProduct();
+    }
+  }, [reload]);
 
   return (
     <div className="product-page footer-spacing">
@@ -135,7 +143,9 @@ const ProductPage = () => {
         </Grid>
       </Grid>
 
-      {isAdmin && adminView ? <EditProduct product={product} /> : null}
+      {isAdmin && adminView ? (
+        <EditProduct product={product} setReload={setReload} />
+      ) : null}
     </div>
   );
 };

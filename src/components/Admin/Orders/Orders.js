@@ -86,7 +86,6 @@ const Orders = () => {
   const handleChangePage = (e, newPage) => {
     if (newPage > page - 1) setPage(page + 1);
     if (newPage < page - 1) setPage(page - 1);
-    console.log(page + 1);
   };
 
   const handleChangeRowsPerPage = (e) => {
@@ -125,11 +124,10 @@ const Orders = () => {
       }),
     })
       .then((res) => res.json())
-      .then((json) => {
+      .then(() => {
         fetchData();
-        console.log(json);
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
     handleUneditView();
     setLoading(false);
   };
@@ -145,22 +143,17 @@ const Orders = () => {
       .then((res) => res.json())
       .then((json) => {
         if (!json.auth) {
-          console.log(json);
           setOrders(json.orders);
           setTotal(json.count);
         }
         setLoading(false);
-        console.log(json.orders);
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   };
 
   useEffect(() => {
-    console.log(sessionToken);
-    console.log(page);
     fetchData();
   }, [sessionToken, limit, page]);
 

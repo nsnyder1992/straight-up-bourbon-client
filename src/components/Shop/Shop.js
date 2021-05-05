@@ -26,12 +26,12 @@ import APIURL from "../../helpers/environment";
 const Shop = () => {
   const history = useHistory();
 
+  //states
   const [loading, setLoading] = useState(false);
-  const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState("");
 
   //context
   const { isAdmin, adminView, sessionToken } = useContext(TokenContext);
-
   const { products, fetchProducts } = useContext(ProductContext);
 
   //remove a product
@@ -44,17 +44,28 @@ const Shop = () => {
         Authorization: sessionToken,
       }),
     })
-      .then((res) => {
+      .then(() => {
         window.location.reload();
         setLoading(false);
       })
-      .catch((err) => setLoading(false));
+      .catch(() => setLoading(false));
+  };
+
+  //handle navigation product page
+  const handleClick = (id) => {
+    if (adminView)
+      return setError("Disable Admin View to navigate to Product Page");
+    history.push(`/product/${id}`);
   };
 
   useEffect(() => {
     fetchProducts();
-    console.log("fetching");
   }, [products]);
+
+  //clear error on disabled admin view
+  useEffect(() => {
+    if (!adminView) setError("");
+  }, [adminView]);
 
   return (
     <div className="content-shop">
@@ -69,12 +80,12 @@ const Shop = () => {
                     sm={12}
                     md={12}
                     className="product"
-                    onClick={(e) => history.push(`/product/${product.id}`)}
+                    onClick={() => handleClick(product.id)}
                   >
                     <img
                       className="product-image"
                       src={product.photoUrl}
-                      alt="product-image"
+                      alt="product"
                     />
                     <Typography>{product.name}</Typography>
                     <Typography>{`$${(product.cost / 100).toFixed(
@@ -94,6 +105,9 @@ const Shop = () => {
             );
           })}
         </Grid>
+        {error !== "" ? (
+          <Typography color="secondary">{error}</Typography>
+        ) : null}
         {loading ? <CircularProgress /> : null}
         {isAdmin && adminView ? <AddProduct /> : null}
       </div>

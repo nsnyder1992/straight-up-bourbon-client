@@ -23,7 +23,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Footer from "./Footer";
 import Home from "./Home/Home";
 import About from "./Home/About/About";
-import Suggestions from "./Home/Bourbon/Bourbon";
 import Shop from "./Shop/Shop";
 import Profile from "./Home/Profile/Profile";
 import ProductPage from "./Shop/Products/ProductPage";
@@ -213,9 +212,6 @@ const Navbar = ({ numItems }) => {
           </Route>
           <Route exact path="/about">
             <About />
-          </Route>
-          <Route exact path="/bourbon">
-            <Suggestions />
           </Route>
           <Route exact path="/shop">
             <Shop />

@@ -86,7 +86,6 @@ export default class EditOrder extends Component {
       trackingNumber: this.state.tracking,
     };
 
-    console.log("HANDLING SUBMIT");
     this.setLoading(true);
 
     fetch(`${APIURL}/order/${id}`, {
@@ -100,12 +99,10 @@ export default class EditOrder extends Component {
       .then((res) => res.json())
       .then(async (json) => {
         await this.props.fetchData(this.props.sessionToken);
-        console.log(json);
         this.setLoading(false);
         this.props.handleUneditView();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         this.setLoading(false);
         this.props.handleUneditView();
       });

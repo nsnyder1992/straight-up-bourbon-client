@@ -17,8 +17,6 @@ import { ProductContext } from "../../../helpers/context/product-context";
 //styles
 import "./styles/ProductPage.css";
 
-import APIURL from "../../../helpers/environment";
-
 const ProductPage = () => {
   const history = useHistory();
   const { id } = useParams();
@@ -37,9 +35,6 @@ const ProductPage = () => {
 
   const handleAddToCart = async (e) => {
     let newProduct = JSON.parse(JSON.stringify(product));
-    console.log("product page quantity", quantity);
-    console.log("product page product", newProduct);
-    console.log("product page product", newProduct);
     newProduct.size = newProduct.sizes[sizeIndex];
 
     await addToCart({ product: newProduct, quantity }, quantity);
@@ -49,7 +44,6 @@ const ProductPage = () => {
   const asyncFetchProducts = async () => {
     await fetchProducts();
     if (products) {
-      console.log(products);
       let tempProduct;
       for (let product of products) {
         if (product.id == id) {
@@ -62,12 +56,11 @@ const ProductPage = () => {
 
         let tempStock = [];
         for (let size of tempProduct?.stock.bySize) {
-          console.log(size, product);
           tempStock.push(size.numItems);
         }
 
         setStock(tempStock);
-        console.log(tempStock);
+
         let tempPoints = [];
         for (let point of tempProduct?.description.points) {
           tempPoints.push(point.description);
@@ -89,7 +82,7 @@ const ProductPage = () => {
           <img
             className="product-image"
             src={product?.photoUrl}
-            alt="product-image"
+            alt="product"
           />
         </Grid>
         <Grid item sm={6}>
@@ -108,7 +101,9 @@ const ProductPage = () => {
           <ProductQuantity quantity={quantity} setQuantity={setQuantity} />
           <div className="left-in-stock">
             <Typography variant="caption" id="left-in-stock">
-              {stock[sizeIndex] < 10
+              {stock[sizeIndex] === 0
+                ? "Out of stock"
+                : stock[sizeIndex] < 10
                 ? `Only ${stock[sizeIndex]} left in stock!`
                 : null}
             </Typography>

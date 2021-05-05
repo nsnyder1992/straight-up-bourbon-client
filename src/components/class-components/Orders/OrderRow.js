@@ -9,10 +9,6 @@ import { Box, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
 class OrderRow extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   //handlers
   handleClick = (e, id) => {
     e.preventDefault();

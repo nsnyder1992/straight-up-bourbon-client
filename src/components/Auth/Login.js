@@ -54,7 +54,7 @@ const Login = () => {
         if (data.error) return setError(data.error);
         updateToken(data?.sessionToken, data.user);
       })
-      .catch((err) => setLoading(false));
+      .catch(() => setLoading(false));
   };
 
   return (

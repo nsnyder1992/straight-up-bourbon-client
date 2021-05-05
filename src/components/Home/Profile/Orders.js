@@ -64,9 +64,8 @@ const Orders = () => {
       .then((res) => res.json())
       .then((json) => {
         fetchData();
-        console.log(json);
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
     setLoading(false);
   };
 
@@ -78,7 +77,6 @@ const Orders = () => {
   const handleChangePage = (e, newPage) => {
     if (newPage > page - 1) setPage(page + 1);
     if (newPage < page - 1) setPage(page - 1);
-    console.log(page + 1);
   };
 
   const handleChangeRowsPerPage = async (e) => {
@@ -98,19 +96,15 @@ const Orders = () => {
         if (!json.auth) {
           setOrders(json.orders);
           setTotal(json.count);
-          console.log("PROFILE ORDERS", json);
         }
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false);
-        console.log(err);
       });
   };
 
   useEffect(() => {
-    console.log(sessionToken);
-    console.log(page);
     fetchData();
   }, [sessionToken, limit, page]);
 

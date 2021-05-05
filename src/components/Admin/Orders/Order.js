@@ -1,4 +1,4 @@
-import { CardMedia, Divider, Link, Typography } from "@material-ui/core";
+import { Divider, Link, Typography } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -16,8 +16,6 @@ const Order = () => {
   const [totalCost, setTotalCost] = useState(0);
   const [status, setStatus] = useState("Waiting to be Fulfilled");
   const [labelUrl, setLabelUrl] = useState();
-  const [labelPdf, setLabelPdf] = useState();
-  const [labelPng, setLabelPng] = useState();
 
   const fetchOrder = () => {
     fetch(`${APIURL}/order/${id}`, {
@@ -29,11 +27,8 @@ const Order = () => {
     })
       .then((res) => res.json())
       .then(async (json) => {
-        console.log(json);
-
         if (!json.auth) {
           setOrder(json);
-          console.log(json);
           fetchStatus(json.order.id, json.order.shipmentId);
           //rest total cost each time
           let tempCost = 0;
@@ -44,11 +39,10 @@ const Order = () => {
           setTotalCost(tempCost);
         }
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
   };
 
   const fetchStatus = (id, label) => {
-    console.log("LABEL", label);
     if (label) {
       fetch(`${APIURL}/track/${id}/${label}`, {
         method: "GET",
@@ -59,12 +53,10 @@ const Order = () => {
       })
         .then((res) => res.json())
         .then(async (json) => {
-          console.log("Tracking", json);
           if (json.status.toLowerCase() !== "unknown") setStatus(json.status);
-          console.log("ADMIN", isAdmin);
           if (isAdmin) fetchLabel(id);
         })
-        .catch((err) => console.log(err));
+        .catch(() => null);
     }
   };
 
@@ -78,12 +70,9 @@ const Order = () => {
     })
       .then((res) => res.json())
       .then(async (json) => {
-        console.log("LABEL FETCH", json);
         setLabelUrl(json?.labels[0]?.label_download?.href);
-        setLabelPdf(json?.labels[0]?.label_download?.pdf);
-        setLabelPng(json?.labels[0]?.label_download?.pdf);
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
   };
 
   useEffect(() => {
@@ -143,7 +132,7 @@ const Order = () => {
                 <img
                   className="product-image"
                   src={item.product.photoUrl}
-                  alt="product-image"
+                  alt="product"
                 />
                 <Typography>{item.description}</Typography>
                 <Typography>

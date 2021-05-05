@@ -1,14 +1,10 @@
-import { useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 //material components
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, CircularProgress } from "@material-ui/core";
-
-//context
-import { TokenContext } from "../../helpers/context/token-context";
 
 //get API url
 import APIURL from "../../helpers/environment";
@@ -48,12 +44,14 @@ const ForgotPassword = ({ toggleForgotPassword }) => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         setLoading(false);
         toggleForgotPassword(event);
       })
-      .catch((err) => setLoading(false));
+      .catch((err) => {
+        setError(err.error);
+        setLoading(false);
+      });
   };
 
   return (

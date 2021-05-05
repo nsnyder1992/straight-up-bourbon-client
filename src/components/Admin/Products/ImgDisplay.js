@@ -8,7 +8,6 @@ const ImgDisplay = ({ fileUrl, fileUpload, addImage }) => {
   const handleFileUpload = (e) => {
     let file = e.target.files[0];
     let url = URL.createObjectURL(file);
-    console.log(fileUpload);
     addImage(url);
   };
 
@@ -19,8 +18,6 @@ const ImgDisplay = ({ fileUrl, fileUpload, addImage }) => {
         {fileUrl ? (
           <CardMedia component="img" src={fileUrl} />
         ) : (
-          // inline-styles needed here
-
           <ImageOutlinedIcon style={{ fontSize: 100 }} />
         )}
       </Paper>

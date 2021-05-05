@@ -42,7 +42,6 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
   const removeOne = () => {
     if (product.quantity > 0) {
       let tempProduct = JSON.parse(JSON.stringify(product));
-      console.log(tempProduct);
       removeFromCart(tempProduct, 1, index);
 
       setQty(qty - 1);

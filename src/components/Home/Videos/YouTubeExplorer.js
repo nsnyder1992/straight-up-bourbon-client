@@ -46,7 +46,6 @@ const YouTubeExplorer = ({
     await setOffset(page * limit);
     await setPage(page + 1);
 
-    console.log(offset + limit, videos.length);
     if (offset + limit >= videos.length) {
       setLoading(true);
       fetch(
@@ -65,8 +64,7 @@ const YouTubeExplorer = ({
           setNextPageToken(json.nextPageToken);
           setLoading(false);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           setLoading(false);
         });
     }
@@ -122,6 +120,7 @@ const YouTubeExplorer = ({
                 src={video?.snippet.thumbnails.default.url}
                 key={key}
                 className="thumbnails"
+                alt="video-thumbnail"
               />
               {video.id.videoId === nowPlayingIndex ? (
                 <div className="now-playing">

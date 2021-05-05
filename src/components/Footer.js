@@ -4,7 +4,6 @@ import {
   faYoutube,
   faInstagram,
   faFacebookF,
-  faTwitter,
 } from "@fortawesome/free-brands-svg-icons/";
 
 //styles
@@ -26,9 +25,6 @@ const Footer = () => {
         >
           <FontAwesomeIcon className="follow-icons" icon={faFacebookF} />
         </a>
-        {/* <a href="" target="blank">
-          <FontAwesomeIcon className="follow-icons" icon={faTwitter} />
-        </a> */}
       </div>
       <div className="text"></div>
     </footer>

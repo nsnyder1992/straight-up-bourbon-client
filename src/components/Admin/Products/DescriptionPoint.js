@@ -10,13 +10,13 @@ const DescriptionPoint = ({
 }) => {
   return (
     <Grid item xs={12}>
-      <Grid container spacing={0}>
-        <Grid item xs={11}>
+      <Grid container spacing={1}>
+        <Grid item xs={9}>
           <TextField
             multiline
             id="outlined-description-input"
             label="Description Point"
-            className="address"
+            className="input-field"
             type="description"
             autoComplete="current-description"
             variant="outlined"

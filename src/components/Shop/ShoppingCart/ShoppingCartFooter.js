@@ -31,7 +31,7 @@ const ShoppingCartFooter = ({ cart }) => {
 
     return fetch(`${APIURL}/checkout/create`, fetchContent)
       .then((res) => res.json())
-      .catch((err) => console.log(err));
+      .catch(() => null);
   };
 
   const asyncLoad = async () => {
@@ -46,11 +46,7 @@ const ShoppingCartFooter = ({ cart }) => {
   const handleCheckout = async () => {
     const { sessionId } = await fetchCheckoutSession();
 
-    const { error } = await stripe.redirectToCheckout({ sessionId });
-
-    if (error) {
-      console.log(error);
-    }
+    await stripe.redirectToCheckout({ sessionId });
   };
 
   return (

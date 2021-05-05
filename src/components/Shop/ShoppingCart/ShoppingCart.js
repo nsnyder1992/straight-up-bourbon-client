@@ -50,6 +50,7 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
                   removeFromCart={removeFromCart}
                 />
               );
+            return null;
           })}
         </List>
       </div>

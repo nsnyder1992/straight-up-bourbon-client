@@ -7,6 +7,9 @@ switch (window.location.hostname) {
     break;
   case "ljn-straightupbourbon.herokuapp.com":
     APIURL = "https://ljn-straightupbourbon-server.herokuapp.com";
+    break;
+  default:
+    break;
 }
 
 export default APIURL;

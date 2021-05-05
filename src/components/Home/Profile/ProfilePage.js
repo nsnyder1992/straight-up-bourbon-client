@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 
 //components
-import Addresses from "./Addresses";
 import Orders from "./Orders";
 
 //context

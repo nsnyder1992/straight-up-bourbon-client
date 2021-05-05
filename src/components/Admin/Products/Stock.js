@@ -12,13 +12,14 @@ const Stock = ({
 }) => {
   return (
     <Grid item xs={12}>
-      <Grid container spacing={0}>
-        <Grid item xs={5}>
+      <Grid container spacing={1}>
+        <Grid item xs={7}>
           <TextField
+            required
             multiline
             id="outlined-size-input"
             label="Size"
-            className="address"
+            className="input-field"
             type="text"
             autoComplete="current-description"
             variant="outlined"
@@ -26,12 +27,12 @@ const Stock = ({
             value={size}
           />
         </Grid>
-        <Grid item xs={1} />
-        <Grid item xs={5}>
+        <Grid item xs={2}>
           <TextField
             id="outlined-number"
             label="Quantity"
             type="number"
+            className="input-field"
             InputLabelProps={{
               shrink: true,
             }}

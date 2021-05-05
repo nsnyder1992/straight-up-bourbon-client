@@ -11,7 +11,7 @@ const ShoppingCartItem = ({ product, addToCart, removeFromCart, key }) => {
         width={75}
         style={{ margin: 10 }}
         src={product.product.photoUrl}
-        alt="product-image"
+        alt="product"
       />
 
       <ListItemText>

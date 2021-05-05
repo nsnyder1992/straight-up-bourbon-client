@@ -7,6 +7,7 @@ import {
   TextField,
   Divider,
   CircularProgress,
+  Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -25,7 +26,7 @@ import "./styles/AddProduct.css";
 import APIURL from "../../../helpers/environment";
 import { uploadImg } from "../../../helpers/functions/cloudinary";
 
-const AddProduct = ({ updateFetch }) => {
+const AddProduct = () => {
   //context
   const { sessionToken } = useContext(TokenContext);
 
@@ -47,6 +48,7 @@ const AddProduct = ({ updateFetch }) => {
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
   const [cost, setCost] = useState("");
+  const [error, setError] = useState("");
 
   //cloudinary
   const signatureUrl = `${APIURL}/cloudinary`;
@@ -56,6 +58,17 @@ const AddProduct = ({ updateFetch }) => {
   //submit product
   const handleSubmit = async () => {
     const file = fileUpload.current.files[0];
+
+    //error handling/feedback to user
+    if (file === undefined) return setError("Add Image before submitting");
+    if (name === "") return setError("Add Name before submitting");
+    if (type === "") return setError("Add Type before submitting");
+    if (cost === "") return setError("Add Cost before submitting");
+    if (sizes.length === 0 || sizes[0] === "")
+      return setError("Need at least one size before submitting");
+
+    setError("");
+
     setLoading(true);
 
     try {
@@ -71,7 +84,6 @@ const AddProduct = ({ updateFetch }) => {
         type: type,
         color: color,
         description_main: description,
-        description_points: ["100% cool", "cotton"],
         cost: cost,
         photoUrl: cloudinaryJson.url,
         stripeProductId: 1,
@@ -83,14 +95,12 @@ const AddProduct = ({ updateFetch }) => {
       stocks.reverse();
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
-          console.log();
           body.stock[sizes[index].toLowerCase()] = stocks[index];
         }
       }
       sizes.reverse();
       stocks.reverse();
 
-      console.log(descriptionPoints);
       for (let description of descriptionPoints) {
         if (description !== null && description !== "") {
           body.description_points.push(description[1]);
@@ -99,20 +109,14 @@ const AddProduct = ({ updateFetch }) => {
 
       //post to backend
       await fetch(`${APIURL}/product/create`, {
-        method: "Post",
+        method: "POST",
         body: JSON.stringify(body),
         headers: new Headers({
           "Content-Type": "application/json",
           authorization: sessionToken,
         }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          setLoading(false);
-        });
-      updateFetch();
+      }).then(() => setLoading(false));
     } catch (err) {
-      console.log(err);
       setLoading(false);
     }
 
@@ -193,7 +197,7 @@ const AddProduct = ({ updateFetch }) => {
               required
               id="outlined-name-input"
               label="Product Name"
-              className="address"
+              className="input-field"
               type="name"
               autoComplete="current-name"
               variant="outlined"
@@ -206,7 +210,7 @@ const AddProduct = ({ updateFetch }) => {
               required
               id="outlined-type-input"
               label="Product Type"
-              className="address"
+              className="input-field"
               type="type"
               autoComplete="current-type"
               variant="outlined"
@@ -214,23 +218,23 @@ const AddProduct = ({ updateFetch }) => {
               value={type}
             />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={10}>
             <TextField
-              required
               id="outlined-color-input"
               label="Color"
-              className="address"
+              className="input-field"
               autoComplete="current-color"
               variant="outlined"
               onChange={(e) => setColor(e.target.value)}
               value={color}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <TextField
               required
               id="outlined-number"
               label="Cost"
+              className="input-field"
               type="number"
               InputLabelProps={{
                 shrink: true,
@@ -242,11 +246,10 @@ const AddProduct = ({ updateFetch }) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              required
               multiline
               id="outlined-description-input"
               label="Description"
-              className="address"
+              className="input-field"
               type="description"
               autoComplete="current-description"
               variant="outlined"
@@ -300,6 +303,11 @@ const AddProduct = ({ updateFetch }) => {
             >
               {loading ? <CircularProgress /> : "Add Product"}
             </Button>
+          </Grid>
+          <Grid item xs={12}>
+            {error !== "" ? (
+              <Typography color="secondary">{error}</Typography>
+            ) : null}
           </Grid>
         </Grid>
       </div>

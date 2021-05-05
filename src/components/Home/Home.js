@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 
-//material ui
-import { Typography } from "@material-ui/core";
-
 //components
 import YouTubeVideo from "./Videos/YouTubeVideo";
 
@@ -38,9 +35,8 @@ const Home = () => {
         setNowPlayingIndex(json.items[0].id.videoId);
         setTotalResults(json.pageInfo.totalResults);
         setNextPageToken(json.nextPageToken);
-        console.log(json.items);
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
   };
 
   useEffect(() => {

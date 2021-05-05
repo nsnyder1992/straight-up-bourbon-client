@@ -63,7 +63,7 @@ function App() {
             setIsAdmin(json.user.isAdmin);
           }
         })
-        .catch((err) => console.log(err));
+        .catch(() => null);
     }
   }, []);
 
@@ -100,55 +100,56 @@ function App() {
   const [limit, setLimit] = useState(10);
   const [totalProducts, setTotalProducts] = useState();
 
-  const addProducts = () => {
+  const nextPage = () => {
     setPage(page + 1);
   };
 
   const updateProducts = (prods) => {
-    setProducts(prods);
+    if (!Array.isArray(prods)) prods = [prods];
+    formatProducts(prods);
   };
 
   const updateTotalProducts = (total) => {
     setTotalProducts(total);
   };
 
+  const formatProducts = (prods) => {
+    let newProducts = [...products, ...prods];
+
+    for (let product of newProducts) {
+      product.sizes = [];
+      product.stock = {
+        total: 0,
+        bySize: product["product-stocks"],
+      };
+      product.stock.total = 0;
+      product.description = {
+        main: product.description_main,
+        points: [],
+      };
+
+      for (let stock of product["product-stocks"]) {
+        product.sizes.push(stock.size);
+        product.stock.total += stock.numItems;
+      }
+
+      for (let point of product["product-descriptions"]) {
+        product.description.points.push(point);
+      }
+    }
+    setProducts(newProducts);
+  };
+
   //Get Paginated Products
   const fetchProducts = async () => {
-    let newProds;
     await fetch(`${APIURL}/product/${page}/${limit}`)
       .then((res) => res.json())
       .then((json) => {
         setTotalProducts(json.total);
         if (products.length >= totalProducts) return;
-
-        let newProducts = [...products, ...json.products];
-
-        for (let product of newProducts) {
-          product.sizes = [];
-          product.stock = {
-            total: 0,
-            bySize: product["product-stocks"],
-          };
-          product.stock.total = 0;
-          product.description = {
-            main: product.description_main,
-            points: [],
-          };
-
-          for (let stock of product["product-stocks"]) {
-            product.sizes.push(stock.size);
-            product.stock.total += stock.numItems;
-          }
-
-          for (let point of product["product-descriptions"]) {
-            product.description.points.push(point);
-          }
-        }
-        console.log(newProducts);
-        newProds = newProducts;
-        setProducts(newProducts);
+        formatProducts(json.products);
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
   };
 
   useEffect(() => {
@@ -166,7 +167,6 @@ function App() {
 
     if (tempCart.products.length >= 0) {
       for (let prod of tempCart.products) {
-        console.log(prod, product);
         if (
           prod.product.id === product.product.id &&
           prod.product.size === product.product.size
@@ -180,14 +180,12 @@ function App() {
 
           //set cart and local storage
           setCart(tempCart);
-          console.log("add to cart", tempCart);
           localStorage.setItem("cart", JSON.stringify(tempCart));
           return;
         }
       }
     }
 
-    console.log("add to cart", tempCart);
     //first item or item not found
     tempCart.products.push({ product: product.product, quantity });
     tempCart.numItems += quantity;
@@ -204,12 +202,10 @@ function App() {
     if (tempCart.products.length <= 0) return;
 
     for (let prod of tempCart.products) {
-      console.log(prod.product.id, product);
       if (
         prod.product.id === product.product.id &&
         prod.product.size === product.product.size
       ) {
-        console.log(prod.quantity, quantity);
         //update cart
         tempCart.numItems = tempCart.numItems - quantity;
         tempCart.subtotal -= product.product.cost * quantity;
@@ -264,7 +260,7 @@ function App() {
           <ProductContext.Provider
             value={{
               products,
-              addProducts,
+              nextPage,
               fetchProducts,
               updateProducts,
               updateTotalProducts,

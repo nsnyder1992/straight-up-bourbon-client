@@ -1,28 +1,17 @@
 import { Typography } from "@material-ui/core";
 import { useContext, useEffect } from "react";
-import { Redirect, useHistory } from "react-router";
 
 //context
 import { CartContext } from "../../../helpers/context/shopping-cart";
 
-const Success = (props) => {
-  const history = useHistory();
-
-  let sessionId = new URLSearchParams(window.location.search).get("session_id");
+const Success = () => {
   let redirect = new URLSearchParams(window.location.search).get("redirect");
 
   //context
-  const { removeFromCart, cart, clearCart } = useContext(CartContext);
+  const { clearCart } = useContext(CartContext);
 
   useEffect(() => {
     clearCart();
-
-    console.log("USE EFFECT");
-    for (let product of cart.products) {
-      console.log("Produt: ", product);
-    }
-
-    sessionId = sessionId.slice(0, sessionId.length - 1);
   }, []);
 
   if (!redirect) {

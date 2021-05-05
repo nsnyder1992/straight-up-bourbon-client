@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import DeleteIcon from "@material-ui/icons/Delete";
 import moment from "moment";
 
 //material ui components
@@ -18,7 +17,6 @@ import {
   IconButton,
   TablePagination,
   Checkbox,
-  TextField,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import SendIcon from "@material-ui/icons/Send";
@@ -39,6 +37,8 @@ const useStyles = makeStyles({
 
 const Users = () => {
   const classes = useStyles();
+
+  const history = useHistory();
 
   //context
   const { sessionToken, isAdmin } = useContext(TokenContext);
@@ -61,7 +61,6 @@ const Users = () => {
   const handleChangePage = (e, newPage) => {
     if (newPage > page - 1) setPage(page + 1);
     if (newPage < page - 1) setPage(page - 1);
-    console.log(page + 1);
   };
 
   const handleChangeRowsPerPage = async (e) => {
@@ -80,7 +79,6 @@ const Users = () => {
   };
 
   const handleSubmitEdit = (id) => {
-    console.log(userIsAdmin, id);
     const body = {
       isAdmin: userIsAdmin,
     };
@@ -98,7 +96,7 @@ const Users = () => {
       .then((json) => {
         fetchData();
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
     handleUneditView();
     setLoading(false);
   };
@@ -113,8 +111,13 @@ const Users = () => {
     })
       .then((res) => res.json())
       .then((json) => {
+        //send unauthorized user to profile page
+        if (json.error === "Not Authorized" || json.auth === false) {
+          history.push("/profile");
+          return;
+        }
+
         if (!json.auth) {
-          console.log(json);
           setUsers(json.users);
           setTotal(json.count);
         }
@@ -122,13 +125,10 @@ const Users = () => {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   };
 
   useEffect(() => {
-    console.log(sessionToken);
-    console.log(page);
     fetchData();
   }, [sessionToken, limit, page]);
 

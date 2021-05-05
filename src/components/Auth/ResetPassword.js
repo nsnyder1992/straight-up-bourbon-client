@@ -65,7 +65,7 @@ const ResetPassword = () => {
         await updateToken(data?.sessionToken, data.user);
         history.push("/profile");
       })
-      .catch((err) => setLoading(false));
+      .catch(() => setLoading(false));
   };
 
   return (

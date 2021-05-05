@@ -8,6 +8,7 @@ import {
   TextField,
   Divider,
   CircularProgress,
+  Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -51,6 +52,7 @@ const EditProduct = ({ product }) => {
   const [color, setColor] = useState(product.color);
   const [description, setDescription] = useState(product.description_main);
   const [cost, setCost] = useState((product.cost / 100).toFixed(2));
+  const [error, setError] = useState("");
 
   //cloudinary
   const signatureUrl = `${APIURL}/cloudinary`;
@@ -60,8 +62,18 @@ const EditProduct = ({ product }) => {
   //submit product
   const handleSubmit = async () => {
     const file = fileUpload.current.files[0];
+
+    //error handling/feedback to user
+    if (name === "") return setError("Add Name before submitting");
+    if (type === "") return setError("Add Type before submitting");
+    if (cost === "") return setError("Add Cost before submitting");
+    console.log(sizes);
+    if (sizes.length === 0 || sizes[0] === "")
+      return setError("Need at least one size before submitting");
+
+    setError("");
+
     setLoading(true);
-    console.log(file);
 
     try {
       let body = {
@@ -69,7 +81,6 @@ const EditProduct = ({ product }) => {
         type: type,
         color: color,
         description_main: description,
-        description_points: ["100% cool", "cotton"],
         cost: cost,
         stripeProductId: 1,
         photoUrl: product.photoUrl,
@@ -84,7 +95,6 @@ const EditProduct = ({ product }) => {
           file,
           sessionToken
         );
-        console.log(cloudinaryJson);
 
         body.photoUrl = cloudinaryJson.url;
       }
@@ -93,20 +103,20 @@ const EditProduct = ({ product }) => {
       stocks.reverse();
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
+          console.log(sizes[index].toLowerCase(), stocks[index]);
           body.stock[sizes[index].toLowerCase()] = stocks[index];
         }
       }
       sizes.reverse();
       stocks.reverse();
 
+      descriptionPoints.reverse();
       for (let description of descriptionPoints) {
-        console.log(description);
         if (description[1] !== null && description[1] !== "") {
           body.description_points[description[0]] = description[1];
         }
       }
-
-      console.log(body);
+      descriptionPoints.reverse();
 
       //post to backend
       await fetch(`${APIURL}/product/${product.id}`, {
@@ -118,14 +128,14 @@ const EditProduct = ({ product }) => {
         }),
       })
         .then((res) => res.json())
-        .then((json) => {
+        .then(() => {
           setLoading(false);
           history.push(`/product/${product.id}`);
         });
     } catch (err) {
-      console.log(err);
       setLoading(false);
     }
+
     window.location.reload();
   };
 
@@ -223,7 +233,7 @@ const EditProduct = ({ product }) => {
               required
               id="outlined-name-input"
               label="Product Name"
-              className="address"
+              className="input-field"
               type="name"
               autoComplete="current-name"
               variant="outlined"
@@ -236,7 +246,7 @@ const EditProduct = ({ product }) => {
               required
               id="outlined-type-input"
               label="Product Type"
-              className="address"
+              className="input-field"
               type="type"
               autoComplete="current-type"
               variant="outlined"
@@ -244,24 +254,25 @@ const EditProduct = ({ product }) => {
               value={type}
             />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={10}>
             <TextField
               required
               id="outlined-color-input"
               label="Color"
-              className="address"
+              className="input-field"
               autoComplete="current-color"
               variant="outlined"
               onChange={(e) => setColor(e.target.value)}
               value={color}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <TextField
               required
               id="outlined-number"
               label="Cost"
               type="number"
+              className="input-field"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -276,7 +287,7 @@ const EditProduct = ({ product }) => {
               multiline
               id="outlined-description-input"
               label="Description"
-              className="address"
+              className="input-field"
               type="description"
               autoComplete="current-description"
               variant="outlined"
@@ -330,6 +341,12 @@ const EditProduct = ({ product }) => {
             >
               {loading ? <CircularProgress /> : "Edit Product"}
             </Button>
+          </Grid>
+
+          <Grid item xs={12}>
+            {error !== "" ? (
+              <Typography color="secondary">{error}</Typography>
+            ) : null}
           </Grid>
         </Grid>
       </div>

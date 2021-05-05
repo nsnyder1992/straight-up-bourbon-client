@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 //material ui components
 import Table from "@material-ui/core/Table";
@@ -18,7 +19,7 @@ import { TokenContext } from "../../../helpers/context/token-context";
 //helpers
 import APIURL from "../../../helpers/environment";
 
-export default class Orders extends Component {
+class Orders extends Component {
   static contextType = TokenContext;
 
   constructor(props) {
@@ -105,18 +106,23 @@ export default class Orders extends Component {
     })
       .then((res) => res.json())
       .then((json) => {
+        this.setLoading(false);
+
+        //send unauthorized user to profile page
+        if (json.error === "Not Authorized" || json.auth === false) {
+          this.props.history.push("/profile");
+          return;
+        }
+
         if (!json.auth) {
           this.setState({
             orders: json.orders,
             total: json.count,
           });
         }
-        console.log(json);
-        this.setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         this.setLoading(false);
-        console.log(err);
       });
   };
 
@@ -177,3 +183,5 @@ export default class Orders extends Component {
     return null;
   }
 }
+
+export default withRouter(Orders);

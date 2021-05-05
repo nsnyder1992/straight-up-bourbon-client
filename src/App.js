@@ -163,7 +163,6 @@ function App() {
 
   //Get Paginated Products
   const fetchProducts = async () => {
-    console.log(products);
     await fetch(`${APIURL}/product/${page}/${limit}`)
       .then((res) => res.json())
       .then((json) => {

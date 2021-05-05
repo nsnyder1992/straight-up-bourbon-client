@@ -76,6 +76,7 @@ const ProductPage = () => {
     getProduct();
   }, [products]);
 
+  //set reload to get products after an update
   useEffect(() => {
     if (reload === true) {
       setReload(false);

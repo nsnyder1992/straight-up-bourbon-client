@@ -94,6 +94,7 @@ const Orders = () => {
       .then((res) => res.json())
       .then((json) => {
         if (!json.auth) {
+          console.log(json);
           setOrders(json.orders);
           setTotal(json.count);
         }

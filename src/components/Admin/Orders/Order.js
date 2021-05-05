@@ -112,7 +112,11 @@ const Order = () => {
             </Typography>
           ) : null}
           <br />
-          <Typography>Status: {status}</Typography>
+
+          <Typography>
+            Status: {order?.order.isCanceled ? "Canceled" : status}
+          </Typography>
+
           <br />
           {adminView ? (
             <div>

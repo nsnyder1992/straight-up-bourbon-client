@@ -8,7 +8,7 @@ Styling was done mostly using Material-ui but some css was used in order to comp
 
 ## Pages and Major Components Functionality
 
-1. NavBar
+1. #### NavBar
 
    - Regular User:
      - HOME
@@ -21,17 +21,17 @@ Styling was done mostly using Material-ui but some css was used in order to comp
      - USERS
      - ADMIN MODE BUTTON (Toggles admin mode off and on)
 
-2. Home Page
+2. #### Home Page
 
    - Displays the latest Video the channel puts out
    - Allows user to explore older videos
 
-3. About
+3. #### About
 
    - Tells users what the channel is all about
    - Needs more content from actual channel (To come from Luke and Jp)
 
-4. Shop
+4. #### Shop
 
    - Regular User:
      - Allows user to view all merchandise items
@@ -41,7 +41,7 @@ Styling was done mostly using Material-ui but some css was used in order to comp
      - Error messages have been added to help guide the admin not to make a mistake
      - In admin mode the navigation to products page is turned off
 
-5. ProductPage
+5. #### ProductPage
 
    - Regular User:
      - Allows user to view specified product
@@ -51,7 +51,7 @@ Styling was done mostly using Material-ui but some css was used in order to comp
      - Error messages have been added to help guide the admin not to make a mistake
      - This is the place the admin can add to their stock
 
-6. Profile
+6. #### Profile
 
    - Allows users to view their information
    - Allows users to logout
@@ -59,14 +59,14 @@ Styling was done mostly using Material-ui but some css was used in order to comp
    - Allows users to cancel their orders
    - If user clicks on the orders row it will redirect them to the Order page
 
-7. Order
+7. #### Order
 
    - Regular User:
      - Allows user to view order details and get a more accurate status straight from shipEngine
    - Admin User:
      - if in admin mode the admin can download the label
 
-8. Shopping Cart
+8. #### Shopping Cart
 
    - Regular User:
      - Allows user to update their items and checkout
@@ -75,22 +75,22 @@ Styling was done mostly using Material-ui but some css was used in order to comp
      - If failure or the user cancels the session occurs then the customer is redirected to the Canceled page
      - A webhook on the backend does a lot
 
-9. Success
+9. #### Success
 
    - Clears Shopping Cart
 
-10. Canceled
+10. #### Canceled
 
     - Leaves Shopping Cart unaffected
 
-### Admin **_ONLY_** Views
+### Admin **ONLY** Views
 
-11. Orders
+11. #### Orders
 
     - Allows admins to view and edit all orders
     - If admin clicks on a row they are redirected to that orders page
 
-12. Users
+12. #### Users
 
     - Allows admins to view all users
     - Allows admins to edit users admin rights

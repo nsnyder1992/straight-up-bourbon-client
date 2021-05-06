@@ -9,6 +9,7 @@ function getWindowDimensions() {
 }
 
 export default function useWindowDimensions() {
+  //get window resize dimensions
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );

@@ -25,6 +25,7 @@
     "**/*.tsx"
   ],
   "typeRoots": [
+    "./typings",
     "./node_modules/@types/"
-  ]
+  ],
 }

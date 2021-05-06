@@ -30,7 +30,6 @@ export function OrderRow({
   const history = useHistory();
 
   function onClick(id: number) {
-    console.log(id);
     history.push(`/order/${id}`);
   }
 

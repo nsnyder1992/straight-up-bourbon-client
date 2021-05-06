@@ -143,16 +143,17 @@ export function Orders(): React.ReactNode {
                           status = "Waiting to be Fulfilled";
                       }
 
+                      let disabled =
+                        order?.order.isCanceled ||
+                        order?.order.isShipped ||
+                        order?.order.isComplete;
+
                       return (
                         <OrderRow
                           key={index}
                           id={order?.order.id}
                           status={status}
-                          diabled={
-                            order?.order.isCanceled ||
-                            order?.order.isShipped ||
-                            order?.order.isComplete
-                          }
+                          disabled={disabled}
                           trackingNumber={order?.order.trackingNumber}
                           createdAt={order?.order.createdAt}
                           updatedAt={order?.order.updatedAt}

@@ -97,16 +97,12 @@ const EditProduct = ({ product, setReload }) => {
         body.photoUrl = cloudinaryJson.url;
       }
 
-      sizes.reverse();
-      stocks.reverse();
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
           console.log(sizes[index].toLowerCase(), stocks[index]);
           body.stock[sizes[index].toLowerCase()] = stocks[index];
         }
       }
-      sizes.reverse();
-      stocks.reverse();
 
       descriptionPoints.reverse();
       for (let description of descriptionPoints) {

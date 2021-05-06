@@ -92,15 +92,11 @@ const AddProduct = () => {
         description_points: [],
       };
 
-      sizes.reverse();
-      stocks.reverse();
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
           body.stock[sizes[index].toLowerCase()] = stocks[index];
         }
       }
-      sizes.reverse();
-      stocks.reverse();
 
       for (let description of descriptionPoints) {
         if (description !== null && description !== "") {

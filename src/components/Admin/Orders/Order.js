@@ -27,9 +27,10 @@ const Order = () => {
     })
       .then((res) => res.json())
       .then(async (json) => {
+        console.log(json);
         if (!json.auth) {
           setOrder(json);
-          fetchStatus(json.order.id, json.order.shipmentId);
+          await fetchStatus(json.order.id, json.order.shipmentId);
           //rest total cost each time
           let tempCost = 0;
           for (let item of json.items.data) {
@@ -76,7 +77,7 @@ const Order = () => {
   };
 
   useEffect(() => {
-    fetchOrder();
+    if (sessionToken) fetchOrder();
   }, [sessionToken]);
 
   return (

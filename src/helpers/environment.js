@@ -5,8 +5,8 @@ switch (window.location.hostname) {
   case "127.0.0.1":
     APIURL = "http://localhost:3000";
     break;
-  case "ljn-straightupbourbon.herokuapp.com":
-    APIURL = "https://ljn-straightupbourbon-server.herokuapp.com";
+  case "straight-up-bourbon.herokuapp.com":
+    APIURL = "https://straight-up-bourbon-server.herokuapp.com";
     break;
   default:
     break;

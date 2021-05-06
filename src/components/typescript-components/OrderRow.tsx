@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import * as ReactRouter from "react-router-dom";
 import moment from "moment";
 
 //material ui components
@@ -27,7 +27,7 @@ export function OrderRow({
   updatedAt,
   handleCancel,
 }: Props): JSX.Element {
-  const history = useHistory();
+  const history = ReactRouter.useHistory();
 
   function onClick(id: number) {
     history.push(`/order/${id}`);

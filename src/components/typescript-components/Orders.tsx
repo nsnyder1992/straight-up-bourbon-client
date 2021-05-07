@@ -144,7 +144,7 @@ export function Orders(): React.ReactNode {
                       }
 
                       let disabled =
-                        order?.order.isCanceled ||
+                        order?.order.isFulfilled ||
                         order?.order.isCanceled ||
                         order?.order.isShipped ||
                         order?.order.isComplete;

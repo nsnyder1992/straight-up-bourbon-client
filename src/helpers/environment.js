@@ -1,18 +1,22 @@
 let APIURL = "";
+let host = "";
 
 switch (window.location.hostname) {
   case "localhost":
   case "127.0.0.1":
     APIURL = "http://localhost:3000";
+    host = "http://localhost:3001";
     break;
   case "straight-up-bourbon.herokuapp.com":
     APIURL = "https://straight-up-bourbon-server.herokuapp.com";
+    host = "https://straight-up-bourbon.herokuapp.com/";
     break;
   default:
     break;
 }
 
 export default APIURL;
+export const HOST = host;
 
 //YOUTUBE
 export const CHANNEL_ID = "UCxwXL_8hCcTUhhRvx_eYE2g";

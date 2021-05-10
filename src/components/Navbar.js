@@ -179,7 +179,7 @@ const Navbar = ({ numItems }) => {
             </Link>
             <Link to="/about" className="flex-item-panel">
               <ListItem button>
-                <ListItemText>About</ListItemText>
+                <ListItemText>ABOUT</ListItemText>
               </ListItem>
             </Link>
             <Link to="/shop" className="flex-item-panel">

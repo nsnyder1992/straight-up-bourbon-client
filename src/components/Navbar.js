@@ -21,6 +21,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 
 //components
 import Footer from "./Footer";
+import YouTubeSubscribe from "./YoutubeSubscribe";
 import Home from "./Home/Home";
 import About from "./Home/About/About";
 import Shop from "./Shop/Shop";
@@ -143,6 +144,9 @@ const Navbar = ({ numItems }) => {
           </div>
 
           <div className="right-nav">
+            <div className="youtube-btn">
+              <YouTubeSubscribe />
+            </div>
             <IconButton onClick={handleProfile}>
               <PersonOutlineIcon />
             </IconButton>
@@ -151,6 +155,7 @@ const Navbar = ({ numItems }) => {
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
+
             {isAdmin ? (
               <Button
                 color={adminView ? "primary" : ""}

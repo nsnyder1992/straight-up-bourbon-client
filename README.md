@@ -4,6 +4,8 @@ This website is for the Straight Up Bourbon YouTube channel to sell merchandise 
 
 You will find that most of the components contained in the project are functional components, but there are some Class components (found in `./src/components/class-components`) and typescript components (found in `./src/components/typescript-components`) these were added to meet the curriculum of Eleven Fifty Academy to count for the final project.
 
+Note: The YouTube Subscribe Button is also a Class Component
+
 Styling was done mostly using Material-ui but some css was used in order to complete look desired
 
 ## Pages and Major Components Functionality

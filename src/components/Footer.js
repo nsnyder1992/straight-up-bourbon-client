@@ -1,3 +1,6 @@
+//components
+import YouTubeSubscribe from "./YoutubeSubscribe";
+
 //fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,7 +29,6 @@ const Footer = () => {
           <FontAwesomeIcon className="follow-icons" icon={faFacebookF} />
         </a>
       </div>
-      <div className="text"></div>
     </footer>
   );
 };

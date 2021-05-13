@@ -5,11 +5,10 @@ import { useHistory } from "react-router-dom";
 import {
   Typography,
   Grid,
-  IconButton,
   CircularProgress,
+  Switch,
+  FormControlLabel,
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-
 //components
 import AddProduct from "../Admin/Products/AddProduct";
 
@@ -27,6 +26,7 @@ const Shop = () => {
   const history = useHistory();
 
   //states
+  const [showDeactive, setShowDeactive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -34,30 +34,16 @@ const Shop = () => {
   const { isAdmin, adminView, sessionToken, setAdminView } = useContext(
     TokenContext
   );
-  const { products, deleteProduct } = useContext(ProductContext);
+  const { products, setProducts } = useContext(ProductContext);
 
-  //remove a product
-  const removeProduct = async (e, product) => {
-    e.preventDefault();
-    setLoading(true);
-    await fetch(`${APIURL}/product/${product.id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        Authorization: sessionToken,
-      }),
-    })
-      .then(() => {
-        deleteProduct(product);
-        setAdminView(false);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+  const handleDeactive = (e) => {
+    setShowDeactive(e.target.checked);
   };
 
   //handle navigation product page
   const handleClick = (id) => {
-    if (adminView)
-      return setError("Disable Admin View to navigate to Product Page");
+    // if (adminView)
+    //   return setError("Disable Admin View to navigate to Product Page");
     history.push(`/product/${id}`);
   };
 
@@ -69,9 +55,23 @@ const Shop = () => {
   return (
     <div className="content-shop">
       <div className="products">
+        {isAdmin && adminView ? (
+          <FormControlLabel
+            value="top"
+            control={
+              <Switch
+                color="primary"
+                checked={showDeactive}
+                onChange={handleDeactive}
+              />
+            }
+            label="De-active Products"
+            labelPlacement="Right"
+          />
+        ) : null}
         <Grid container spacing={3}>
           {products?.map((product, key) => {
-            return (
+            return product.isActive || showDeactive ? (
               <Grid item sm={6} md={4} key={key}>
                 <Grid container spacing={0}>
                   <Grid
@@ -91,17 +91,9 @@ const Shop = () => {
                       2
                     )}`}</Typography>
                   </Grid>
-
-                  {isAdmin && adminView ? (
-                    <Grid item sm={12} md={12}>
-                      <IconButton onClick={(e) => removeProduct(e, product)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  ) : null}
                 </Grid>
               </Grid>
-            );
+            ) : null;
           })}
         </Grid>
         {error !== "" ? (

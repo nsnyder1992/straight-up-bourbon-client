@@ -8,8 +8,15 @@ import {
   Divider,
   CircularProgress,
   Typography,
+  Switch,
+  FormControlLabel,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { makeStyles } from "@material-ui/core/styles";
 
 //components
 import DescriptionPoint from "./DescriptionPoint";
@@ -20,17 +27,28 @@ import ImgDisplay from "./ImgDisplay";
 import { TokenContext } from "../../../helpers/context/token-context";
 import { ProductContext } from "../../../helpers/context/product-context";
 
-//styles
-import "./styles/AddProduct.css";
-
 //get helpers
 import APIURL from "../../../helpers/environment";
 import { uploadImg } from "../../../helpers/functions/cloudinary";
 
+//styles
+import "./styles/AddProduct.css";
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
 const EditProduct = ({ product, setReload }) => {
+  const classes = useStyles();
+
   //context
   const { sessionToken, setAdminView } = useContext(TokenContext);
-  const { updateProduct } = useContext(ProductContext);
+  const { products, updateProduct } = useContext(ProductContext);
   //refs
   const fileUpload = useRef(null);
 
@@ -42,14 +60,16 @@ const EditProduct = ({ product, setReload }) => {
   //   const [descriptionPointIds, setDescriptionPointIds] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [stocks, setStocks] = useState([]);
-  const [fileUrl, setFileUrl] = useState(product?.photoUrl);
+  const [fileUrl, setFileUrl] = useState("");
 
   //field states
-  const [name, setName] = useState(product.name);
-  const [type, setType] = useState(product.type);
-  const [color, setColor] = useState(product.color);
-  const [description, setDescription] = useState(product.description_main);
-  const [cost, setCost] = useState((product.cost / 100).toFixed(2));
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [color, setColor] = useState("");
+  const [description, setDescription] = useState("");
+  const [cost, setCost] = useState("");
+  const [isActive, setIsActive] = useState("");
+  const [place, setPlace] = useState("");
   const [error, setError] = useState("");
 
   //cloudinary
@@ -65,7 +85,6 @@ const EditProduct = ({ product, setReload }) => {
     if (name === "") return setError("Add Name before submitting");
     if (type === "") return setError("Add Type before submitting");
     if (cost === "") return setError("Add Cost before submitting");
-    console.log(sizes);
     if (sizes.length === 0 || sizes[0] === "")
       return setError("Need at least one size before submitting");
 
@@ -81,6 +100,7 @@ const EditProduct = ({ product, setReload }) => {
         description_main: description,
         cost: cost,
         stripeProductId: 1,
+        isActive: isActive,
         photoUrl: product.photoUrl,
         stock: {},
         description_points: {},
@@ -196,18 +216,32 @@ const EditProduct = ({ product, setReload }) => {
   useEffect(() => {
     let tempArray1 = [];
     let tempArray2 = [];
-    for (let size of product.stock.bySize) {
-      tempArray1.push(size.size);
-      tempArray2.push(size.numItems);
-    }
+
+    //set states
+    setFileUrl(product?.photoUrl);
+    setName(product?.name);
+    setType(product?.type);
+    setColor(product?.color);
+    setDescription(product?.description_main);
+    setCost((product?.cost / 100).toFixed(2));
+    setIsActive(product?.isActive);
+    setPlace(product?.placement);
+
+    console.log(product);
+    if (product)
+      for (let size of product?.stock.bySize) {
+        tempArray1.push(size?.size);
+        tempArray2.push(size?.numItems);
+      }
 
     setSizes(tempArray1);
     setStocks(tempArray2);
 
     tempArray1 = [];
-    for (let desc of product.description.points) {
-      tempArray1.push([desc.id, desc.description]);
-    }
+    if (product)
+      for (let desc of product?.description.points) {
+        tempArray1.push([desc?.id, desc?.description]);
+      }
 
     setDescriptionPoints(tempArray1);
   }, [product]);
@@ -221,6 +255,39 @@ const EditProduct = ({ product, setReload }) => {
           addImage={addImage}
           fileUpload={fileUpload}
         />
+
+        <FormControlLabel
+          value="top"
+          control={
+            <Switch
+              color="primary"
+              checked={isActive}
+              onChange={(e) => setIsActive(e.target.checked)}
+            />
+          }
+          label="Active"
+          labelPlacement="Right"
+        />
+
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel id="placement-label">Placement</InputLabel>
+          <Select
+            labelId="placement-label"
+            id="placement"
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
+          >
+            {products.map((product, index) => {
+              if (product.isActive)
+                return (
+                  <MenuItem key={index} value={product.placement}>
+                    {product.placement} - {product.name}
+                  </MenuItem>
+                );
+            })}
+          </Select>
+        </FormControl>
+
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <TextField

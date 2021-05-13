@@ -115,7 +115,8 @@ function App() {
     let tempProducts = products;
 
     tempProducts.splice(index, 1);
-    setProducts(tempProducts);
+    tempProducts[index] = product;
+    formatProducts(tempProducts);
   };
 
   const updateProduct = (product) => {
@@ -130,10 +131,6 @@ function App() {
     if (!Array.isArray(prods)) prods = [prods];
     let newProducts = [...products, ...prods];
     formatProducts(newProducts);
-  };
-
-  const updateTotalProducts = (total) => {
-    setTotalProducts(total);
   };
 
   const formatProducts = (newProducts) => {
@@ -284,11 +281,9 @@ function App() {
             value={{
               products,
               nextPage,
-              fetchProducts,
               deleteProduct,
               updateProduct,
               updateProducts,
-              updateTotalProducts,
             }}
           >
             <Router>

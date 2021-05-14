@@ -101,6 +101,7 @@ const EditProduct = ({ product, setReload }) => {
         cost: cost,
         stripeProductId: 1,
         isActive: isActive,
+        placement: place,
         photoUrl: product.photoUrl,
         stock: {},
         description_points: {},

@@ -269,25 +269,6 @@ const EditProduct = ({ product, setReload }) => {
           labelPlacement="Right"
         />
 
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel id="placement-label">Placement</InputLabel>
-          <Select
-            labelId="placement-label"
-            id="placement"
-            value={place}
-            onChange={(e) => setPlace(e.target.value)}
-          >
-            {products.map((product, index) => {
-              if (product.isActive)
-                return (
-                  <MenuItem key={index} value={product.placement}>
-                    {product.placement} - {product.name}
-                  </MenuItem>
-                );
-            })}
-          </Select>
-        </FormControl>
-
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <TextField

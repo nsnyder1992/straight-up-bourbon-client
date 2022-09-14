@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 //channel id
 import { CHANNEL_ID } from "../helpers/environment";
+import "./styles/YoutubeSubscribe.css";
 
 export default class YouTubeSubscribe extends Component {
   static propTypes = {
@@ -54,6 +55,7 @@ export default class YouTubeSubscribe extends Component {
 
     return (
       <div
+        id="youtube-btn"
         ref={this.youtubeSubscribeNode}
         className="g-ytsubscribe"
         data-theme={theme}

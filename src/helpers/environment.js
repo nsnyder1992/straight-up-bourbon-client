@@ -4,8 +4,8 @@ let host = "";
 switch (window.location.hostname) {
   case "localhost":
   case "127.0.0.1":
-    APIURL = "http://localhost:3000";
-    host = "http://localhost:3001";
+    APIURL = "http://localhost:13000";
+    host = "http://localhost:3000";
     break;
   case "straight-up-bourbon.herokuapp.com":
     APIURL = "https://straight-up-bourbon-server.herokuapp.com";

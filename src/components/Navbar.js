@@ -144,9 +144,6 @@ const Navbar = ({ numItems }) => {
           </div>
 
           <div className="right-nav">
-            <div className="youtube-btn">
-              <YouTubeSubscribe />
-            </div>
             <IconButton onClick={handleProfile}>
               <PersonOutlineIcon />
             </IconButton>
@@ -165,6 +162,9 @@ const Navbar = ({ numItems }) => {
                 Admin
               </Button>
             ) : null}
+            <div className="youtube-btn" style={{ display: "none" }}>
+              <YouTubeSubscribe />
+            </div>
           </div>
         </nav>
       </div>

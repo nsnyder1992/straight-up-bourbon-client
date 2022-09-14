@@ -10,7 +10,7 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import useWindowDimensions from "../../../helpers/hooks/windowResizeHooks";
 
 //youtube credentials
-import { YOUTUBE_API_KEY, CHANNEL_ID } from "../../../helpers/environment";
+import APIURL from "../../../helpers/environment";
 
 //styles
 import "./styles/YouTubeExplorer.css";
@@ -48,24 +48,21 @@ const YouTubeExplorer = ({
 
     if (offset + limit >= videos.length) {
       setLoading(true);
-      fetch(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&pageToken=${nextPageToken}&order=date&type=video&key=${YOUTUBE_API_KEY}`,
-        {
-          method: "GET",
-          headers: new Headers({
-            authorization: YOUTUBE_API_KEY,
-            Accept: "application/json",
-          }),
-        }
-      )
+      fetch(`${APIURL}/youtube/videos/page/${nextPageToken}`, {
+        method: "GET",
+        headers: new Headers({
+          Accept: "application/json",
+        }),
+      })
         .then((res) => res.json())
         .then((json) => {
           setVideos([...videos, ...json.items]);
           setNextPageToken(json.nextPageToken);
           setLoading(false);
         })
-        .catch(() => {
+        .catch((err) => {
           setLoading(false);
+          console.log(err);
         });
     }
   };

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 //context
 import { CartContext } from "../../../helpers/context/shopping-cart";
@@ -30,7 +30,10 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
   const classes = useStyles(); //styles
 
   //context states
-  const { cart, addToCart, removeFromCart } = useContext(CartContext);
+  const { cart, addToCart, removeFromCart, setProduct } =
+    useContext(CartContext);
+  const [disable, setDisable] = useState(true);
+  const [error, setError] = useState();
 
   return (
     <Drawer anchor={"right"} open={openCart} onClose={toggleCart(false)}>
@@ -48,6 +51,10 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
                   key={key}
                   addToCart={addToCart}
                   removeFromCart={removeFromCart}
+                  setProduct={setProduct}
+                  setDisable={setDisable}
+                  setError={setError}
+                  error={error}
                 />
               );
             return null;
@@ -55,7 +62,9 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
         </List>
       </div>
 
-      {cart.subtotal > 0 ? <ShoppingCartFooter cart={cart} /> : null}
+      {cart.subtotal > 0 ? (
+        <ShoppingCartFooter cart={cart} disable={disable} error={error} />
+      ) : null}
     </Drawer>
   );
 };

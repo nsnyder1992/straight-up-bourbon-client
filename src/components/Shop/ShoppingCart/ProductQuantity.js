@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //material components
 import { Typography } from "@material-ui/core";
@@ -23,20 +23,48 @@ const useStyles = makeStyles({
   },
   button: {
     cursor: "pointer",
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  buttonDisabled: {
+    cursor: "auto",
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#a09f9f",
   },
 });
 
-const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
+const ProductQuantity = ({
+  product,
+  addToCart,
+  removeFromCart,
+  setProduct,
+  index,
+  error,
+  setError,
+}) => {
   const classes = useStyles();
 
   //local states
   const [qty, setQty] = useState(product.quantity);
+  const [stock, setStock] = useState();
 
   const addOne = () => {
     let tempProduct = JSON.parse(JSON.stringify(product));
-    addToCart(tempProduct, 1);
-
-    setQty(qty + 1);
+    console.log(qty, stock);
+    if (qty < stock) {
+      addToCart(tempProduct, 1);
+      setQty(qty + 1);
+    } else {
+      setError("Not enough stock. " + stock + " left");
+    }
   };
 
   const removeOne = () => {
@@ -64,10 +92,38 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
       return;
     }
 
-    //if number change to entered qty
-    product.quantity = value;
-    setQty(value);
+    //if value is less than or equal to stock set qty and product
+    if (value <= stock) {
+      setQty(value);
+      setProduct(product, value);
+    } else {
+      setError("Not enough stock. " + stock + " left");
+    }
   };
+
+  useEffect(() => {
+    let tempProduct = JSON.parse(JSON.stringify(product));
+
+    let size = tempProduct?.product?.size;
+
+    if (size && tempProduct?.product?.stock?.bySize) {
+      for (let stockIndex in tempProduct?.product?.stock?.bySize) {
+        console.log(
+          stockIndex,
+          tempProduct?.product?.stock?.bySize[stockIndex]?.size,
+          size
+        );
+        if (tempProduct?.product?.stock?.bySize[stockIndex]?.size == size) {
+          setStock(tempProduct?.product?.stock?.bySize[stockIndex]?.numItems);
+          break;
+        }
+      }
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (qty <= stock && error) setError();
+  }, [qty]);
 
   return (
     <div className="quantity-container-sc">
@@ -82,8 +138,11 @@ const ProductQuantity = ({ product, addToCart, removeFromCart, index }) => {
           value={qty}
           onChange={handleChange}
         />
-        <div className="icon-button icon-button-right" onClick={addOne}>
-          <AddIcon id="add-icon" className={classes.button} />
+        <div className="icon-button-right icon-button" onClick={addOne}>
+          <AddIcon
+            id="add-icon"
+            className={qty < stock ? classes.button : classes.buttonDisabled}
+          />
         </div>
       </div>
       <div className="cost">

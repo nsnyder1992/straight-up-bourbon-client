@@ -21,14 +21,29 @@ const useStyles = makeStyles({
   },
   button: {
     cursor: "pointer",
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  buttonDisabled: {
+    cursor: "auto",
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#a09f9f",
   },
 });
 
-const ProductQuantity = ({ quantity, setQuantity }) => {
+const ProductQuantity = ({ quantity, setQuantity, stock }) => {
   const classes = useStyles();
 
   const addOne = () => {
-    setQuantity(quantity + 1);
+    if (quantity < stock) setQuantity(quantity + 1);
   };
 
   const removeOne = () => {
@@ -48,7 +63,7 @@ const ProductQuantity = ({ quantity, setQuantity }) => {
     if (isNaN(value)) return setQuantity(quantity);
 
     //if number change to entered qty
-    setQuantity(value);
+    if (value <= stock) setQuantity(value);
   };
 
   return (
@@ -66,7 +81,12 @@ const ProductQuantity = ({ quantity, setQuantity }) => {
           onChange={handleChange}
         />
         <div className="icon-button icon-button-right" onClick={addOne}>
-          <AddIcon id="add-icon" className={classes.button} />
+          <AddIcon
+            id="add-icon"
+            className={
+              quantity < stock ? classes.button : classes.buttonDisabled
+            }
+          />
         </div>
       </div>
     </div>

@@ -4,7 +4,15 @@ import { ListItem, Typography, ListItemText, Grid } from "@material-ui/core";
 //components
 import ProductQuantity from "./ProductQuantity";
 
-const ShoppingCartItem = ({ product, addToCart, removeFromCart, key }) => {
+const ShoppingCartItem = ({
+  product,
+  addToCart,
+  removeFromCart,
+  setProduct,
+  key,
+  error,
+  setError,
+}) => {
   return (
     <ListItem>
       <img
@@ -29,7 +37,10 @@ const ShoppingCartItem = ({ product, addToCart, removeFromCart, key }) => {
             product={product}
             addToCart={addToCart}
             removeFromCart={removeFromCart}
+            setProduct={setProduct}
             index={key}
+            error={error}
+            setError={setError}
           />
         </div>
       </ListItemText>

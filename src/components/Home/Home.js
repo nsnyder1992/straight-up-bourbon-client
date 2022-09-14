@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import YouTubeVideo from "./Videos/YouTubeVideo";
 
 //youtube credentials
-import { YOUTUBE_API_KEY, CHANNEL_ID } from "../../helpers/environment";
+import APIURL from "../../helpers/environment";
 
 //styles
 import "./styles/Home.css";
@@ -18,16 +18,12 @@ const Home = () => {
   const [nextPageToken, setNextPageToken] = useState();
 
   const fetchData = () => {
-    fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&order=date&type=video&key=${YOUTUBE_API_KEY}`,
-      {
-        method: "GET",
-        headers: new Headers({
-          authorization: YOUTUBE_API_KEY,
-          Accept: "application/json",
-        }),
-      }
-    )
+    fetch(`${APIURL}/youtube/videos`, {
+      method: "GET",
+      headers: new Headers({
+        Accept: "application/json",
+      }),
+    })
       .then((res) => res.json())
       .then((json) => {
         setVideos(json.items);
@@ -36,7 +32,7 @@ const Home = () => {
         setTotalResults(json.pageInfo.totalResults);
         setNextPageToken(json.nextPageToken);
       })
-      .catch(() => null);
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

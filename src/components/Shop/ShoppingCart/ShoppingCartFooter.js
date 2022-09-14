@@ -9,7 +9,7 @@ import { TokenContext } from "../../../helpers/context/token-context";
 //Backend url
 import APIURL, { STIPE_KEY } from "../../../helpers/environment";
 
-const ShoppingCartFooter = ({ cart }) => {
+const ShoppingCartFooter = ({ cart, error }) => {
   const { sessionToken } = useContext(TokenContext);
   const [stripe, setStripe] = useState();
 
@@ -51,6 +51,7 @@ const ShoppingCartFooter = ({ cart }) => {
 
   return (
     <div className="cart-footer">
+      {error ? <Typography color="secondary">{error}</Typography> : <></>}
       <Divider />
       <div className="pay-section">
         <Grid container spacing={0}>

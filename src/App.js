@@ -168,7 +168,7 @@ function App() {
         let newProducts = [...products, ...json.products];
         formatProducts(newProducts);
       })
-      .catch((err) => console.log(err));
+      .catch(() => null);
   };
 
   useEffect(() => {
@@ -241,6 +241,43 @@ function App() {
     setCart(tempCart);
   };
 
+  const setProduct = (product, quantity) => {
+    let tempCart = cart;
+    if (tempCart.products.length <= 0) return;
+
+    for (let prod of tempCart.products) {
+      if (
+        prod.product.id === product.product.id &&
+        prod.product.size === product.product.size
+      ) {
+        console.log(prod.quantity, quantity);
+        let change = prod.quantity - quantity;
+
+        if (change != 0) {
+          //remove from cart
+          console.log("change:" + change);
+          tempCart.numItems = tempCart.numItems - change;
+          tempCart.subtotal -= product.product.cost * change;
+          prod.quantity -= change;
+          setNumItems(tempCart.numItems);
+          setCart(tempCart);
+        } else {
+          console.log("nothing");
+          //do nothing qty equals
+          return;
+        }
+
+        //set local storage
+        localStorage.setItem("cart", JSON.stringify(tempCart));
+
+        return;
+      }
+    }
+
+    localStorage.setItem("cart", JSON.stringify(tempCart));
+    setCart(tempCart);
+  };
+
   const clearCart = async () => {
     let tempCart = { products: [], subtotal: 0, numItems: 0 };
     await setCart(tempCart);
@@ -275,7 +312,7 @@ function App() {
         }}
       >
         <CartContext.Provider
-          value={{ cart, addToCart, removeFromCart, clearCart }}
+          value={{ cart, addToCart, removeFromCart, setProduct, clearCart }}
         >
           <ProductContext.Provider
             value={{

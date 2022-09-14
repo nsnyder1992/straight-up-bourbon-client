@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 //channel id
-import { CHANNEL_ID } from "../helpers/environment";
 import "./styles/YoutubeSubscribe.css";
 
 export default class YouTubeSubscribe extends Component {
   static propTypes = {
     channelName: PropTypes.string,
-    channelid: PropTypes.string.isRequired,
     theme: PropTypes.string,
     layout: PropTypes.string,
     count: PropTypes.string,
@@ -16,7 +14,6 @@ export default class YouTubeSubscribe extends Component {
 
   static defaultProps = {
     channelName: "Straight Up Bourbon",
-    channelid: CHANNEL_ID,
     theme: "default",
     layout: "default",
     count: "hidden",
@@ -51,7 +48,7 @@ export default class YouTubeSubscribe extends Component {
   }
 
   render() {
-    const { theme, layout, count, channelName, channelid } = this.props;
+    const { theme, layout, count, channelName } = this.props;
 
     return (
       <div
@@ -62,7 +59,7 @@ export default class YouTubeSubscribe extends Component {
         data-layout={layout}
         data-count={count}
         data-channel={channelName}
-        data-channelid={channelid}
+        // data-channelid={channelid}
       />
     );
   }

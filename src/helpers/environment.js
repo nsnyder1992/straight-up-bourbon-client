@@ -8,8 +8,8 @@ switch (window.location.hostname) {
     host = "http://localhost:3000";
     break;
   case "straight-up-bourbon.herokuapp.com":
-    APIURL = "https://straight-up-bourbon-server.herokuapp.com";
-    host = "https://straight-up-bourbon.herokuapp.com/";
+    APIURL = "https://straight-up-bourbon-server-x89i.onrender.com";
+    host = "https://localhost:3000/";
     break;
   default:
     break;
@@ -17,10 +17,6 @@ switch (window.location.hostname) {
 
 export default APIURL;
 export const HOST = host;
-
-//YOUTUBE
-export const CHANNEL_ID = "UCxwXL_8hCcTUhhRvx_eYE2g";
-export const YOUTUBE_API_KEY = "AIzaSyAUHutqAE9n7FeMjxvgJlMvOZasGwKSngA";
 
 //STRIPE
 export const STIPE_KEY =

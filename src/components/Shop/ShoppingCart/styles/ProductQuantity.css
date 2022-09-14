@@ -33,7 +33,7 @@
 }
 
 .icon-button-left {
-  border-right: 1px solid lightgray;
+  border-right: 1px solid #e7e6e6;
 }
 
 .icon-button-right {
@@ -43,4 +43,13 @@
 #add-icon,
 #remove-icon {
   font-size: 15px;
+}
+
+.icon-button-disabled {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color:#a09f9f;
 }

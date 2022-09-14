@@ -34,6 +34,8 @@ const ProductPage = () => {
   const [points, setPoints] = useState();
   const [reload, setReload] = useState(false);
 
+  const [outOfStock, setOutOfStock] = useState(true);
+
   const handleAddToCart = async (e) => {
     let newProduct = JSON.parse(JSON.stringify(product));
     newProduct.size = newProduct.sizes[sizeIndex];
@@ -41,6 +43,12 @@ const ProductPage = () => {
     await addToCart({ product: newProduct, quantity }, quantity);
     history.push("/shop");
   };
+
+  useEffect(() => {
+    let numItems = product?.stock?.bySize[sizeIndex]?.numItems;
+    if (quantity > numItems) return setOutOfStock(true);
+    setOutOfStock(false);
+  }, [sizeIndex, quantity]);
 
   const getProduct = () => {
     if (products) {
@@ -107,7 +115,11 @@ const ProductPage = () => {
               setSizeIndex={setSizeIndex}
             />
           ) : null}
-          <ProductQuantity quantity={quantity} setQuantity={setQuantity} />
+          <ProductQuantity
+            quantity={quantity}
+            setQuantity={setQuantity}
+            stock={stock[sizeIndex]}
+          />
           <div className="left-in-stock">
             <Typography variant="caption" id="left-in-stock">
               {stock[sizeIndex] === 0
@@ -122,6 +134,7 @@ const ProductPage = () => {
             color="primary"
             id="add-to-cart"
             onClick={handleAddToCart}
+            disabled={outOfStock}
           >
             Add to Cart
           </Button>

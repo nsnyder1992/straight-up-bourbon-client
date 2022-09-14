@@ -168,7 +168,7 @@ function App() {
         let newProducts = [...products, ...json.products];
         formatProducts(newProducts);
       })
-      .catch(() => null);
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

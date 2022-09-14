@@ -8,6 +8,8 @@ Note: The YouTube Subscribe Button is also a Class Component
 
 Styling was done mostly using Material-ui but some css was used in order to complete look desired
 
+Website: [Straight Up Bourbon](https://straight-up-bourbon.herokuapp.com/)
+
 ## Pages and Major Components Functionality
 
 1. #### NavBar

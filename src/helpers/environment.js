@@ -8,8 +8,8 @@ switch (window.location.hostname) {
     host = "http://localhost:3000";
     break;
   case "straight-up-bourbon.herokuapp.com":
-    APIURL = "https://straight-up-bourbon-server-x89i.onrender.com";
-    host = "https://localhost:3000/";
+    APIURL = process.env.REACT_APP_API_HOST;
+    host = process.env.REACT_APP_SELF_HOST;
     break;
   default:
     break;

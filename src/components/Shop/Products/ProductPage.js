@@ -45,10 +45,15 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    let numItems = product?.stock?.bySize[sizeIndex]?.numItems;
-    if (quantity > numItems) return setOutOfStock(true);
-    setOutOfStock(false);
-  }, [sizeIndex, quantity]);
+    if (products) {
+      let numItems = product?.stock?.bySize[sizeIndex]?.numItems;
+      //if (!numItems) numItems = 0;
+
+      console.log(quantity, product?.stock?.bySize[sizeIndex]);
+      if (quantity > numItems || !numItems) return setOutOfStock(true);
+      setOutOfStock(false);
+    }
+  }, [sizeIndex, quantity, product]);
 
   const getProduct = () => {
     if (products) {
@@ -119,10 +124,11 @@ const ProductPage = () => {
             quantity={quantity}
             setQuantity={setQuantity}
             stock={stock[sizeIndex]}
+            outOfStock={outOfStock}
           />
           <div className="left-in-stock">
             <Typography variant="caption" id="left-in-stock">
-              {stock[sizeIndex] === 0
+              {outOfStock
                 ? "Out of stock"
                 : stock[sizeIndex] < 10
                 ? `Only ${stock[sizeIndex]} left in stock!`

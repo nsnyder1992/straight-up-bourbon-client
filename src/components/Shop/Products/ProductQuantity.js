@@ -39,15 +39,15 @@ const useStyles = makeStyles({
   },
 });
 
-const ProductQuantity = ({ quantity, setQuantity, stock }) => {
+const ProductQuantity = ({ quantity, setQuantity, stock, outOfStock }) => {
   const classes = useStyles();
 
   const addOne = () => {
-    if (quantity < stock) setQuantity(quantity + 1);
+    if (quantity < stock && !outOfStock) setQuantity(quantity + 1);
   };
 
   const removeOne = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
+    if (quantity > 1 && !outOfStock) setQuantity(quantity - 1);
   };
 
   const handleChange = (e) => {
@@ -71,7 +71,10 @@ const ProductQuantity = ({ quantity, setQuantity, stock }) => {
       <Typography variant="body2">QUANTITY</Typography>
       <div className="quantity">
         <div className="icon-button icon-button-left" onClick={removeOne}>
-          <RemoveIcon id="remove-icon" className={classes.button} />
+          <RemoveIcon
+            id="remove-icon"
+            className={!outOfStock ? classes.button : classes.buttonDisabled}
+          />
         </div>
 
         <TextField
@@ -79,12 +82,15 @@ const ProductQuantity = ({ quantity, setQuantity, stock }) => {
           InputProps={{ classes }}
           value={quantity}
           onChange={handleChange}
+          disabled={outOfStock}
         />
         <div className="icon-button icon-button-right" onClick={addOne}>
           <AddIcon
             id="add-icon"
             className={
-              quantity < stock ? classes.button : classes.buttonDisabled
+              quantity < stock && !outOfStock
+                ? classes.button
+                : classes.buttonDisabled
             }
           />
         </div>

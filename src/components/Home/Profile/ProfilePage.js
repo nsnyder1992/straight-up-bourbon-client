@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 
 //components
-import { Orders } from "../../typescript-components/Orders.tsx";
+import Orders from "./Orders";
 // import Orders from "./Orders";
 
 //context

@@ -27,6 +27,7 @@ import { TokenContext } from "../../../helpers/context/token-context";
 
 //helpers
 import APIURL from "../../../helpers/environment";
+import AdminProtected from "../../AdminProtected";
 
 //styles
 const useStyles = makeStyles({
@@ -135,106 +136,98 @@ const Users = () => {
   return (
     <div className="content-home">
       <div className="videos">
-        {isAdmin ? (
-          <div>
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>User #</TableCell>
-                    <TableCell align="right">First Name</TableCell>
-                    <TableCell align="right">First Name</TableCell>
-                    <TableCell align="right">Email</TableCell>
-                    <TableCell align="right">isAdmin</TableCell>
-                    <TableCell align="right">Date Created</TableCell>
-                    <TableCell align="right">Date Modified</TableCell>
-                    <TableCell align="right">Admin</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {users?.map((user, index) => {
-                    return (
-                      <TableRow hover key={user.id}>
-                        <TableCell component="th" scope="row">
-                          {user.id}
-                        </TableCell>
-                        <TableCell align="right">{user.firstName}</TableCell>
-                        <TableCell align="right">{user.lastName}</TableCell>
-                        <TableCell align="right">{user.email}</TableCell>
-                        <TableCell align="right">
-                          {index === editUser ? (
-                            <Checkbox
-                              checked={userIsAdmin}
-                              onChange={(e) => handleIsAdmin(e.target.checked)}
-                              color="primary"
-                              inputProps={{
-                                "aria-label": "secondary checkbox",
-                              }}
-                            />
-                          ) : user.isAdmin ? (
-                            "Admin"
-                          ) : (
-                            "Standard User"
-                          )}
-                        </TableCell>
-                        <TableCell align="right">
-                          {moment(user.createdAt).format(
-                            "MMM Do YY, h:mm:ss a"
-                          )}
-                        </TableCell>
-                        <TableCell align="right">
-                          {moment(user.updatedAt).format(
-                            "MMM Do YY, h:mm:ss a"
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {index === editUser ? (
-                            <Box
-                              display="flex"
-                              flexDirection="row"
-                              justifyContent="center"
-                            >
-                              <IconButton>
-                                <SendIcon
-                                  onClick={() => handleSubmitEdit(user.id)}
-                                />
-                              </IconButton>
-                              <IconButton>
-                                <CloseIcon onClick={() => handleUneditView()} />
-                              </IconButton>
-                            </Box>
-                          ) : (
-                            <Box
-                              display="flex"
-                              flexDirection="row"
-                              justifyContent="center"
-                            >
-                              <IconButton
-                                onClick={(e) => handleEditView(index)}
-                              >
-                                <EditIcon />
-                              </IconButton>
-                            </Box>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 20]}
-              component="div"
-              count={total}
-              rowsPerPage={limit}
-              page={page - 1}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-            {loading ? <CircularProgress /> : null}
-          </div>
-        ) : null}
+        <AdminProtected>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>User #</TableCell>
+                  <TableCell align="right">First Name</TableCell>
+                  <TableCell align="right">First Name</TableCell>
+                  <TableCell align="right">Email</TableCell>
+                  <TableCell align="right">isAdmin</TableCell>
+                  <TableCell align="right">Date Created</TableCell>
+                  <TableCell align="right">Date Modified</TableCell>
+                  <TableCell align="right">Admin</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {users?.map((user, index) => {
+                  return (
+                    <TableRow hover key={user.id}>
+                      <TableCell component="th" scope="row">
+                        {user.id}
+                      </TableCell>
+                      <TableCell align="right">{user.firstName}</TableCell>
+                      <TableCell align="right">{user.lastName}</TableCell>
+                      <TableCell align="right">{user.email}</TableCell>
+                      <TableCell align="right">
+                        {index === editUser ? (
+                          <Checkbox
+                            checked={userIsAdmin}
+                            onChange={(e) => handleIsAdmin(e.target.checked)}
+                            color="primary"
+                            inputProps={{
+                              "aria-label": "secondary checkbox",
+                            }}
+                          />
+                        ) : user.isAdmin ? (
+                          "Admin"
+                        ) : (
+                          "Standard User"
+                        )}
+                      </TableCell>
+                      <TableCell align="right">
+                        {moment(user.createdAt).format("MMM Do YY, h:mm:ss a")}
+                      </TableCell>
+                      <TableCell align="right">
+                        {moment(user.updatedAt).format("MMM Do YY, h:mm:ss a")}
+                      </TableCell>
+                      <TableCell>
+                        {index === editUser ? (
+                          <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="center"
+                          >
+                            <IconButton>
+                              <SendIcon
+                                onClick={() => handleSubmitEdit(user.id)}
+                              />
+                            </IconButton>
+                            <IconButton>
+                              <CloseIcon onClick={() => handleUneditView()} />
+                            </IconButton>
+                          </Box>
+                        ) : (
+                          <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="center"
+                          >
+                            <IconButton onClick={(e) => handleEditView(index)}>
+                              <EditIcon />
+                            </IconButton>
+                          </Box>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15, 20]}
+            component="div"
+            count={total}
+            rowsPerPage={limit}
+            page={page - 1}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+          {loading ? <CircularProgress /> : null}
+        </AdminProtected>
       </div>
     </div>
   );

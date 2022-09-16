@@ -95,7 +95,6 @@ const MetaForm = ({
             <option value={"page"}>Page Description</option>
             <option value={"image"}>Page Image</option>
             <option value={"footer"}>Footer Icon</option>
-            <option value={"email"}>Server Email</option>
           </Select>
         </FormControl>
       </Grid>

@@ -136,13 +136,13 @@ class Orders extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell>Order #</TableCell>
-                    <TableCell align="right">Fulfilled</TableCell>
-                    <TableCell align="right">Shipped</TableCell>
-                    <TableCell align="right">Completed</TableCell>
-                    <TableCell align="right">Canceled</TableCell>
+                    <TableCell align="right">Status</TableCell>
+                    <TableCell align="right">Email</TableCell>
+                    <TableCell align="right">Stripe Id</TableCell>
+                    <TableCell align="right">Carrier</TableCell>
                     <TableCell align="right">Tracking Number</TableCell>
+                    <TableCell align="right">Tracking Enabled</TableCell>
                     <TableCell align="right">Date Created</TableCell>
-                    <TableCell align="right">Date Modified</TableCell>
                     <TableCell align="right">Admin</TableCell>
                   </TableRow>
                 </TableHead>
@@ -151,6 +151,7 @@ class Orders extends Component {
                     return index === this.state.editOrder ? (
                       <EditOrder
                         order={order.order}
+                        session={order.session}
                         index={index}
                         sessionToken={this.state.sessionToken}
                         fetchData={this.fetchData}
@@ -159,6 +160,7 @@ class Orders extends Component {
                     ) : (
                       <OrderRow
                         order={order.order}
+                        session={order.session}
                         index={index}
                         handleEditView={this.handleEditView}
                       />

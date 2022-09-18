@@ -29,25 +29,20 @@ class OrderRow extends Component {
           align="right"
           onClick={(event) => this.handleClick(event, this.props.order.id)}
         >
-          {this.props.order.isFulfilled ? "Yes" : "No"}
+          {this.props.order.status}
         </TableCell>
         <TableCell
           align="right"
           onClick={(event) => this.handleClick(event, this.props.order.id)}
         >
-          {this.props.order.isShipped ? "Yes" : "No"}
+          {this.props.order.email}
         </TableCell>
+        <TableCell align="right">{this.props.session.payment_intent}</TableCell>
         <TableCell
           align="right"
           onClick={(event) => this.handleClick(event, this.props.order.id)}
         >
-          {this.props.order.isComplete ? "Yes" : "No"}
-        </TableCell>
-        <TableCell
-          align="right"
-          onClick={(event) => this.handleClick(event, this.props.order.id)}
-        >
-          {this.props.order.isCanceled ? "Yes" : "No"}
+          {this.props.order.carrierCode}
         </TableCell>
         <TableCell
           align="right"
@@ -61,13 +56,13 @@ class OrderRow extends Component {
           align="right"
           onClick={(event) => this.handleClick(event, this.props.order.id)}
         >
-          {moment(this.props.order.createdAt).format("MMM Do YY, h:mm:ss a")}
+          {this.props.order.trackingEnabled ? "Yes" : "No"}
         </TableCell>
         <TableCell
           align="right"
           onClick={(event) => this.handleClick(event, this.props.order.id)}
         >
-          {moment(this.props.order.updatedAt).format("MMM Do YY, h:mm:ss a")}
+          {moment(this.props.order.createdAt).format("MMM Do YY, h:mm:ss a")}
         </TableCell>
         <TableCell>
           <Box display="flex" flexDirection="row" justifyContent="center">

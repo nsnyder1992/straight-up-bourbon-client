@@ -9,7 +9,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { CircularProgress, TablePagination } from "@material-ui/core";
+import {
+  CircularProgress,
+  TablePagination,
+  Typography,
+} from "@material-ui/core";
 import EditOrder from "./EditOrder";
 import OrderRow from "./OrderRow";
 
@@ -18,6 +22,8 @@ import { TokenContext } from "../../../helpers/context/token-context";
 
 //helpers
 import APIURL from "../../../helpers/environment";
+
+import AdminProtected from "../../AdminProtected";
 
 class Orders extends Component {
   static contextType = TokenContext;
@@ -33,6 +39,7 @@ class Orders extends Component {
       loading: false,
       sessionToken: "",
       isAdmin: false,
+      error: null,
     };
   }
 
@@ -59,6 +66,12 @@ class Orders extends Component {
   setLoading = (loading) => {
     this.setState({
       loading,
+    });
+  };
+
+  setError = (error) => {
+    this.setState({
+      error,
     });
   };
 
@@ -139,6 +152,7 @@ class Orders extends Component {
                     <TableCell align="right">Status</TableCell>
                     <TableCell align="right">Email</TableCell>
                     <TableCell align="right">Stripe Id</TableCell>
+                    <TableCell align="right">Weight</TableCell>
                     <TableCell align="right">Carrier</TableCell>
                     <TableCell align="right">Tracking Number</TableCell>
                     <TableCell align="right">Tracking Enabled</TableCell>
@@ -162,6 +176,9 @@ class Orders extends Component {
                         order={order.order}
                         session={order.session}
                         index={index}
+                        sessionToken={this.state.sessionToken}
+                        setError={this.setError}
+                        fetchData={this.fetchData}
                         handleEditView={this.handleEditView}
                       />
                     );
@@ -179,10 +196,13 @@ class Orders extends Component {
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
             />
             {this.state.loading ? <CircularProgress /> : null}
+            {this.state.error ? (
+              <Typography color="secondary"> {this.state.error}</Typography>
+            ) : null}
           </div>
         </div>
       );
-    return null;
+    return <AdminProtected />;
   }
 }
 

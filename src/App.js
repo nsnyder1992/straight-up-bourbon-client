@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 //material styling
 import { ThemeProvider } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 
 //components
@@ -20,8 +20,18 @@ import APIURL from "./helpers/environment";
 //styles
 import "./App.css";
 
+//font awesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import * as Icons from "@fortawesome/free-brands-svg-icons";
+
+const iconList = Object.keys(Icons)
+  .filter((key) => key !== "fas" && key !== "prefix")
+  .map((icon) => Icons[icon]);
+
+library.add(...iconList);
+
 //set up base theme
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: grey[900],

@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 
 //components
-import { Orders } from "../../typescript-components/Orders.tsx";
+import Orders from "./Orders";
 // import Orders from "./Orders";
 
 //context
@@ -24,7 +24,13 @@ const ProfilePage = () => {
       <div className="profile-wrapper">
         <div className="profile-content">
           <Grid container spacing={0} justify="center">
-            <Grid item lg={6}>
+            <Grid
+              item
+              lg={6}
+              style={{
+                width: "100%",
+              }}
+            >
               <Typography variant="h4">Order History</Typography>
               <Orders />
             </Grid>

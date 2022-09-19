@@ -63,7 +63,13 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
       </div>
 
       {cart.subtotal > 0 ? (
-        <ShoppingCartFooter cart={cart} disable={disable} error={error} />
+        <ShoppingCartFooter
+          cart={cart}
+          setProduct={setProduct}
+          disable={disable}
+          error={error}
+          setError={setError}
+        />
       ) : null}
     </Drawer>
   );

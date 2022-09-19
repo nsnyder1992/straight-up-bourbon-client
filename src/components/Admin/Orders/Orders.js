@@ -29,6 +29,7 @@ import { TokenContext } from "../../../helpers/context/token-context";
 
 //helpers
 import APIURL from "../../../helpers/environment";
+import AdminProtected from "../../AdminProtected";
 
 //styles
 const useStyles = makeStyles({
@@ -135,123 +136,82 @@ const Orders = () => {
   return (
     <div className="content-home">
       <div className="videos">
-        {isAdmin ? (
-          <div>
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Order #</TableCell>
-                    <TableCell align="right">Status</TableCell>
-                    <TableCell align="right">Stripe Id</TableCell>
-                    <TableCell align="right">Carrier</TableCell>
-                    <TableCell align="right">Tracking Number</TableCell>
-                    <TableCell align="right">Date Created</TableCell>
-                    <TableCell align="right">Admin</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {orders?.map((order, index) => {
-                    if (index === editOrder) {
-                      return (
-                        <TableRow hover key={order.order.id}>
-                          <TableCell component="th" scope="row">
-                            {order.order.id}
-                          </TableCell>
-                          <TableCell align="right">
-                            <TextField
-                              value={status}
-                              onChange={(e) => setStatus(e.target.value)}
-                            />
-                          </TableCell>
-                          <TableCell align="right">
-                            {order.session.payment_intent}
-                          </TableCell>
-                          <TableCell align="right">
-                            <TextField
-                              value={tracking}
-                              onChange={(e) => setTracking(e.target.value)}
-                            />
-                          </TableCell>
-                          <TableCell align="right">
-                            {moment(order.order.createdAt).format(
-                              "MMM Do YY, h:mm:ss a"
-                            )}
-                          </TableCell>
-                          <TableCell align="right">
-                            {moment(order.order.updatedAt).format(
-                              "MMM Do YY, h:mm:ss a"
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <Box
-                              display="flex"
-                              flexDirection="row"
-                              justifyContent="center"
-                            >
-                              <IconButton>
-                                <SendIcon
-                                  onClick={() =>
-                                    handleSubmitEdit(order.order.id)
-                                  }
-                                />
-                              </IconButton>
-                              <IconButton>
-                                <CloseIcon onClick={() => handleUneditView()} />
-                              </IconButton>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    }
+        <AdminProtected>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Order #</TableCell>
+                  <TableCell align="right">Fulfilled</TableCell>
+                  <TableCell align="right">Shipped</TableCell>
+                  <TableCell align="right">Completed</TableCell>
+                  <TableCell align="right">Canceled</TableCell>
+                  <TableCell align="right">Tracking Number</TableCell>
+                  <TableCell align="right">Date Created</TableCell>
+                  <TableCell align="right">Date Modified</TableCell>
+                  <TableCell align="right">Admin</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orders?.map((order, index) => {
+                  if (index === editOrder) {
                     return (
                       <TableRow hover key={order.order.id}>
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          onClick={(event) =>
-                            handleClick(event, order.order.id)
-                          }
-                        >
+                        <TableCell component="th" scope="row">
                           {order.order.id}
                         </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={(event) =>
-                            handleClick(event, order.order.id)
-                          }
-                        >
-                          {order.order.status}
+                        <TableCell align="right">
+                          <Checkbox
+                            checked={fulfilled}
+                            onChange={(e) => handleFulfilled(e.target.checked)}
+                            color="primary"
+                            inputProps={{
+                              "aria-label": "secondary checkbox",
+                            }}
+                          />
                         </TableCell>
                         <TableCell align="right">
-                          {order.session.payment_intent}
+                          <Checkbox
+                            checked={shipped}
+                            onChange={(e) => handleShipped(e.target.checked)}
+                            color="primary"
+                            inputProps={{
+                              "aria-label": "secondary checkbox",
+                            }}
+                          />
                         </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={(event) =>
-                            handleClick(event, order.order.id)
-                          }
-                        >
-                          {order.order.trackingNumber
-                            ? order.order.trackingNumber
-                            : "None given yet"}
+                        <TableCell align="right">
+                          <Checkbox
+                            checked={finished}
+                            onChange={(e) => handleFinished(e.target.checked)}
+                            color="primary"
+                            inputProps={{
+                              "aria-label": "secondary checkbox",
+                            }}
+                          />
                         </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={(event) =>
-                            handleClick(event, order.order.id)
-                          }
-                        >
+                        <TableCell align="right">
+                          <Checkbox
+                            checked={canceled}
+                            onChange={(e) => handleCanceled(e.target.checked)}
+                            color="primary"
+                            inputProps={{
+                              "aria-label": "secondary checkbox",
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell align="right">
+                          <TextField
+                            value={tracking}
+                            onChange={(e) => setTracking(e.target.value)}
+                          />
+                        </TableCell>
+                        <TableCell align="right">
                           {moment(order.order.createdAt).format(
                             "MMM Do YY, h:mm:ss a"
                           )}
                         </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={(event) =>
-                            handleClick(event, order.order.id)
-                          }
-                        >
+                        <TableCell align="right">
                           {moment(order.order.updatedAt).format(
                             "MMM Do YY, h:mm:ss a"
                           )}
@@ -262,29 +222,104 @@ const Orders = () => {
                             flexDirection="row"
                             justifyContent="center"
                           >
-                            <IconButton onClick={(e) => handleEditView(index)}>
-                              <EditIcon />
+                            <IconButton>
+                              <SendIcon
+                                onClick={() => handleSubmitEdit(order.order.id)}
+                              />
+                            </IconButton>
+                            <IconButton>
+                              <CloseIcon onClick={() => handleUneditView()} />
                             </IconButton>
                           </Box>
                         </TableCell>
                       </TableRow>
                     );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 20]}
-              component="div"
-              count={total}
-              rowsPerPage={limit}
-              page={page - 1}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-            {loading ? <CircularProgress /> : null}
-          </div>
-        ) : null}
+                  }
+                  return (
+                    <TableRow hover key={order.order.id}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {order.order.id}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {order.order.isFulfilled ? "Yes" : "No"}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {order.order.isShipped ? "Yes" : "No"}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {order.order.isComplete ? "Yes" : "No"}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {order.order.isCanceled ? "Yes" : "No"}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {order.order.trackingNumber
+                          ? order.order.trackingNumber
+                          : "None given yet"}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {moment(order.order.createdAt).format(
+                          "MMM Do YY, h:mm:ss a"
+                        )}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        onClick={(event) => handleClick(event, order.order.id)}
+                      >
+                        {moment(order.order.updatedAt).format(
+                          "MMM Do YY, h:mm:ss a"
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Box
+                          display="flex"
+                          flexDirection="row"
+                          justifyContent="center"
+                        >
+                          <IconButton onClick={(e) => handleEditView(index)}>
+                            <EditIcon />
+                          </IconButton>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15, 20]}
+            component="div"
+            count={total}
+            rowsPerPage={limit}
+            page={page - 1}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+          {loading ? <CircularProgress /> : null}
+        </AdminProtected>
       </div>
     </div>
   );

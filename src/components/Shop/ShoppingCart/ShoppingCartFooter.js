@@ -9,11 +9,13 @@ import { TokenContext } from "../../../helpers/context/token-context";
 //Backend url
 import APIURL, { STIPE_KEY } from "../../../helpers/environment";
 
-const ShoppingCartFooter = ({ cart, error }) => {
+const ShoppingCartFooter = ({ cart, setProduct, error, setError }) => {
   const { sessionToken } = useContext(TokenContext);
   const [stripe, setStripe] = useState();
 
   const fetchCheckoutSession = () => {
+    setError();
+
     const body = {
       products: cart.products,
       currency: "usd",
@@ -31,7 +33,13 @@ const ShoppingCartFooter = ({ cart, error }) => {
 
     return fetch(`${APIURL}/checkout/create`, fetchContent)
       .then((res) => res.json())
-      .catch(() => null);
+      .then((json) => {
+        if (json?.err) {
+          setError(json.err);
+        }
+        return json;
+      })
+      .catch((err) => console.log(err));
   };
 
   const asyncLoad = async () => {
@@ -44,9 +52,10 @@ const ShoppingCartFooter = ({ cart, error }) => {
   }, []);
 
   const handleCheckout = async () => {
-    const { sessionId } = await fetchCheckoutSession();
+    const session = await fetchCheckoutSession();
+    if (!session?.sessionId) return;
 
-    await stripe.redirectToCheckout({ sessionId });
+    await stripe.redirectToCheckout({ sessionId: session?.sessionId });
   };
 
   return (

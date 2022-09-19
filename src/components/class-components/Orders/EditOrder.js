@@ -7,9 +7,11 @@ import TableRow from "@material-ui/core/TableRow";
 import {
   Box,
   IconButton,
-  Checkbox,
   TextField,
   CircularProgress,
+  FormControl,
+  Select,
+  InputAdornment,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import CloseIcon from "@material-ui/icons/Close";
@@ -22,6 +24,8 @@ export default class EditOrder extends Component {
     super(props);
     this.state = {
       status: false,
+      weight: 0,
+      carrierCode: "ups",
       tracking: "",
       loading: false,
     };
@@ -31,19 +35,33 @@ export default class EditOrder extends Component {
     this.setState({
       status: this.props.order.status,
       tracking: this.props.order.trackingNumber,
+      carrierCode: this.props.order.carrierCode,
+      weight: this.props.order.weight,
     });
   }
 
   //handlers
-  handleFulfilled = (status) => {
+  handleStatus = (status) => {
     this.setStatus({
       status: status,
+    });
+  };
+
+  handleCarrier = (carrierCode) => {
+    this.setStatus({
+      carrierCode: carrierCode,
     });
   };
 
   handleTracking = (tracking) => {
     this.setState({
       tracking: tracking,
+    });
+  };
+
+  handleWeight = (weight) => {
+    this.setState({
+      weight: weight,
     });
   };
 
@@ -57,6 +75,8 @@ export default class EditOrder extends Component {
     const body = {
       status: this.state.status,
       trackingNumber: this.state.tracking,
+      carrierCode: this.state.carrierCode,
+      weight: this.state.weight,
     };
 
     this.setLoading(true);
@@ -88,17 +108,56 @@ export default class EditOrder extends Component {
           {this.props.order.id}
         </TableCell>
         <TableCell align="right">
-          <Checkbox
-            checked={this.state.status}
-            onChange={(e) => this.handleStatus(e.target.value)}
-            color="primary"
-            inputProps={{
-              "aria-label": "secondary checkbox",
-            }}
-          />
+          <FormControl>
+            <Select
+              native
+              value={this.props.order.status}
+              onChange={(e) => this.handleStatus(e.target.value)}
+              inputProps={{
+                name: "status",
+                id: "outlined-age-native-simple",
+              }}
+            >
+              <option value={"Waiting to be Fulfilled"}>
+                Waiting to be Fulfilled
+              </option>
+              <option value={"Invalid Address"}>Invalid Address</option>
+              <option value={"Shipped"}>Shipped</option>
+              <option value={"Complete"}>Complete</option>
+            </Select>
+          </FormControl>
         </TableCell>
         <TableCell align="right">{this.props.order.email}</TableCell>
         <TableCell align="right">{this.props.session.payment_intent}</TableCell>
+        <TableCell align="right">
+          <TextField
+            id="outlined-number"
+            label="Weight"
+            type="number"
+            value={this.state.weight}
+            onChange={(e) => this.handleWeight(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">oz</InputAdornment>
+              ),
+            }}
+          />
+        </TableCell>
+        <TableCell align="right">
+          <FormControl>
+            <Select
+              native
+              value={this.state.carrierCode}
+              onChange={(e) => this.handleCarrier(e.target.value)}
+              inputProps={{
+                name: "carrierCode",
+                id: "outlined-age-native-simple",
+              }}
+            >
+              <option value={"ups"}>UPS</option>
+            </Select>
+          </FormControl>
+        </TableCell>
         <TableCell align="right">
           <TextField
             value={this.state.tracking}

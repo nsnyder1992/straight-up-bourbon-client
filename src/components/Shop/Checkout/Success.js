@@ -24,8 +24,8 @@ const Success = () => {
       </Typography>
       <Typography style={{ margin: 20 }}>
         If you have any questions, please email{" "}
-        <a href="mailto:straightupbourbon.channel@gmail.com">
-          straightupbourbon.channel@gmail.com
+        <a href="mailto:straightupbourbon@gmail.com">
+          straightupbourbon@gmail.com
         </a>
         !
       </Typography>

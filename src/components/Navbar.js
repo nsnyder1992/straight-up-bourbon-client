@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Route, Link, Switch, useHistory } from "react-router-dom";
+import { Route, Link, Switch, useHistory, useLocation } from "react-router-dom";
 import clsx from "clsx";
 
 //material components
@@ -23,7 +23,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Footer from "./Footer";
 import YouTubeSubscribe from "./YoutubeSubscribe";
 import Home from "./Home/Home";
-import About from "./Home/About/About";
 import Shop from "./Shop/Shop";
 import Profile from "./Home/Profile/Profile";
 import ProductPage from "./Shop/Products/ProductPage";
@@ -45,6 +44,9 @@ import logo from "./images/logo.png";
 
 //styles
 import "./styles/Navbar.css";
+import Metas from "./Admin/Meta/Metas";
+import MetaPage from "./MetaPage";
+import AdminPage from "./Admin/Admin/AdminPage";
 
 const useStyles = makeStyles({
   list: {
@@ -132,6 +134,16 @@ const Navbar = ({ numItems }) => {
                       Users
                     </Typography>
                   </Link>
+                  <Link to="/meta" className="flex-item">
+                    <Typography className="nav-link nav-link-fade-up">
+                      Meta
+                    </Typography>
+                  </Link>
+                  <Link to="/admin" className="flex-item">
+                    <Typography className="nav-link nav-link-fade-up">
+                      Admin
+                    </Typography>
+                  </Link>
                 </div>
               ) : null}
             </Hidden>
@@ -205,6 +217,16 @@ const Navbar = ({ numItems }) => {
                   <ListItemText>USERS</ListItemText>
                 </ListItem>
               </Link>
+              <Link to="/meta" className="flex-item-panel">
+                <ListItem button>
+                  <ListItemText>META</ListItemText>
+                </ListItem>
+              </Link>
+              <Link to="/admin" className="flex-item">
+                <Typography className="nav-link nav-link-fade-up">
+                  ADMIN
+                </Typography>
+              </Link>
             </div>
           ) : null}
         </div>
@@ -212,39 +234,47 @@ const Navbar = ({ numItems }) => {
 
       <div className="apps">
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/about">
-            <About />
-          </Route>
-          <Route exact path="/shop">
-            <Shop />
-          </Route>
-          <Route exact path="/order">
-            <Orders />
-          </Route>
-          <Route exact path="/order/:id">
-            <Order />
-          </Route>
-          <Route exact path="/user">
-            <Users />
-          </Route>
-          <Route exact path="/product/:id">
-            <ProductPage />
-          </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/reset/:token">
-            <ResetPassword />
-          </Route>
-          <Route path="/success">
-            <Success />
-          </Route>
-          <Route path="/cancel">
-            <Canceled />
-          </Route>
+          <MetaPage>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/about">
+              <></>
+            </Route>
+            <Route exact path="/shop">
+              <Shop />
+            </Route>
+            <Route exact path="/order">
+              <Orders />
+            </Route>
+            <Route exact path="/order/:id">
+              <Order />
+            </Route>
+            <Route exact path="/user">
+              <Users />
+            </Route>
+            <Route exact path="/meta">
+              <Metas />
+            </Route>
+            <Route exact path="/admin">
+              <AdminPage />
+            </Route>
+            <Route exact path="/product/:id">
+              <ProductPage />
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
+            </Route>
+            <Route exact path="/reset/:token">
+              <ResetPassword />
+            </Route>
+            <Route path="/success">
+              <Success />
+            </Route>
+            <Route path="/cancel">
+              <Canceled />
+            </Route>
+          </MetaPage>
         </Switch>
       </div>
 

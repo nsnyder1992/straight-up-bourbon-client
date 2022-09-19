@@ -114,7 +114,7 @@ const EditProduct = ({ product, setReload }) => {
           sessionToken
         );
 
-        body.photoUrl = cloudinaryJson.url;
+        body.photoUrl = cloudinaryJson.secure_url;
       }
 
       for (let index in sizes) {

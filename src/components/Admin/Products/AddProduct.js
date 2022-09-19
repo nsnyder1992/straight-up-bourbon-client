@@ -86,7 +86,7 @@ const AddProduct = () => {
         color: color,
         description_main: description,
         cost: cost,
-        photoUrl: cloudinaryJson.url,
+        photoUrl: cloudinaryJson.secure_url,
         stripeProductId: 1,
         stock: {},
         description_points: [],

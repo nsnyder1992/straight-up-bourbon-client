@@ -62,7 +62,6 @@ const YouTubeExplorer = ({
         })
         .catch((err) => {
           setLoading(false);
-          console.log(err);
         });
     }
   };

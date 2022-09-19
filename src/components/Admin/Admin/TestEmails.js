@@ -52,7 +52,6 @@ const TestEmails = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         if (json?.msg) setMsg(msg);
         setLoading(false);
       })

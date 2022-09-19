@@ -44,7 +44,6 @@ const Metas = () => {
 
   const addMeta = () => {
     const body = { path, message, type };
-    console.log(type);
     setLoading(true);
     fetch(`${APIURL}/meta/`, {
       method: "POST",

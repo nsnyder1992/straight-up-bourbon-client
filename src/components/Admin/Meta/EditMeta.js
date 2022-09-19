@@ -49,7 +49,6 @@ const EditMeta = ({ meta, refresh }) => {
   };
 
   const deleteMeta = (id) => {
-    console.log(id);
     setLoading(true);
     fetch(`${APIURL}/meta/${id}`, {
       method: "DELETE",

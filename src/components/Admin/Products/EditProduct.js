@@ -119,7 +119,6 @@ const EditProduct = ({ product, setReload }) => {
 
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
-          console.log(sizes[index].toLowerCase(), stocks[index]);
           body.stock[sizes[index].toLowerCase()] = stocks[index];
         }
       }
@@ -227,7 +226,6 @@ const EditProduct = ({ product, setReload }) => {
     setIsActive(product?.isActive);
     setPlace(product?.placement);
 
-    console.log(product);
     if (product)
       for (let size of product?.stock.bySize) {
         tempArray1.push(size?.size);

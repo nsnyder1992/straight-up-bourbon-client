@@ -27,7 +27,6 @@ const Order = () => {
     })
       .then((res) => res.json())
       .then(async (json) => {
-        console.log(json);
         if (!json.auth) {
           setOrder(json);
           await fetchStatus(json.order.id, json.order.shipmentId);

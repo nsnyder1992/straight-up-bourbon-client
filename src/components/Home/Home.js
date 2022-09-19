@@ -32,7 +32,7 @@ const Home = () => {
         setTotalResults(json.pageInfo.totalResults);
         setNextPageToken(json.nextPageToken);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log());
   };
 
   useEffect(() => {

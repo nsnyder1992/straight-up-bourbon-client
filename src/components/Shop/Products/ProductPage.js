@@ -49,7 +49,6 @@ const ProductPage = () => {
       let numItems = product?.stock?.bySize[sizeIndex]?.numItems;
       //if (!numItems) numItems = 0;
 
-      console.log(quantity, product?.stock?.bySize[sizeIndex]);
       if (quantity > numItems || !numItems) return setOutOfStock(true);
       setOutOfStock(false);
     }
@@ -65,7 +64,6 @@ const ProductPage = () => {
       }
 
       if (tempProduct) {
-        console.log(tempProduct);
         setProduct(tempProduct);
 
         let tempStock = [];

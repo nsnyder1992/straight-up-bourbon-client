@@ -94,7 +94,6 @@ const Orders = () => {
       .then((res) => res.json())
       .then((json) => {
         if (!json.auth) {
-          console.log(json);
           setOrders(json.orders);
           setTotal(json.count);
         }
@@ -126,7 +125,6 @@ const Orders = () => {
             {orders ? (
               orders?.map((order, index) => {
                 const status = order.order.status;
-                console.log(status);
                 const cancelStatuses = [
                   "Waiting to be Fulfilled",
                   "Invalid Address",

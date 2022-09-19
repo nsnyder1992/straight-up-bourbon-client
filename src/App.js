@@ -260,19 +260,16 @@ function App() {
         prod.product.id === product.product.id &&
         prod.product.size === product.product.size
       ) {
-        console.log(prod.quantity, quantity);
         let change = prod.quantity - quantity;
 
         if (change != 0) {
           //remove from cart
-          console.log("change:" + change);
           tempCart.numItems = tempCart.numItems - change;
           tempCart.subtotal -= product.product.cost * change;
           prod.quantity -= change;
           setNumItems(tempCart.numItems);
           setCart(tempCart);
         } else {
-          console.log("nothing");
           //do nothing qty equals
           return;
         }

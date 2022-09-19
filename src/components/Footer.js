@@ -22,7 +22,6 @@ const Footer = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         setIcons(json);
       })
       .catch(() => {});

@@ -58,7 +58,6 @@ const ProductQuantity = ({
 
   const addOne = () => {
     let tempProduct = JSON.parse(JSON.stringify(product));
-    console.log(qty, stock);
     if (qty < stock) {
       addToCart(tempProduct, 1);
       setQty(qty + 1);
@@ -108,11 +107,6 @@ const ProductQuantity = ({
 
     if (size && tempProduct?.product?.stock?.bySize) {
       for (let stockIndex in tempProduct?.product?.stock?.bySize) {
-        console.log(
-          stockIndex,
-          tempProduct?.product?.stock?.bySize[stockIndex]?.size,
-          size
-        );
         if (tempProduct?.product?.stock?.bySize[stockIndex]?.size == size) {
           setStock(tempProduct?.product?.stock?.bySize[stockIndex]?.numItems);
           break;

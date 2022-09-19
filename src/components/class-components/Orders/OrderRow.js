@@ -36,7 +36,6 @@ class OrderRow extends Component {
       return this.props.setError("Weight Must be greater than 0");
 
     this.setLoading(true);
-    console.log(id);
 
     fetch(`${APIURL}/order/create/label/${id}`, {
       method: "POST",
@@ -47,7 +46,6 @@ class OrderRow extends Component {
     })
       .then((res) => res.json())
       .then(async (json) => {
-        console.log(json);
         await this.props.fetchData(this.props.sessionToken);
         this.setLoading(false);
       })
@@ -58,7 +56,6 @@ class OrderRow extends Component {
 
   trackPackage = (e, id) => {
     this.setLoading(true);
-    console.log(id);
 
     fetch(`${APIURL}/order/enable/tracking/${id}`, {
       method: "POST",
@@ -69,7 +66,6 @@ class OrderRow extends Component {
     })
       .then((res) => res.json())
       .then(async (json) => {
-        console.log(json);
         await this.props.fetchData(this.props.sessionToken);
         this.setLoading(false);
       })

@@ -42,13 +42,13 @@ export default class EditOrder extends Component {
 
   //handlers
   handleStatus = (status) => {
-    this.setStatus({
+    this.setState({
       status: status,
     });
   };
 
   handleCarrier = (carrierCode) => {
-    this.setStatus({
+    this.setState({
       carrierCode: carrierCode,
     });
   };
@@ -111,7 +111,7 @@ export default class EditOrder extends Component {
           <FormControl>
             <Select
               native
-              value={this.props.order.status}
+              value={this.state.status}
               onChange={(e) => this.handleStatus(e.target.value)}
               inputProps={{
                 name: "status",
@@ -123,7 +123,8 @@ export default class EditOrder extends Component {
               </option>
               <option value={"Invalid Address"}>Invalid Address</option>
               <option value={"Shipped"}>Shipped</option>
-              <option value={"Complete"}>Complete</option>
+              <option value={"Delivered"}>Delivered</option>
+              <option value={"Canceled"}>Canceled</option>
             </Select>
           </FormControl>
         </TableCell>

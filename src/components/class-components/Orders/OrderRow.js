@@ -11,6 +11,14 @@ import LabelIcon from "@material-ui/icons/Label";
 import TrackChangesIcon from "@material-ui/icons/TrackChanges";
 import APIURL from "../../../helpers/environment";
 
+const trackingEnable = [
+  "Waiting to be Fulfilled",
+  "Invalid Address",
+  "Shipped",
+];
+
+const labelEnable = ["Waiting to be Fulfilled", "Invalid Address"];
+
 class OrderRow extends Component {
   constructor(props) {
     super(props);
@@ -136,7 +144,9 @@ class OrderRow extends Component {
             >
               <EditIcon />
             </IconButton>
-            {this.props.order.shipmentId ? (
+
+            {this.props.order.shipmentId ||
+            !labelEnable.includes(this.props.order.status) ? (
               <></>
             ) : (
               <IconButton
@@ -145,7 +155,8 @@ class OrderRow extends Component {
                 {this.state.loading ? <CircularProgress /> : <LabelIcon />}
               </IconButton>
             )}
-            {this.props.order.trackingEnabled ? (
+            {this.props.order.trackingEnabled ||
+            !trackingEnable.includes(this.props.order.status) ? (
               <></>
             ) : (
               <IconButton

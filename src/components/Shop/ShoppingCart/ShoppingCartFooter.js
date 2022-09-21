@@ -63,7 +63,6 @@ const ShoppingCartFooter = ({ cart, setProduct, error, setError }) => {
 
   const handleCheckout = async () => {
     const session = await fetchCheckoutSession();
-    console.log(session);
     if (!session?.sessionId) return;
 
     await stripe.redirectToCheckout({ sessionId: session?.sessionId });

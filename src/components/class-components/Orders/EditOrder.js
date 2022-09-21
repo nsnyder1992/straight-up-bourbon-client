@@ -25,8 +25,8 @@ export default class EditOrder extends Component {
     this.state = {
       status: false,
       weight: 0,
-      carrierCode: "ups",
-      carrierService: "ups_ground",
+      carrierCode: "",
+      carrierService: "",
       tracking: "",
       loading: false,
     };
@@ -87,6 +87,8 @@ export default class EditOrder extends Component {
       carrierService: this.state.carrierService,
       weight: this.state.weight,
     };
+
+    console.log(body);
 
     this.setLoading(true);
 
@@ -164,6 +166,7 @@ export default class EditOrder extends Component {
                 id: "outlined-age-native-simple",
               }}
             >
+              <option value={null}></option>
               <option value={"ups"}>UPS</option>
             </Select>
           </FormControl>
@@ -179,6 +182,7 @@ export default class EditOrder extends Component {
                 id: "outlined-age-native-simple",
               }}
             >
+              <option value={null}></option>
               <option value={"ups_ground"}>UPS Ground</option>
             </Select>
           </FormControl>

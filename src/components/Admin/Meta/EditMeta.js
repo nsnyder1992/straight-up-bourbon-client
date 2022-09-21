@@ -4,7 +4,7 @@ import { TokenContext } from "../../../helpers/context/token-context";
 import APIURL from "../../../helpers/environment";
 import MetaForm from "./MetaForm";
 
-const EditMeta = ({ meta, refresh }) => {
+const EditMeta = ({ meta, refresh, types }) => {
   //context
   const { sessionToken } = useContext(TokenContext);
 
@@ -82,6 +82,7 @@ const EditMeta = ({ meta, refresh }) => {
         setPath={setPath}
         message={message}
         setMessage={setMessage}
+        types={types}
         type={type}
         setType={setType}
         loading={loading}

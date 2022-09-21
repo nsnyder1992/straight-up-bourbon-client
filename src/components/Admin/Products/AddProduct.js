@@ -41,6 +41,7 @@ const AddProduct = () => {
   const [descriptionPoints, setDescriptionPoints] = useState([""]);
   const [sizes, setSizes] = useState([""]);
   const [stocks, setStocks] = useState([0]);
+  const [weights, setWeights] = useState([0]);
   const [fileUrl, setFileUrl] = useState();
 
   //field states
@@ -67,6 +68,10 @@ const AddProduct = () => {
     if (cost === "") return setError("Add Cost before submitting");
     if (sizes.length === 0 || sizes[0] === "")
       return setError("Need at least one size before submitting");
+    for (let size of sizes) {
+      if (size.weight <= 0 || size.weight === "")
+        return setError(`Add Weight to size ${size.size} before submitting`);
+    }
 
     setError("");
 
@@ -89,12 +94,19 @@ const AddProduct = () => {
         photoUrl: cloudinaryJson.secure_url,
         stripeProductId: 1,
         stock: {},
+        weights: {},
         description_points: [],
       };
 
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
           body.stock[sizes[index].toLowerCase()] = stocks[index];
+        }
+      }
+
+      for (let index in sizes) {
+        if (sizes[index] !== null && sizes[index] !== "") {
+          body.weights[sizes[index].toLowerCase()] = weights[index];
         }
       }
 
@@ -135,8 +147,10 @@ const AddProduct = () => {
   const addStock = () => {
     let tempArray1 = [...stocks, 0];
     let tempArray2 = [...sizes, ""];
+    let tempArray3 = [...weights, 0];
     setStocks(tempArray1);
     setSizes(tempArray2);
+    setWeights(tempArray3);
   };
 
   //on input field change update corresponding stock
@@ -144,6 +158,13 @@ const AddProduct = () => {
     let tempArray = [...stocks];
     tempArray[index] = stock;
     setStocks(tempArray);
+  };
+
+  //on input field change update corresponding weight
+  const updateWeights = (weight, index) => {
+    let tempArray = [...weights];
+    tempArray[index] = weight;
+    setWeights(tempArray);
   };
 
   //on input field change update corresponding size
@@ -158,10 +179,13 @@ const AddProduct = () => {
     e.preventDefault();
     let tempArray1 = [...stocks];
     let tempArray2 = [...sizes];
+    let tempArray3 = [...weights];
     tempArray1.splice(index, 1);
     tempArray2.splice(index, 1);
+    tempArray3.splice(index, 1);
     setStocks(tempArray1);
     setSizes(tempArray2);
+    setWeights(tempArray3);
   };
 
   //add a description point to product
@@ -268,6 +292,8 @@ const AddProduct = () => {
                 index={key}
                 size={size}
                 updateSizes={updateSizes}
+                weight={weights[key]}
+                updateWeights={updateWeights}
                 stock={stocks[key]}
                 updateStocks={updateStocks}
                 removeStock={removeStock}

@@ -60,6 +60,7 @@ const EditProduct = ({ product, setReload }) => {
   //   const [descriptionPointIds, setDescriptionPointIds] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [stocks, setStocks] = useState([]);
+  const [weights, setWeights] = useState([]);
   const [fileUrl, setFileUrl] = useState("");
 
   //field states
@@ -87,6 +88,10 @@ const EditProduct = ({ product, setReload }) => {
     if (cost === "") return setError("Add Cost before submitting");
     if (sizes.length === 0 || sizes[0] === "")
       return setError("Need at least one size before submitting");
+    for (let size of sizes) {
+      if (size.weight <= 0 || size.weight === "")
+        return setError(`Add Weight to size ${size.size} before submitting`);
+    }
 
     setError("");
 
@@ -103,6 +108,7 @@ const EditProduct = ({ product, setReload }) => {
         isActive: isActive,
         photoUrl: product.photoUrl,
         stock: {},
+        weights: {},
         description_points: {},
       };
 
@@ -120,6 +126,12 @@ const EditProduct = ({ product, setReload }) => {
       for (let index in sizes) {
         if (sizes[index] !== null && sizes[index] !== "") {
           body.stock[sizes[index].toLowerCase()] = stocks[index];
+        }
+      }
+
+      for (let index in sizes) {
+        if (sizes[index] !== null && sizes[index] !== "") {
+          body.weights[sizes[index].toLowerCase()] = weights[index];
         }
       }
 
@@ -161,8 +173,10 @@ const EditProduct = ({ product, setReload }) => {
   const addStock = () => {
     let tempArray1 = [...stocks, 0];
     let tempArray2 = [...sizes, ""];
+    let tempArray3 = [...weights, 0];
     setStocks(tempArray1);
     setSizes(tempArray2);
+    setWeights(tempArray3);
   };
 
   //on input field change update corresponding stock
@@ -170,6 +184,13 @@ const EditProduct = ({ product, setReload }) => {
     let tempArray = [...stocks];
     tempArray[index] = stock;
     setStocks(tempArray);
+  };
+
+  //on input field change update corresponding weight
+  const updateWeights = (weight, index) => {
+    let tempArray = [...weights];
+    tempArray[index] = weight;
+    setWeights(tempArray);
   };
 
   //on input field change update corresponding size
@@ -184,10 +205,13 @@ const EditProduct = ({ product, setReload }) => {
     e.preventDefault();
     let tempArray1 = [...stocks];
     let tempArray2 = [...sizes];
+    let tempArray3 = [...weights];
     tempArray1.splice(index, 1);
     tempArray2.splice(index, 1);
+    tempArray3.splice(index, 1);
     setStocks(tempArray1);
     setSizes(tempArray2);
+    setWeights(tempArray3);
   };
 
   //add a description point to product
@@ -215,6 +239,7 @@ const EditProduct = ({ product, setReload }) => {
   useEffect(() => {
     let tempArray1 = [];
     let tempArray2 = [];
+    let tempArray3 = [];
 
     //set states
     setFileUrl(product?.photoUrl);
@@ -230,10 +255,12 @@ const EditProduct = ({ product, setReload }) => {
       for (let size of product?.stock.bySize) {
         tempArray1.push(size?.size);
         tempArray2.push(size?.numItems);
+        tempArray3.push((size?.weight / 100).toFixed(2));
       }
 
     setSizes(tempArray1);
     setStocks(tempArray2);
+    setWeights(tempArray3);
 
     tempArray1 = [];
     if (product)
@@ -343,6 +370,8 @@ const EditProduct = ({ product, setReload }) => {
                 index={key}
                 size={size}
                 updateSizes={updateSizes}
+                weight={weights[key]}
+                updateWeights={updateWeights}
                 stock={stocks[key]}
                 updateStocks={updateStocks}
                 removeStock={removeStock}

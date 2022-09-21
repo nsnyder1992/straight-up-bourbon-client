@@ -26,6 +26,7 @@ export default class EditOrder extends Component {
       status: false,
       weight: 0,
       carrierCode: "ups",
+      carrierService: "ups_ground",
       tracking: "",
       loading: false,
     };
@@ -36,6 +37,7 @@ export default class EditOrder extends Component {
       status: this.props.order.status,
       tracking: this.props.order.trackingNumber,
       carrierCode: this.props.order.carrierCode,
+      carrierService: this.props.order.carrierService,
       weight: this.props.order.weight,
     });
   }
@@ -50,6 +52,12 @@ export default class EditOrder extends Component {
   handleCarrier = (carrierCode) => {
     this.setState({
       carrierCode: carrierCode,
+    });
+  };
+
+  handleCarrierService = (carrierService) => {
+    this.setState({
+      carrierService: carrierService,
     });
   };
 
@@ -76,6 +84,7 @@ export default class EditOrder extends Component {
       status: this.state.status,
       trackingNumber: this.state.tracking,
       carrierCode: this.state.carrierCode,
+      carrierService: this.state.carrierService,
       weight: this.state.weight,
     };
 
@@ -156,6 +165,21 @@ export default class EditOrder extends Component {
               }}
             >
               <option value={"ups"}>UPS</option>
+            </Select>
+          </FormControl>
+        </TableCell>
+        <TableCell align="right">
+          <FormControl>
+            <Select
+              native
+              value={this.state.carrierService}
+              onChange={(e) => this.handleCarrierService(e.target.value)}
+              inputProps={{
+                name: "carrierService",
+                id: "outlined-age-native-simple",
+              }}
+            >
+              <option value={"ups_ground"}>UPS Ground</option>
             </Select>
           </FormControl>
         </TableCell>

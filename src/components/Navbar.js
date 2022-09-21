@@ -44,7 +44,7 @@ import logo from "./images/logo.png";
 
 //styles
 import "./styles/Navbar.css";
-import Metas from "./Admin/Meta/Metas";
+import Meta from "./Admin/Meta/Meta";
 import MetaPage from "./MetaPage";
 import AdminPage from "./Admin/Admin/AdminPage";
 
@@ -254,7 +254,7 @@ const Navbar = ({ numItems }) => {
               <Users />
             </Route>
             <Route exact path="/meta">
-              <Metas />
+              <Meta />
             </Route>
             <Route exact path="/admin">
               <AdminPage />

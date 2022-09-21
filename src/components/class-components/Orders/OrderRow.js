@@ -121,6 +121,12 @@ class OrderRow extends Component {
           align="right"
           onClick={(event) => this.handleClick(event, this.props.order.id)}
         >
+          {this.props.order.carrierService}
+        </TableCell>
+        <TableCell
+          align="right"
+          onClick={(event) => this.handleClick(event, this.props.order.id)}
+        >
           {this.props.order.trackingNumber
             ? this.props.order.trackingNumber
             : "None given yet"}
@@ -146,7 +152,10 @@ class OrderRow extends Component {
             </IconButton>
 
             {this.props.order.shipmentId ||
-            !labelEnable.includes(this.props.order.status) ? (
+            !labelEnable.includes(this.props.order.status) ||
+            !(
+              this.props.order.carrierService && this.props.order.carrierCode
+            ) ? (
               <></>
             ) : (
               <IconButton
@@ -156,7 +165,10 @@ class OrderRow extends Component {
               </IconButton>
             )}
             {this.props.order.trackingEnabled ||
-            !trackingEnable.includes(this.props.order.status) ? (
+            !trackingEnable.includes(this.props.order.status) ||
+            !(
+              this.props.order.trackingNumber && this.props.order.carrierCode
+            ) ? (
               <></>
             ) : (
               <IconButton

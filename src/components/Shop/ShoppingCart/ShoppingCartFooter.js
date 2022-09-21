@@ -35,7 +35,13 @@ const ShoppingCartFooter = ({ cart, setProduct, error, setError }) => {
       .then((res) => res.json())
       .then((json) => {
         if (json?.err) {
-          setError(json.err);
+          if (json.err?.statusCode) {
+            setError(
+              "Something went wrong with Stripe Checkout. Please contact us at straightupbourbon@gmail.com"
+            );
+          } else {
+            setError(json.err);
+          }
         }
         return json;
       })
@@ -51,8 +57,13 @@ const ShoppingCartFooter = ({ cart, setProduct, error, setError }) => {
     asyncLoad();
   }, []);
 
+  useEffect(() => {
+    setError();
+  }, [cart]);
+
   const handleCheckout = async () => {
     const session = await fetchCheckoutSession();
+    console.log(session);
     if (!session?.sessionId) return;
 
     await stripe.redirectToCheckout({ sessionId: session?.sessionId });

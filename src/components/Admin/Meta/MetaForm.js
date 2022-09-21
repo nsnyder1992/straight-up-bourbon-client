@@ -32,6 +32,7 @@ const MetaForm = ({
   setPath,
   message,
   setMessage,
+  types,
   type,
   setType,
   loading,
@@ -91,13 +92,13 @@ const MetaForm = ({
               id: "outlined-age-native-simple",
             }}
           >
-            <option value={"title"}>Page Tile</option>
-            <option value={"page"}>Page Description</option>
-            <option value={"image"}>Page Image</option>
-            <option value={"footer"}>Footer Icon</option>
-            <option value={"email_title"}>Email Title</option>
-            <option value={"email_message"}>Email Message</option>
-            <option value={"email_salutation"}>Email Salutation</option>
+            {types.map((type, index) => {
+              return (
+                <option key={index} value={type.value}>
+                  {type.title}
+                </option>
+              );
+            })}
           </Select>
         </FormControl>
       </Grid>

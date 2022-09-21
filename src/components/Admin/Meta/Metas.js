@@ -9,7 +9,7 @@ import MetaForm from "./MetaForm";
 import APIURL from "../../../helpers/environment";
 import AdminProtected from "../../AdminProtected";
 
-const Metas = () => {
+const Metas = ({ types }) => {
   //context
   const { sessionToken } = useContext(TokenContext);
 
@@ -24,16 +24,26 @@ const Metas = () => {
   const [type, setType] = useState("title");
 
   const fetchData = () => {
+    let values = [];
+    for (let type of types) {
+      values.push(type.value);
+    }
+
     setLoading(true);
-    fetch(`${APIURL}/meta/`, {
+    fetch(`${APIURL}/meta/by/types/`, {
+      method: "POST",
       headers: new Headers({
         "content-type": "application/json",
         authorization: sessionToken,
       }),
+      body: JSON.stringify({
+        types: values,
+      }),
     })
       .then((res) => res.json())
       .then((json) => {
-        setMetas(json.meta);
+        console.log(json);
+        setMetas(json);
         setLoading(false);
       })
       .catch((err) => {
@@ -79,17 +89,23 @@ const Metas = () => {
             setPath={setPath}
             message={message}
             setMessage={setMessage}
+            types={types}
             type={type}
             setType={setType}
             loading={loading}
             error={error}
           />
           {loading ? <CircularProgress /> : null}
-          {metas
-            ? metas?.map((meta, index) => {
-                return <EditMeta key={index} meta={meta} refresh={fetchData} />;
-              })
-            : null}
+          {metas?.map((meta, index) => {
+            return (
+              <EditMeta
+                key={index}
+                meta={meta}
+                refresh={fetchData}
+                types={types}
+              />
+            );
+          })}
         </Box>
       </Grid>
     </AdminProtected>

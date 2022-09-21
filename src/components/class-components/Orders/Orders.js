@@ -154,6 +154,7 @@ class Orders extends Component {
                     <TableCell align="right">Stripe Id</TableCell>
                     <TableCell align="right">Weight (oz)</TableCell>
                     <TableCell align="right">Carrier</TableCell>
+                    <TableCell align="right">Service</TableCell>
                     <TableCell align="right">Tracking Number</TableCell>
                     <TableCell align="right">Tracking Enabled</TableCell>
                     <TableCell align="right">Date Created</TableCell>

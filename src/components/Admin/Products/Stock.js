@@ -1,10 +1,12 @@
-import { IconButton, Grid, TextField } from "@material-ui/core";
+import { IconButton, Grid, TextField, InputAdornment } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 //Description Points
 const Stock = ({
   size,
   updateSizes,
+  weight,
+  updateWeights,
   stock,
   updateStocks,
   index,
@@ -13,7 +15,7 @@ const Stock = ({
   return (
     <Grid item xs={12}>
       <Grid container spacing={1}>
-        <Grid item xs={7}>
+        <Grid item xs={5}>
           <TextField
             required
             multiline
@@ -25,6 +27,23 @@ const Stock = ({
             variant="outlined"
             onChange={(e) => updateSizes(e.target.value, index)}
             value={size}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField
+            id="outlined-number"
+            label="Weight"
+            type="number"
+            className="input-field"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">oz</InputAdornment>,
+            }}
+            onChange={(e) => updateWeights(e.target.value, index)}
+            value={weight}
+            variant="outlined"
           />
         </Grid>
         <Grid item xs={2}>

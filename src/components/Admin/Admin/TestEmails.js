@@ -39,7 +39,7 @@ const TestEmails = () => {
   const [error, setError] = useState();
 
   const handleSubmit = () => {
-    const body = { email, status, code };
+    const body = { email, status, statusCode: code };
 
     setLoading(true);
     fetch(`${APIURL}/track/email/test/`, {

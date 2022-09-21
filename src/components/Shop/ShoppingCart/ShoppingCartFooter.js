@@ -45,7 +45,7 @@ const ShoppingCartFooter = ({ cart, setProduct, error, setError }) => {
         }
         return json;
       })
-      .catch((err) => console.log());
+      .catch((err) => console.log(err));
   };
 
   const asyncLoad = async () => {

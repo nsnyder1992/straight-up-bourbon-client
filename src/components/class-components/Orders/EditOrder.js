@@ -18,6 +18,8 @@ import CloseIcon from "@material-ui/icons/Close";
 
 //helpers
 import APIURL from "../../../helpers/environment";
+import CarrierCode from "../../Admin/CarrierCode";
+import CarrierService from "../../Admin/CarrierService";
 
 export default class EditOrder extends Component {
   constructor(props) {
@@ -88,8 +90,6 @@ export default class EditOrder extends Component {
       weight: this.state.weight,
     };
 
-    console.log(body);
-
     this.setLoading(true);
 
     fetch(`${APIURL}/order/${id}`, {
@@ -156,36 +156,18 @@ export default class EditOrder extends Component {
           />
         </TableCell>
         <TableCell align="right">
-          <FormControl>
-            <Select
-              native
-              value={this.state.carrierCode}
-              onChange={(e) => this.handleCarrier(e.target.value)}
-              inputProps={{
-                name: "carrierCode",
-                id: "outlined-age-native-simple",
-              }}
-            >
-              <option value={null}></option>
-              <option value={"ups"}>UPS</option>
-            </Select>
-          </FormControl>
+          <CarrierCode
+            type={this.state.carrierCode}
+            handleChange={(e) => this.handleCarrier(e.target.value)}
+            variant={"standard"}
+          />
         </TableCell>
         <TableCell align="right">
-          <FormControl>
-            <Select
-              native
-              value={this.state.carrierService}
-              onChange={(e) => this.handleCarrierService(e.target.value)}
-              inputProps={{
-                name: "carrierService",
-                id: "outlined-age-native-simple",
-              }}
-            >
-              <option value={null}></option>
-              <option value={"ups_ground"}>UPS Ground</option>
-            </Select>
-          </FormControl>
+          <CarrierService
+            type={this.state.carrierService}
+            handleChange={(e) => this.handleCarrierService(e.target.value)}
+            variant={"standard"}
+          />
         </TableCell>
         <TableCell align="right">
           <TextField
@@ -198,9 +180,6 @@ export default class EditOrder extends Component {
         </TableCell>
         <TableCell align="right">
           {moment(this.props.order.createdAt).format("MMM Do YY, h:mm:ss a")}
-        </TableCell>
-        <TableCell align="right">
-          {moment(this.props.order.updatedAt).format("MMM Do YY, h:mm:ss a")}
         </TableCell>
         <TableCell>
           <Box display="flex" flexDirection="row" justifyContent="center">

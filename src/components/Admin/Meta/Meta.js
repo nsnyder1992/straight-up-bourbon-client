@@ -1,6 +1,7 @@
 import { Box } from "@material-ui/core";
 import ExtendedTabs from "../../Utils/ExtendedTabs";
 import Metas from "./Metas";
+import Rates from "./Rates/Rates";
 
 const pages = [
   {
@@ -35,50 +36,15 @@ const emails = [
   },
 ];
 
-const shipping = [
-  {
-    value: "shipping_rate",
-    title: "Shipping Rate",
-  },
-  {
-    value: "shipping_min",
-    title: "Shipping Minimum Days",
-  },
-  {
-    value: "shipping_max",
-    title: "Shipping Maximum Days",
-  },
-  {
-    value: "shipping_carrier",
-    title: "Shipping Carrier Code",
-  },
-  {
-    value: "shipping_service",
-    title: "Shipping Carrier Service",
-  },
-  {
-    value: "shipping_min_weight",
-    title: "Shipping Min Weight",
-  },
-  {
-    value: "shipping_max_weight",
-    title: "Shipping Max Weight",
-  },
-  {
-    value: "free_shipping",
-    title: "Total Cost Free Shipping",
-  },
-];
-
 const Meta = () => {
   return (
     <Box display="flex" justifyContent="center">
       <ExtendedTabs
-        tabs={[{ name: "Pages" }, { name: "Emails" }, { name: "Shipping" }]}
+        tabs={[{ name: "Pages" }, { name: "Emails" }, { name: "Rates" }]}
       >
         <Metas types={pages} />
         <Metas types={emails} />
-        <Metas types={shipping} />
+        <Rates />
       </ExtendedTabs>
     </Box>
   );

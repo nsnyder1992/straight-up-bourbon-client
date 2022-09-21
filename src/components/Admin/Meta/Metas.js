@@ -42,7 +42,6 @@ const Metas = ({ types }) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         setMetas(json);
         setLoading(false);
       })

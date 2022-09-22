@@ -1,10 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //context
 import { CartContext } from "../../../helpers/context/shopping-cart";
 
 //material ui components
-import { Drawer, List, Typography, Divider } from "@material-ui/core";
+import {
+  Drawer,
+  List,
+  Typography,
+  Divider,
+  SwipeableDrawer,
+  IconButton,
+} from "@material-ui/core";
 
 //components
 import ShoppingCartItem from "./ShoppingCartItem";
@@ -16,15 +23,31 @@ import { makeStyles } from "@material-ui/core/styles";
 
 //styles
 import "./styles/ShoppingCart.css";
+import { Close } from "@material-ui/icons";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   list: {
-    width: 400,
+    maxWidth: 400,
   },
   fullList: {
     width: "auto",
   },
-});
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    // padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "space-between",
+  },
+  drawerTitle: {
+    justifyContent: "flex-start",
+  },
+  drawerClose: {
+    marginTop: 10,
+    marginRight: 10,
+  },
+}));
 
 const ShoppingCart = ({ openCart, toggleCart }) => {
   const classes = useStyles(); //styles
@@ -34,31 +57,68 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
     useContext(CartContext);
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const [empty, setEmpty] = useState(true);
+
+  useEffect(() => {
+    if (refresh) setRefresh(false);
+
+    cart?.products?.map((product, key) => {
+      if (product.quantity > 0) {
+        setEmpty(false);
+        return;
+      }
+
+      setEmpty(true);
+      return;
+    });
+  }, [openCart, refresh]);
 
   return (
-    <Drawer anchor={"right"} open={openCart} onClose={toggleCart(false)}>
-      <div className={clsx(classes.list)} role="presentation">
-        <Typography variant="h4" style={{ marginLeft: 25, marginTop: 25 }}>
+    <SwipeableDrawer
+      anchor={"right"}
+      open={openCart}
+      onOpen={toggleCart(true)}
+      onClose={toggleCart(false)}
+    >
+      <div className={classes.drawerHeader}>
+        <Typography
+          variant="h4"
+          className={classes.drawerTitle}
+          style={{ marginLeft: 25, marginTop: 25 }}
+        >
           CART
         </Typography>
+        <IconButton onClick={toggleCart(false)} className={classes.drawerClose}>
+          <Close />
+        </IconButton>
+      </div>
+      <div className={clsx(classes.list)} role="presentation">
         <Divider style={{ marginTop: 25 }} />
         <List>
-          {cart.products.map((product, key) => {
-            if (product.quantity > 0)
-              return (
-                <ShoppingCartItem
-                  product={product}
-                  key={key}
-                  addToCart={addToCart}
-                  removeFromCart={removeFromCart}
-                  setProduct={setProduct}
-                  setDisable={setDisable}
-                  setError={setError}
-                  error={error}
-                />
-              );
-            return null;
-          })}
+          {!empty ? (
+            cart.products.map((product, key) => {
+              if (product.quantity > 0)
+                return (
+                  <ShoppingCartItem
+                    product={product}
+                    key={key}
+                    setRefresh={setRefresh}
+                    addToCart={addToCart}
+                    removeFromCart={removeFromCart}
+                    setProduct={setProduct}
+                    setDisable={setDisable}
+                    setError={setError}
+                    error={error}
+                  />
+                );
+              return null;
+            })
+          ) : (
+            <Typography style={{ margin: 15 }}>
+              Add items to your cart and you will see them here
+            </Typography>
+          )}
         </List>
       </div>
 
@@ -71,7 +131,7 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
           setError={setError}
         />
       ) : null}
-    </Drawer>
+    </SwipeableDrawer>
   );
 };
 

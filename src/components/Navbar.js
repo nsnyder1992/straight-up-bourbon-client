@@ -8,13 +8,13 @@ import {
   Typography,
   Badge,
   Hidden,
-  Drawer,
   List,
   ListItem,
   ListItemText,
   Button,
+  SwipeableDrawer,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -47,18 +47,28 @@ import "./styles/Navbar.css";
 import Meta from "./Admin/Meta/Meta";
 import MetaPage from "./MetaPage";
 import AdminPage from "./Admin/Admin/AdminPage";
+import { Close } from "@material-ui/icons";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
   fullList: {
     width: "auto",
   },
-});
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    // padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
+}));
 
 const Navbar = ({ numItems }) => {
   const classes = useStyles();
+  const theme = useTheme();
   const history = useHistory();
 
   //context
@@ -69,6 +79,7 @@ const Navbar = ({ numItems }) => {
 
   const toggleNav = (open) => (event) => {
     if (
+      event &&
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
@@ -83,6 +94,7 @@ const Navbar = ({ numItems }) => {
   //open in close Shopping Cart Panel
   const toggleCart = (open) => (event) => {
     if (
+      event &&
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
@@ -154,7 +166,11 @@ const Navbar = ({ numItems }) => {
               </IconButton>
             </Hidden>
           </div>
-
+          <Hidden only={["md", "lg", "xl"]}>
+            <div className={isAdmin ? "center-nav-admin" : "center-nav"}>
+              <img src={logo} style={{ width: 100 }} alt="logo" />
+            </div>
+          </Hidden>
           <div className="right-nav">
             <IconButton onClick={handleProfile}>
               <PersonOutlineIcon />
@@ -181,7 +197,17 @@ const Navbar = ({ numItems }) => {
         </nav>
       </div>
 
-      <Drawer anchor={"left"} open={open} onClose={toggleNav(false)}>
+      <SwipeableDrawer
+        anchor={"left"}
+        open={open}
+        onClose={toggleNav(false)}
+        onOpen={toggleNav(true)}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={toggleNav(false)}>
+            <Close />
+          </IconButton>
+        </div>
         <div
           className={clsx(classes.list)}
           role="presentation"
@@ -230,7 +256,7 @@ const Navbar = ({ numItems }) => {
             </div>
           ) : null}
         </div>
-      </Drawer>
+      </SwipeableDrawer>
 
       <div className="apps">
         <Switch>

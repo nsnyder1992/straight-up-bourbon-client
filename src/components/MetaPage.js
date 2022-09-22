@@ -98,7 +98,7 @@ const MetaPage = ({ children }) => {
 
         {description ? (
           <Typography
-            style={{ maxWidth: 750 }}
+            style={{ maxWidth: 750, margin: 15 }}
             variant="body1"
             component="p"
             align="left"

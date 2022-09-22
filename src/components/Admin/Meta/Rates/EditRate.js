@@ -31,8 +31,6 @@ const EditRate = ({ rate, refresh }) => {
     const body = { ...rateState };
     body.rules = rules;
 
-    console.log(body);
-
     setLoading(true);
     fetch(`${APIURL}/rate/${rate.id}`, {
       method: "PUT",

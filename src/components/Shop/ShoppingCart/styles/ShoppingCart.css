@@ -14,8 +14,8 @@
 .cart-footer {
   position: fixed;
   bottom: 0;
-  width: 400px;
   margin: 0px;
+  max-width: 400px;
   text-align: center;
 }
 

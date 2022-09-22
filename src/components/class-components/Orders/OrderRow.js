@@ -13,6 +13,7 @@ import APIURL from "../../../helpers/environment";
 
 const trackingEnable = [
   "Waiting to be Fulfilled",
+  "Label Created",
   "Invalid Address",
   "Shipped",
 ];

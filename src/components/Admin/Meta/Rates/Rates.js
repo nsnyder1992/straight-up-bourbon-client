@@ -21,7 +21,7 @@ const Rates = () => {
 
   //pagination
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
 
   const fetchData = () => {
     setLoading(true);
@@ -34,7 +34,6 @@ const Rates = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         setRates(json);
         setLoading(false);
       })
@@ -46,7 +45,6 @@ const Rates = () => {
 
   useEffect(() => {
     fetchData();
-    console.log(Math.round(Math.round(rates?.total + 1) / limit));
   }, [sessionToken, page]);
 
   const handlePage = (event, value) => {

@@ -43,6 +43,7 @@ const useStyles = makeStyles({
 
 const ProductQuantity = ({
   product,
+  setRefresh,
   addToCart,
   removeFromCart,
   setProduct,
@@ -64,6 +65,7 @@ const ProductQuantity = ({
     } else {
       setError("Not enough stock. " + stock + " left");
     }
+    setRefresh(true);
   };
 
   const removeOne = () => {
@@ -72,6 +74,7 @@ const ProductQuantity = ({
       removeFromCart(tempProduct, 1, index);
 
       setQty(qty - 1);
+      setRefresh(true);
     }
   };
 
@@ -88,6 +91,7 @@ const ProductQuantity = ({
     if (isNaN(value)) {
       product.quantity = qty;
       setQty(qty);
+      setRefresh(true);
       return;
     }
 
@@ -98,6 +102,7 @@ const ProductQuantity = ({
     } else {
       setError("Not enough stock. " + stock + " left");
     }
+    setRefresh(true);
   };
 
   useEffect(() => {

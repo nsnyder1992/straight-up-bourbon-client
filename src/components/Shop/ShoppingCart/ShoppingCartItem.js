@@ -6,6 +6,7 @@ import ProductQuantity from "./ProductQuantity";
 
 const ShoppingCartItem = ({
   product,
+  setRefresh,
   addToCart,
   removeFromCart,
   setProduct,
@@ -35,6 +36,7 @@ const ShoppingCartItem = ({
         <div className="quantity-cost">
           <ProductQuantity
             product={product}
+            setRefresh={setRefresh}
             addToCart={addToCart}
             removeFromCart={removeFromCart}
             setProduct={setProduct}

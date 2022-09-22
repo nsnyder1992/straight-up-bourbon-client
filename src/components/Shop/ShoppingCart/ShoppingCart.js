@@ -27,7 +27,7 @@ import { Close } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    maxWidth: 400,
+    width: 300,
   },
   fullList: {
     width: "auto",

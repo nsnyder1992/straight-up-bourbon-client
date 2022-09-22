@@ -21,6 +21,7 @@ const pages = [
     title: "Footer Icon",
   },
 ];
+
 const emails = [
   {
     value: "email_title",
@@ -33,6 +34,14 @@ const emails = [
   {
     value: "email_salutation",
     title: "Email Salutation",
+  },
+  {
+    value: "email_signage",
+    title: "Email Signage",
+  },
+  {
+    value: "email_template",
+    title: "Email Template",
   },
 ];
 

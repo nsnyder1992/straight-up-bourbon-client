@@ -59,7 +59,7 @@ export default class YouTubeSubscribe extends Component {
         data-layout={layout}
         data-count={count}
         data-channel={channelName}
-        // data-channelid={channelid}
+        data-channelid={process.env.REACT_APP_YOUTUBE_CHANNEL_ID}
       />
     );
   }

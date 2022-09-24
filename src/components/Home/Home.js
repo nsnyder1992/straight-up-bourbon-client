@@ -8,8 +8,9 @@ import APIURL from "../../helpers/environment";
 
 //styles
 import "./styles/Home.css";
-import YouTubeExplorer from "./Videos/YouTubeExplorer";
 import YouTubeSubscribe from "../YoutubeSubscribe";
+import YoutubeList from "./Videos/YoutubeList";
+import { Box } from "@material-ui/core";
 
 const Home = () => {
   const [videos, setVideos] = useState();
@@ -42,15 +43,17 @@ const Home = () => {
 
   return (
     <div className="content-home">
-      {/* <div className="videos">
-        <YouTubeSubscribe />
-      </div> */}
       <div className="videos">
         <YouTubeVideo
           embedId={nowPlaying ? nowPlaying.id.videoId : "R-fCZKdcJLY"}
         />
       </div>
-      <YouTubeExplorer
+      {/* <Box margin={2}>
+        <YouTubeSubscribe
+          channelId={process.env.REACT_APP_YOUTUBE_CHANNEL_ID}
+        />
+      </Box> */}
+      <YoutubeList
         videos={videos}
         setVideos={setVideos}
         totalResults={totalResults}

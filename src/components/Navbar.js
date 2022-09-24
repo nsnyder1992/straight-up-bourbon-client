@@ -48,6 +48,7 @@ import Meta from "./Admin/Meta/Meta";
 import MetaPage from "./MetaPage";
 import AdminPage from "./Admin/Admin/AdminPage";
 import { Close } from "@material-ui/icons";
+import VerifyEmail from "./Auth/VerifyEmail";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -293,6 +294,12 @@ const Navbar = ({ numItems }) => {
             </Route>
             <Route exact path="/reset/:token">
               <ResetPassword />
+            </Route>
+            <Route exact path="/verify/:token">
+              <VerifyEmail />
+            </Route>
+            <Route exact path="/verify">
+              <VerifyEmail />
             </Route>
             <Route path="/success">
               <Success />

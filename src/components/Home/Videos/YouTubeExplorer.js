@@ -80,12 +80,7 @@ const YouTubeExplorer = ({
 
   //handle updating the number of videos displayed on window size change
   useEffect(() => {
-    let tempLimit = 10;
-    if (width < 1500) tempLimit = 9;
-    if (width < 1300) tempLimit = 8;
-    if (width < 1100) tempLimit = 7;
-    if (width < 1000) tempLimit = 6;
-    if (width < 900) tempLimit = 5;
+    let tempLimit = 5;
     if (width < 800) tempLimit = 4;
     if (width < 700) tempLimit = 3;
     if (width < 600) tempLimit = 2;

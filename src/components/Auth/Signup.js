@@ -9,6 +9,7 @@ import { TokenContext } from "../../helpers/context/token-context";
 
 //get API url
 import APIURL from "../../helpers/environment";
+import { useHistory } from "react-router-dom";
 
 //styles
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Signup = () => {
+  const history = useHistory();
+
   //styles
   const classes = useStyles();
 
@@ -54,7 +57,7 @@ const Signup = () => {
       .then((data) => {
         setLoading(false);
         if (data.error) return setError(data.error);
-        updateToken(data.sessionToken, data.user);
+        history.push("/verify");
       })
       .catch(() => null);
   };

@@ -9,6 +9,7 @@ import APIURL from "../../helpers/environment";
 //styles
 import "./styles/Home.css";
 import YouTubeExplorer from "./Videos/YouTubeExplorer";
+import YouTubeSubscribe from "../YoutubeSubscribe";
 
 const Home = () => {
   const [videos, setVideos] = useState();
@@ -41,9 +42,9 @@ const Home = () => {
 
   return (
     <div className="content-home">
-      {/* <Typography variant="h4" id="title">
-        {nowPlaying ? nowPlaying.snippet.title.replaceAll("&#39;", "'") : ""}
-      </Typography> */}
+      {/* <div className="videos">
+        <YouTubeSubscribe />
+      </div> */}
       <div className="videos">
         <YouTubeVideo
           embedId={nowPlaying ? nowPlaying.id.videoId : "R-fCZKdcJLY"}

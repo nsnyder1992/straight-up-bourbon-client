@@ -37,7 +37,7 @@ const ShoppingCartFooter = ({ cart, setProduct, error, setError }) => {
         if (json?.err) {
           if (json.err?.statusCode) {
             setError(
-              "Something went wrong with Stripe Checkout. Please contact us at straightupbourbon@gmail.com"
+              "Something went wrong with Stripe Checkout. Please contact us"
             );
           } else {
             setError(json.err);

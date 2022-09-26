@@ -26,7 +26,7 @@ export default function useBourbon(isEdit, init) {
       setYear(init.year);
       setSelection(init.selection);
     }
-  }, [isEdit, rateInit]);
+  }, [isEdit, init]);
 
   return {
     id,

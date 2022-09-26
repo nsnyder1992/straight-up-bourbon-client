@@ -3,12 +3,12 @@ import { Box, CircularProgress, Grid, Typography } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 //context
-import { TokenContext } from "../../../../helpers/context/token-context";
+import { TokenContext } from "../../../helpers/context/token-context";
 
-import AddRate from "./AddRate";
-import EditRate from "./EditRate";
-import APIURL from "../../../../helpers/environment";
-import AdminProtected from "../../../AdminProtected";
+import APIURL from "../../../helpers/environment";
+import AdminProtected from "../../AdminProtected";
+import AddBourbon from "./AddBourbon";
+import EditBourbon from "./EditBourbon";
 
 const Bourbons = () => {
   //context
@@ -34,10 +34,12 @@ const Bourbons = () => {
     })
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         setBourbons(json);
         setLoading(false);
       })
       .catch((err) => {
+        console.log(err);
         setLoading(false);
         setError(err);
       });
@@ -60,15 +62,17 @@ const Bourbons = () => {
           marginBottom={10}
           style={{ maxWidth: 1000 }}
         >
-          <AddRate fetchData={fetchData} />
+          <AddBourbon fetchData={fetchData} />
 
-          {loading ? <CircularProgress /> : null}
+          {/* {loading ? <CircularProgress /> : null} */}
           {error ? <Typography color="secondary">{error}</Typography> : null}
-          {rates?.rates?.map((rate, index) => {
-            return <EditRate key={index} rate={rate} refresh={fetchData} />;
+          {bourbons?.map((bourbon, index) => {
+            return (
+              <EditBourbon key={index} bourbon={bourbon} refresh={fetchData} />
+            );
           })}
           <Pagination
-            count={bourbons.total}
+            count={Math.ceil(bourbons.length / limit)}
             page={page}
             onChange={handlePage}
           />

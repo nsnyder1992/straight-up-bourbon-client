@@ -49,6 +49,7 @@ import MetaPage from "./MetaPage";
 import AdminPage from "./Admin/Admin/AdminPage";
 import { Close } from "@material-ui/icons";
 import VerifyEmail from "./Auth/VerifyEmail";
+import Bourbons from "./Admin/Bourbon/Bourbons";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -152,6 +153,11 @@ const Navbar = ({ numItems }) => {
                       Meta
                     </Typography>
                   </Link>
+                  <Link to="/bourbon" className="flex-item">
+                    <Typography className="nav-link nav-link-fade-up">
+                      Bourbons
+                    </Typography>
+                  </Link>
                   <Link to="/admin" className="flex-item">
                     <Typography className="nav-link nav-link-fade-up">
                       Admin
@@ -249,6 +255,11 @@ const Navbar = ({ numItems }) => {
                   <ListItemText>META</ListItemText>
                 </ListItem>
               </Link>
+              <Link to="/bourbon" className="flex-item-panel">
+                <ListItem button>
+                  <ListItemText>BOURBONS</ListItemText>
+                </ListItem>
+              </Link>
               <Link to="/admin" className="flex-item">
                 <Typography className="nav-link nav-link-fade-up">
                   ADMIN
@@ -282,6 +293,9 @@ const Navbar = ({ numItems }) => {
             </Route>
             <Route exact path="/meta">
               <Meta />
+            </Route>
+            <Route exact path="/bourbon">
+              <Bourbons />
             </Route>
             <Route exact path="/admin">
               <AdminPage />

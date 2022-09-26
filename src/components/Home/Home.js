@@ -11,6 +11,7 @@ import "./styles/Home.css";
 import YouTubeSubscribe from "../YoutubeSubscribe";
 import YoutubeList from "./Videos/YoutubeList";
 import { Box } from "@material-ui/core";
+import YouTubeExplorer from "./Videos/YouTubeExplorer";
 
 const Home = () => {
   const [videos, setVideos] = useState();
@@ -53,7 +54,7 @@ const Home = () => {
           channelId={process.env.REACT_APP_YOUTUBE_CHANNEL_ID}
         />
       </Box> */}
-      <YoutubeList
+      <YouTubeExplorer
         videos={videos}
         setVideos={setVideos}
         totalResults={totalResults}

@@ -1,0 +1,20 @@
+.scrollhost::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+  border-radius: 3px;
+  border: 1px solid #d5d5d5;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: #b0b0b0;
+}

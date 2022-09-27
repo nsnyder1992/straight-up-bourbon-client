@@ -68,11 +68,6 @@ const Home = ({ sections }) => {
                   embedId={nowPlaying ? nowPlaying.id.videoId : "R-fCZKdcJLY"}
                 />
               </div>
-              {/* <Box margin={2}>
-        <YouTubeSubscribe
-          channelId={process.env.REACT_APP_YOUTUBE_CHANNEL_ID}
-        />
-      </Box> */}
               <YouTubeExplorer
                 videos={videos}
                 setVideos={setVideos}

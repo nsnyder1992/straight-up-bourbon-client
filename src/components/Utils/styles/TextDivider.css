@@ -1,0 +1,15 @@
+.d-container {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  width: 10%;
+}
+
+.d-border {
+  border-bottom: 1px solid white;
+  width: 100%;
+}
+
+.d-content {
+  padding: 0 10px 0 10px;
+}

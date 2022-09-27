@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Route, Link, Switch, useHistory, useLocation } from "react-router-dom";
+import { Route, Link, Switch, useHistory } from "react-router-dom";
 import clsx from "clsx";
 
 //material components
@@ -21,7 +21,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 
 //components
 import Footer from "./Footer";
-import YouTubeSubscribe from "./YoutubeSubscribe";
 import Home from "./Home/Home";
 import Shop from "./Shop/Shop";
 import Profile from "./Home/Profile/Profile";
@@ -51,6 +50,7 @@ import VerifyEmail from "./Auth/VerifyEmail";
 import Bourbons from "./Admin/Bourbon/Bourbons";
 import APIURL from "../helpers/environment";
 import ContactUs from "./Contact/ContactUs";
+import BourbonFund from "./Fund/BourbonFund";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -163,6 +163,11 @@ const Navbar = ({ numItems }) => {
                   Shop
                 </Typography>
               </Link>
+              <Link to="/fund" className="flex-item">
+                <Typography className="nav-link nav-link-fade-up">
+                  Bourbon Fund
+                </Typography>
+              </Link>
               <Link to="/contact" className="flex-item">
                 <Typography className="nav-link nav-link-fade-up">
                   Contact
@@ -228,9 +233,6 @@ const Navbar = ({ numItems }) => {
                 Admin
               </Button>
             ) : null}
-            <div className="youtube-btn" style={{ display: "none" }}>
-              <YouTubeSubscribe />
-            </div>
           </div>
         </nav>
       </div>
@@ -266,6 +268,11 @@ const Navbar = ({ numItems }) => {
             <Link to="/shop" className="flex-item-panel">
               <ListItem button>
                 <ListItemText>SHOP</ListItemText>
+              </ListItem>
+            </Link>
+            <Link to="/fund" className="flex-item-panel">
+              <ListItem button>
+                <ListItemText>BOURBON FUND</ListItemText>
               </ListItem>
             </Link>
             <Link to="/contact" className="flex-item-panel">
@@ -316,6 +323,9 @@ const Navbar = ({ numItems }) => {
                 </Route>
                 <Route exact path="/shop">
                   <Shop />
+                </Route>
+                <Route path="/fund">
+                  <BourbonFund />
                 </Route>
                 <Route exact path="/contact">
                   <ContactUs />

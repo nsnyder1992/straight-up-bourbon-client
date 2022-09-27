@@ -5,6 +5,9 @@ import ReactPlayer from "react-player";
 
 import introVideo from "../../videos/web_intro.mp4";
 import introPoster from "../../images/web_intro_Moment.jpg";
+import PayPalDonate from "../../Utils/PayPalDonate";
+import TextDivider from "../../Utils/TextDivider";
+import LinkButton from "../../Utils/LinkButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,15 +68,16 @@ const BackgroundVideo = ({ title, description, image, link }) => {
           <Typography variant="h3" component="h1" className={classes.title}>
             {title}
           </Typography>
-          <Button
-            href={link}
-            target="blank"
-            color="primary"
+          <LinkButton link={link} variant="contained">
+            {description}
+          </LinkButton>
+          <TextDivider>OR</TextDivider>
+          <PayPalDonate
             variant="contained"
             style={{ minWidth: "250px", fontSize: "1.15rem" }}
           >
-            {description}
-          </Button>
+            Tip Jar
+          </PayPalDonate>
         </Box>
       </div>
       <div className={classes.overlayEnd}>

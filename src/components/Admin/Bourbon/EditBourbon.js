@@ -28,6 +28,10 @@ const EditBourbon = ({ bourbon, refresh }) => {
     try {
       const file = fileUpload?.current?.files[0];
 
+      const selection =
+        bourbonState?.selection && bourbonState?.selection.trim() != ""
+          ? bourbonState.selection
+          : null;
       const body = {
         name: bourbonState.name,
         description: bourbonState.description,
@@ -36,7 +40,7 @@ const EditBourbon = ({ bourbon, refresh }) => {
         link: bourbonState.link,
         distillery: bourbonState.distillery,
         year: bourbonState.year,
-        selection: bourbonState.selection,
+        selection: selection,
       };
 
       if (file !== undefined) {

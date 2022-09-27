@@ -107,35 +107,42 @@ const YouTubeExplorer = ({
       margin={1}
     >
       {/* <CustomScrollbar> */}
-      {display?.map((video, key) => {
-        return (
-          <div
-            className="image-container"
-            key={key}
-            onClick={
-              video.id.videoId === nowPlayingIndex
-                ? preventDefault
-                : (e) => handleNowPlaying(e, video, video.id.videoId)
-            }
-          >
-            <img
-              src={video?.snippet.thumbnails.default.url}
+      {display ? (
+        display?.map((video, key) => {
+          return (
+            <div
+              className="image-container"
               key={key}
-              className="thumbnails"
-              alt="video-thumbnail"
-            />
-            {video.id.videoId === nowPlayingIndex ? (
-              <div className="now-playing">
-                <Typography>Now Playing</Typography>
-              </div>
-            ) : (
-              <div className="play">
-                <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
-              </div>
-            )}
-          </div>
-        );
-      })}
+              onClick={
+                video.id.videoId === nowPlayingIndex
+                  ? preventDefault
+                  : (e) => handleNowPlaying(e, video, video.id.videoId)
+              }
+            >
+              <img
+                src={video?.snippet.thumbnails.default.url}
+                key={key}
+                className="thumbnails"
+                alt="video-thumbnail"
+              />
+              {video.id.videoId === nowPlayingIndex ? (
+                <div className="now-playing">
+                  <Typography>Now Playing</Typography>
+                </div>
+              ) : (
+                <div className="play">
+                  <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
+                </div>
+              )}
+            </div>
+          );
+        })
+      ) : (
+        <Typography>
+          We Must have had a busy day. Youtube only allows us 10,000 requests a
+          day. Please come back tomorrow and Videos will populate
+        </Typography>
+      )}
 
       <Button
         disabled={loading}

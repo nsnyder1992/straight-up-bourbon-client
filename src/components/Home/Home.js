@@ -79,7 +79,9 @@ const Home = ({ sections }) => {
                 nowPlayingIndex={nowPlayingIndex}
                 setNowPlayingIndex={setNowPlayingIndex}
               />
-              <YouTubeSubscribe />
+              <div style={{ marginTop: 15 }}>
+                <YouTubeSubscribe />
+              </div>
             </div>
           );
         }}

@@ -75,9 +75,7 @@ const BackgroundVideo = ({ title, description, image, link }) => {
           <PayPalDonate
             variant="contained"
             style={{ minWidth: "250px", fontSize: "1.15rem" }}
-          >
-            Tip Jar
-          </PayPalDonate>
+          />
         </Box>
       </div>
       <div className={classes.overlayEnd}>

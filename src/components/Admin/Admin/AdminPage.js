@@ -32,6 +32,10 @@ const pages = [
     title: "Section Use Content",
   },
   {
+    value: "link_button",
+    title: "Link Button",
+  },
+  {
     value: "footer",
     title: "Footer Icon",
   },

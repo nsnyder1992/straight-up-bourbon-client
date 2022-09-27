@@ -32,13 +32,11 @@ const VerifyEmail = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setLoading(false);
         if (data.error) return setError(data.error);
         history.push("/profile");
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };
@@ -56,13 +54,11 @@ const VerifyEmail = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setLoading(false);
         if (data.error) return setError(data.error);
         history.push("/verify");
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };

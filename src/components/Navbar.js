@@ -134,8 +134,6 @@ const Navbar = ({ numItems }) => {
     fetchLogo();
   }, [isAdmin]);
 
-  useEffect(() => console.log(subLogo), []);
-
   return (
     <header>
       <ShoppingCart openCart={openCart} toggleCart={toggleCart} />

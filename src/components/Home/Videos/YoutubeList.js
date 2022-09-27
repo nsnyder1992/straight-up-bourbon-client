@@ -109,7 +109,6 @@ const YoutubeList = ({
   const handleNowPlaying = (e, video, key) => {
     setNowPlaying(video);
     setNowPlayingIndex(key);
-    console.log(key, video);
   };
 
   const preventDefault = (e) => e.preventDefault();

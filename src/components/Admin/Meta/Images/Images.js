@@ -40,7 +40,6 @@ const Images = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         setImages(json);
         setLoading(false);
       })

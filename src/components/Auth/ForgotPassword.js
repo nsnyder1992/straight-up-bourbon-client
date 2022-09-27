@@ -45,7 +45,6 @@ const ForgotPassword = ({ toggleForgotPassword }) => {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         setLoading(false);
         toggleForgotPassword(event);
       })

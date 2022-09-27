@@ -33,7 +33,10 @@ const CancelOrder = () => {
       }),
       body: JSON.stringify(body),
     })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+      })
       .then((json) => {
         setLoading(false);
       })

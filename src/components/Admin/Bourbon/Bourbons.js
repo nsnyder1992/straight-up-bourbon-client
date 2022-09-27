@@ -34,12 +34,10 @@ const Bourbons = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         setBourbons(json);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         setError(err);
       });

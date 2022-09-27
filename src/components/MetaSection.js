@@ -29,7 +29,6 @@ const MetaSection = ({ sectionId, children }) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         for (let meta of json) {
           switch (meta.type) {
             case "title":

@@ -23,7 +23,6 @@ const AddImage = ({ fetchData }) => {
     "https://api.cloudinary.com/v1_1/nsnyder1992/image/upload";
 
   const addImage = async () => {
-    console.log(image);
     if (!image.fileUrl) return setError("Need to upload image");
 
     const file = fileUpload.current.files[0];
@@ -39,7 +38,6 @@ const AddImage = ({ fetchData }) => {
       url: cloudinaryJson.secure_url,
     };
 
-    console.log(body);
     setLoading(true);
     fetch(`${APIURL}/image/`, {
       method: "POST",

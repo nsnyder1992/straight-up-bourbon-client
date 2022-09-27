@@ -72,14 +72,12 @@ const Suggestions = () => {
       .then((res) => res.json())
       .then((json) => {
         setLoading(false);
-        console.log(json);
         if (json?.err) {
-          return console.log(json);
+          return setErr(json.err);
         }
         setSuggestions(json.bourbons);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         setError(err);
       });
@@ -101,10 +99,6 @@ const Suggestions = () => {
     setActive(step);
   };
 
-  useEffect(() => {
-    console.log(active);
-  }, [active]);
-
   return (
     <>
       <Hidden only={["md", "lg", "xl"]}>
@@ -118,7 +112,6 @@ const Suggestions = () => {
             enableMouseEvents
           >
             {suggestions?.map((suggestion, index) => {
-              console.log(suggestions[active]);
               return (
                 <div>
                   {Math.abs(active - index) <= 2 ? (
@@ -175,7 +168,6 @@ const Suggestions = () => {
 
           <Grid container>
             {suggestions?.map((suggestion, index) => {
-              console.log(index, active, offset);
               if (index >= active && index < active + offset)
                 return (
                   <Grid

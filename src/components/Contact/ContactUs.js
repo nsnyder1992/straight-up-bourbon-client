@@ -46,7 +46,6 @@ const ContactUs = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         if (json?.err) {
           setError(json?.err);
           setLoading(false);

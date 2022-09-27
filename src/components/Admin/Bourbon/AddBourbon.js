@@ -43,8 +43,6 @@ const AddBourbon = ({ fetchData }) => {
       year: bourbon.year,
       selection: bourbon.selection,
     };
-
-    console.log(body);
     setLoading(true);
     fetch(`${APIURL}/bourbon/`, {
       method: "POST",

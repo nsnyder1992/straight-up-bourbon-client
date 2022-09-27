@@ -1,7 +1,6 @@
 import { Box, Button, Typography } from "@material-ui/core";
 
 const LinkSection = ({ title, description, link }) => {
-  console.log(title, link);
   return (
     <>
       {title && link ? (

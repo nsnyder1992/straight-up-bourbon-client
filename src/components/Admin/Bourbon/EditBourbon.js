@@ -39,7 +39,6 @@ const EditBourbon = ({ bourbon, refresh }) => {
         selection: bourbonState.selection,
       };
 
-      console.log(body);
       if (file !== undefined) {
         const cloudinaryJson = await uploadImg(
           signatureUrl,

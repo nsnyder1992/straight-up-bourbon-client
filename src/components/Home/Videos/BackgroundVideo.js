@@ -4,6 +4,7 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ReactPlayer from "react-player";
 
 import introVideo from "../../videos/web_intro.mp4";
+import introPoster from "../../images/web_intro_Moment.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,8 +41,13 @@ const BackgroundVideo = ({ title, description, image, link }) => {
   return (
     <section className={classes.root}>
       <ReactPlayer
+        fallback={<img src={introPoster} />}
+        poster={introPoster}
         url={image ? image : introVideo}
         playing
+        controls={false}
+        light={false}
+        volume={0}
         loop
         muted
         width="100%"

@@ -18,6 +18,7 @@ const MetaPage = ({ children }) => {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [image, setImage] = useState();
+  const [sections, setSections] = useState([]);
 
   const getMetas = () => {
     setLoading(true);
@@ -32,6 +33,7 @@ const MetaPage = ({ children }) => {
     })
       .then((res) => res.json())
       .then((json) => {
+        let tempSections = [];
         for (let meta of json) {
           switch (meta.type) {
             case "title":
@@ -43,8 +45,13 @@ const MetaPage = ({ children }) => {
             case "image":
               setImage(meta.message);
               break;
+            case "section":
+              tempSections.push(meta.message);
+              break;
           }
         }
+        setSections(tempSections);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -58,6 +65,7 @@ const MetaPage = ({ children }) => {
     setDescription(null);
     setImage(null);
     setError(null);
+    setSections([]);
   };
 
   useEffect(() => {
@@ -74,8 +82,6 @@ const MetaPage = ({ children }) => {
         alignItems="center"
         margin={0}
       >
-        {error ? <Typography color="secondary">{error}</Typography> : null}
-        {loading ? <CircularProgress /> : null}
         {image ? (
           <div className="background-container">
             <img
@@ -110,7 +116,7 @@ const MetaPage = ({ children }) => {
           <></>
         )}
       </Box>
-      {children}
+      {children(sections)}
     </>
   );
 };

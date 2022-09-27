@@ -143,7 +143,7 @@ class Orders extends Component {
     if (this.state.isAdmin)
       return (
         <div className="content-home">
-          <div className="videos">
+          <div style={{ width: "100%", maxWidth: "1400px" }}>
             <TableContainer component={Paper}>
               <Table style={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>

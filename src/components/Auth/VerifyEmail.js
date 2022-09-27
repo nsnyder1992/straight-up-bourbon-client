@@ -15,6 +15,7 @@ const VerifyEmail = () => {
   //get parameter from url query
   const { token } = useParams();
 
+  const [oldToken, setOldToken] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -67,8 +68,9 @@ const VerifyEmail = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && token != oldToken) {
       sendVerification();
+      setOldToken(token);
     }
   }, [token]);
 

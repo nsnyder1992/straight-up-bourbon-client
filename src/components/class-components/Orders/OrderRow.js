@@ -142,7 +142,7 @@ class OrderRow extends Component {
           align="right"
           onClick={(event) => this.handleClick(event, this.props.order.id)}
         >
-          {moment(this.props.order.createdAt).format("MMM Do YY, h:mm:ss a")}
+          {moment(this.props.order.createdAt).format("MM/D/YY")}
         </TableCell>
         <TableCell>
           <Box display="flex" flexDirection="row" justifyContent="center">

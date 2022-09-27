@@ -26,19 +26,20 @@ const EditBourbon = ({ bourbon, refresh }) => {
 
   const editBourbon = async () => {
     try {
-      const file = fileUpload.current.files[0];
+      const file = fileUpload?.current?.files[0];
 
       const body = {
-        name: bourbon.name,
-        description: bourbon.description,
-        aroma: bourbon.aroma,
-        taste: bourbon.taste,
-        link: bourbon.link,
-        distillery: bourbon.distillery,
-        year: bourbon.year,
-        selection: bourbon.selection,
+        name: bourbonState.name,
+        description: bourbonState.description,
+        aroma: bourbonState.aroma,
+        taste: bourbonState.taste,
+        link: bourbonState.link,
+        distillery: bourbonState.distillery,
+        year: bourbonState.year,
+        selection: bourbonState.selection,
       };
 
+      console.log(body);
       if (file !== undefined) {
         const cloudinaryJson = await uploadImg(
           signatureUrl,
@@ -75,7 +76,7 @@ const EditBourbon = ({ bourbon, refresh }) => {
 
   const deleteBourbon = (id) => {
     setLoading(true);
-    fetch(`${APIURL}/meta/${id}`, {
+    fetch(`${APIURL}/bourbon/${id}`, {
       method: "DELETE",
       headers: new Headers({
         "content-type": "application/json",
@@ -100,9 +101,9 @@ const EditBourbon = ({ bourbon, refresh }) => {
       <BourbonForm
         isEdit={true}
         bourbon={bourbonState}
-        submitName={"Edit Rate"}
+        submitName={"Edit Bourbon"}
         handleSubmit={editBourbon}
-        deleteName={"Delete Rate"}
+        deleteName={"Delete Bourbon"}
         handleDelete={deleteBourbon}
         loading={loading}
         error={error}

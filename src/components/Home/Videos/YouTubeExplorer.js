@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
 
 //material components
-import {
-  IconButton,
-  CircularProgress,
-  Typography,
-  Box,
-  makeStyles,
-  Button,
-} from "@material-ui/core";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import { CircularProgress, Typography, Box, Button } from "@material-ui/core";
+
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
 //hooks
@@ -54,7 +46,7 @@ const YouTubeExplorer = ({
     await setOffset(page * limit);
     await setPage(page + 1);
 
-    if (offset + limit >= videos.length) {
+    if (offset + limit >= videos?.length) {
       setLoading(true);
       fetch(`${APIURL}/youtube/videos/page/${nextPageToken}`, {
         method: "GET",
@@ -91,7 +83,6 @@ const YouTubeExplorer = ({
   //handle updating display videos
   useEffect(() => {
     if (videos) updateDisplay();
-    console.log(videos);
   }, [videos, page, limit]);
 
   //handle updating the number of videos displayed on window size change
@@ -112,8 +103,8 @@ const YouTubeExplorer = ({
       component="div"
       overflow="auto"
       width="100%"
-      maxWidth="700px"
-      margin={2}
+      maxWidth="900px"
+      margin={1}
     >
       {/* <CustomScrollbar> */}
       {display?.map((video, key) => {

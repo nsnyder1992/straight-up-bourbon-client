@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Route, Link, Switch, useHistory, useLocation } from "react-router-dom";
 import clsx from "clsx";
 
@@ -44,12 +44,13 @@ import logo from "./images/logo.png";
 
 //styles
 import "./styles/Navbar.css";
-import Meta from "./Admin/Meta/Meta";
 import MetaPage from "./MetaPage";
 import AdminPage from "./Admin/Admin/AdminPage";
 import { Close } from "@material-ui/icons";
 import VerifyEmail from "./Auth/VerifyEmail";
 import Bourbons from "./Admin/Bourbon/Bourbons";
+import APIURL from "../helpers/environment";
+import ContactUs from "./Contact/ContactUs";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -78,6 +79,7 @@ const Navbar = ({ numItems }) => {
 
   //nav panel
   const [open, setOpen] = useState(false);
+  const [subLogo, setSubLogo] = useState();
 
   const toggleNav = (open) => (event) => {
     if (
@@ -111,6 +113,29 @@ const Navbar = ({ numItems }) => {
     history.push("/profile");
   };
 
+  const fetchLogo = () => {
+    fetch(`${APIURL}/meta/by/types/`, {
+      method: "POST",
+      headers: new Headers({
+        "content-type": "application/json",
+      }),
+      body: JSON.stringify({
+        types: ["nav_icon"],
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        if (json) setSubLogo(json[0]?.message);
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchLogo();
+  }, [isAdmin]);
+
+  useEffect(() => console.log(subLogo), []);
+
   return (
     <header>
       <ShoppingCart openCart={openCart} toggleCart={toggleCart} />
@@ -119,7 +144,11 @@ const Navbar = ({ numItems }) => {
           <div className="left-nav">
             <Hidden smDown>
               <Link to="/" className="flex-item">
-                <img src={logo} style={{ width: 100 }} alt="logo" />
+                <img
+                  src={subLogo ? subLogo : logo}
+                  style={{ width: 100 }}
+                  alt="logo"
+                />
               </Link>
               <Link to="/" className="flex-item">
                 <Typography className="nav-link nav-link-fade-up">
@@ -136,8 +165,18 @@ const Navbar = ({ numItems }) => {
                   Shop
                 </Typography>
               </Link>
+              <Link to="/contact" className="flex-item">
+                <Typography className="nav-link nav-link-fade-up">
+                  Contact
+                </Typography>
+              </Link>
               {isAdmin ? (
                 <div>
+                  <Link to="/bourbon" className="flex-item">
+                    <Typography className="nav-link nav-link-fade-up">
+                      Bourbons
+                    </Typography>
+                  </Link>
                   <Link to="/order" className="flex-item">
                     <Typography className="nav-link nav-link-fade-up">
                       Orders
@@ -146,16 +185,6 @@ const Navbar = ({ numItems }) => {
                   <Link to="/user" className="flex-item">
                     <Typography className="nav-link nav-link-fade-up">
                       Users
-                    </Typography>
-                  </Link>
-                  <Link to="/meta" className="flex-item">
-                    <Typography className="nav-link nav-link-fade-up">
-                      Meta
-                    </Typography>
-                  </Link>
-                  <Link to="/bourbon" className="flex-item">
-                    <Typography className="nav-link nav-link-fade-up">
-                      Bourbons
                     </Typography>
                   </Link>
                   <Link to="/admin" className="flex-item">
@@ -175,7 +204,11 @@ const Navbar = ({ numItems }) => {
           </div>
           <Hidden only={["md", "lg", "xl"]}>
             <div className={isAdmin ? "center-nav-admin" : "center-nav"}>
-              <img src={logo} style={{ width: 100 }} alt="logo" />
+              <img
+                src={subLogo ? subLogo : logo}
+                style={{ width: 100 }}
+                alt="logo"
+              />
             </div>
           </Hidden>
           <div className="right-nav">
@@ -237,9 +270,20 @@ const Navbar = ({ numItems }) => {
                 <ListItemText>SHOP</ListItemText>
               </ListItem>
             </Link>
+            <Link to="/contact" className="flex-item-panel">
+              <ListItem button>
+                <ListItemText>CONTACT</ListItemText>
+              </ListItem>
+            </Link>
           </List>
+
           {isAdmin ? (
             <div>
+              <Link to="/bourbon" className="flex-item-panel">
+                <ListItem button>
+                  <ListItemText>BOURBONS</ListItemText>
+                </ListItem>
+              </Link>
               <Link to="/order" className="flex-item-panel">
                 <ListItem button>
                   <ListItemText>ORDERS</ListItemText>
@@ -250,20 +294,11 @@ const Navbar = ({ numItems }) => {
                   <ListItemText>USERS</ListItemText>
                 </ListItem>
               </Link>
-              <Link to="/meta" className="flex-item-panel">
+
+              <Link to="/admin" className="flex-item-panel">
                 <ListItem button>
-                  <ListItemText>META</ListItemText>
+                  <ListItemText>ADMIN</ListItemText>
                 </ListItem>
-              </Link>
-              <Link to="/bourbon" className="flex-item-panel">
-                <ListItem button>
-                  <ListItemText>BOURBONS</ListItemText>
-                </ListItem>
-              </Link>
-              <Link to="/admin" className="flex-item">
-                <Typography className="nav-link nav-link-fade-up">
-                  ADMIN
-                </Typography>
               </Link>
             </div>
           ) : null}
@@ -273,54 +308,58 @@ const Navbar = ({ numItems }) => {
       <div className="apps">
         <Switch>
           <MetaPage>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/about">
-              <></>
-            </Route>
-            <Route exact path="/shop">
-              <Shop />
-            </Route>
-            <Route exact path="/order">
-              <Orders />
-            </Route>
-            <Route exact path="/order/:id">
-              <Order />
-            </Route>
-            <Route exact path="/user">
-              <Users />
-            </Route>
-            <Route exact path="/meta">
-              <Meta />
-            </Route>
-            <Route exact path="/bourbon">
-              <Bourbons />
-            </Route>
-            <Route exact path="/admin">
-              <AdminPage />
-            </Route>
-            <Route exact path="/product/:id">
-              <ProductPage />
-            </Route>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
-            <Route exact path="/reset/:token">
-              <ResetPassword />
-            </Route>
-            <Route exact path="/verify/:token">
-              <VerifyEmail />
-            </Route>
-            <Route exact path="/verify">
-              <VerifyEmail />
-            </Route>
-            <Route path="/success">
-              <Success />
-            </Route>
-            <Route path="/cancel">
-              <Canceled />
-            </Route>
+            {(sections) => (
+              <>
+                <Route exact path="/">
+                  <Home sections={sections} />
+                </Route>
+                <Route exact path="/about">
+                  <></>
+                </Route>
+                <Route exact path="/shop">
+                  <Shop />
+                </Route>
+                <Route exact path="/contact">
+                  <ContactUs />
+                </Route>
+                <Route exact path="/order">
+                  <Orders />
+                </Route>
+                <Route exact path="/order/:id">
+                  <Order />
+                </Route>
+                <Route exact path="/user">
+                  <Users />
+                </Route>
+                <Route exact path="/bourbon">
+                  <Bourbons />
+                </Route>
+                <Route exact path="/admin">
+                  <AdminPage />
+                </Route>
+                <Route exact path="/product/:id">
+                  <ProductPage />
+                </Route>
+                <Route exact path="/profile">
+                  <Profile />
+                </Route>
+                <Route exact path="/reset/:token">
+                  <ResetPassword />
+                </Route>
+                <Route exact path="/verify/:token">
+                  <VerifyEmail />
+                </Route>
+                <Route exact path="/verify">
+                  <VerifyEmail />
+                </Route>
+                <Route path="/success">
+                  <Success />
+                </Route>
+                <Route path="/cancel">
+                  <Canceled />
+                </Route>
+              </>
+            )}
           </MetaPage>
         </Switch>
       </div>

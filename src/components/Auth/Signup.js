@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,6 +10,7 @@ import { TokenContext } from "../../helpers/context/token-context";
 //get API url
 import APIURL from "../../helpers/environment";
 import { useHistory } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 
 //styles
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +32,8 @@ const Signup = () => {
   //styles
   const classes = useStyles();
 
+  const captchaRef = useRef(null);
+
   //context
   const { updateToken } = useContext(TokenContext);
 
@@ -45,10 +48,18 @@ const Signup = () => {
   //create user
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!email) return setError("Must submit a email");
+    if (!password) return setError("Must submit a password");
+    if (!captchaRef?.current?.getValue())
+      return setError("Check I'm not a robot");
+    const token = captchaRef.current.getValue();
+
+    captchaRef.current.reset();
+
     setLoading(true);
     fetch(`${APIURL}/user/signup`, {
       method: "POST",
-      body: JSON.stringify({ firstName, lastName, email, password }),
+      body: JSON.stringify({ firstName, lastName, email, password, token }),
       headers: new Headers({
         "Content-Type": "application/json",
       }),
@@ -103,6 +114,9 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
+
+        <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} ref={captchaRef} />
+
         <Button
           variant="contained"
           color="primary"

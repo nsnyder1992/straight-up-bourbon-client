@@ -12,6 +12,12 @@ export default function useBourbon(isEdit, init) {
   const [distillery, setDistillery] = useState();
   const [year, setYear] = useState();
   const [selection, setSelection] = useState();
+  const [fileUrl, setFileUrl] = useState();
+
+  //add and image to product
+  const addImage = (image) => {
+    setFileUrl(image);
+  };
 
   useEffect(() => {
     if (isEdit) {
@@ -25,6 +31,7 @@ export default function useBourbon(isEdit, init) {
       setDistillery(init.distillery);
       setYear(init.year);
       setSelection(init.selection);
+      setFileUrl(init.photoUrl);
     }
   }, [isEdit, init]);
 
@@ -48,5 +55,7 @@ export default function useBourbon(isEdit, init) {
     setYear,
     selection,
     setSelection,
+    fileUrl,
+    addImage,
   };
 }

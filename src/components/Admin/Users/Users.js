@@ -135,7 +135,7 @@ const Users = () => {
 
   return (
     <div className="content-home">
-      <div className="videos">
+      <div style={{ width: "100%", maxWidth: "1400px" }}>
         <AdminProtected>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">

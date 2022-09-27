@@ -22,13 +22,6 @@ const BourbonForm = ({
   error,
   children,
 }) => {
-  const [fileUrl, setFileUrl] = useState();
-
-  //add and image to product
-  const addImage = (image) => {
-    setFileUrl(image);
-  };
-
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -36,8 +29,8 @@ const BourbonForm = ({
       </Grid>
       <Grid item xs={12}>
         <ImgDisplay
-          fileUrl={fileUrl}
-          addImage={addImage}
+          fileUrl={bourbon.fileUrl}
+          addImage={bourbon.addImage}
           fileUpload={fileUpload}
         />
       </Grid>

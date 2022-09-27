@@ -25,7 +25,7 @@ const Bourbons = () => {
 
   const fetchData = () => {
     setLoading(true);
-    fetch(`${APIURL}/bourbon/${page - 1}/${limit}`, {
+    fetch(`${APIURL}/bourbon/${page}/${limit}`, {
       method: "GET",
       headers: new Headers({
         "content-type": "application/json",
@@ -66,7 +66,7 @@ const Bourbons = () => {
 
           {/* {loading ? <CircularProgress /> : null} */}
           {error ? <Typography color="secondary">{error}</Typography> : null}
-          {bourbons?.map((bourbon, index) => {
+          {bourbons?.bourbons?.map((bourbon, index) => {
             return (
               <EditBourbon key={index} bourbon={bourbon} refresh={fetchData} />
             );

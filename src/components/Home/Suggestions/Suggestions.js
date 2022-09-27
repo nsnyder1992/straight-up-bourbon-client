@@ -103,7 +103,7 @@ const Suggestions = () => {
   };
 
   return (
-    <>
+    <div style={{ marginTop: 10 }}>
       <Hidden only={["md", "lg", "xl"]}>
         <Paper className={classes.root}>
           {loading ? <CircularProgress /> : null}
@@ -229,7 +229,7 @@ const Suggestions = () => {
           />
         </Paper>
       </Hidden>
-    </>
+    </div>
   );
 };
 

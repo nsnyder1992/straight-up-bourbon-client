@@ -66,10 +66,10 @@ const BackgroundVideo = ({ title, description, image, link }) => {
           color="#fff"
         >
           <Typography variant="h3" component="h1" className={classes.title}>
-            {title}
+            {title ? title : "Good Friends. Good Bourbon."}
           </Typography>
           <LinkButton link={link} variant="contained">
-            {description}
+            {description ? description : "Monthly Support"}
           </LinkButton>
           <TextDivider>OR</TextDivider>
           <PayPalDonate

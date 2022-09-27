@@ -14,6 +14,7 @@ import Suggestions from "./Suggestions/Suggestions";
 
 import BackgroundVideo from "./Videos/BackgroundVideo";
 import LinkSection from "./LinkSection";
+import YouTubeSubscribe from "../Utils/YoutubeSubscribe";
 
 const Home = ({ sections }) => {
   const [videos, setVideos] = useState();
@@ -83,6 +84,7 @@ const Home = ({ sections }) => {
                 nowPlayingIndex={nowPlayingIndex}
                 setNowPlayingIndex={setNowPlayingIndex}
               />
+              <YouTubeSubscribe />
             </div>
           );
         }}

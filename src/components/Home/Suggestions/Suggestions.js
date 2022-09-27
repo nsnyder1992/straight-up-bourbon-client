@@ -58,6 +58,7 @@ const Suggestions = () => {
 
   const [suggestions, setSuggestions] = useState([]);
   const [active, setActive] = useState(0);
+  const [page, setPage] = useState(0);
   const [offset, setOffset] = useState(2);
 
   const fetchData = () => {
@@ -73,7 +74,7 @@ const Suggestions = () => {
       .then((json) => {
         setLoading(false);
         if (json?.err) {
-          return setErr(json.err);
+          return setError(json.err);
         }
         setSuggestions(json.bourbons);
       })
@@ -89,10 +90,12 @@ const Suggestions = () => {
 
   const handleNext = (offset) => {
     setActive((prevActiveStep) => prevActiveStep + offset);
+    setPage((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = (offset) => {
     setActive((prevActiveStep) => prevActiveStep - offset);
+    setPage((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleStepChange = (step) => {
@@ -192,7 +195,7 @@ const Suggestions = () => {
             variant="dots"
             steps={Math.ceil(suggestions?.length / offset)}
             position="static"
-            activeStep={active}
+            activeStep={page}
             nextButton={
               <Button
                 size="small"

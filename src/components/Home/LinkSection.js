@@ -9,11 +9,19 @@ const LinkSection = ({ title, description, link }) => {
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          style={{ marginBottom: 10, height: 90 }}
+          style={{ minHeight: 90 }}
           className="section"
         >
-          <Typography variant="h6">{description}</Typography>
-          <Button href={link} target="blank">
+          <Typography variant="h6" style={{ paddingTop: 15 }}>
+            {description}
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            href={link}
+            target="blank"
+            style={{ marginBottom: 15 }}
+          >
             {title}
           </Button>
         </Box>

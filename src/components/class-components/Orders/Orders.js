@@ -11,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import {
   CircularProgress,
+  Divider,
   TablePagination,
   Typography,
 } from "@material-ui/core";
@@ -24,6 +25,7 @@ import { TokenContext } from "../../../helpers/context/token-context";
 import APIURL from "../../../helpers/environment";
 
 import AdminProtected from "../../AdminProtected";
+import CancelOrder from "../../Admin/Admin/CancelOrder";
 
 class Orders extends Component {
   static contextType = TokenContext;
@@ -144,6 +146,8 @@ class Orders extends Component {
       return (
         <div className="content-home">
           <div style={{ width: "100%", maxWidth: "1400px" }}>
+            <CancelOrder />
+            <Divider style={{ margin: 15 }} />
             <TableContainer component={Paper}>
               <Table style={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>

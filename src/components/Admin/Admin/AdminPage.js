@@ -24,6 +24,10 @@ const pages = [
     title: "Page Link",
   },
   {
+    value: "text_align",
+    title: "Description Alignment",
+  },
+  {
     value: "section",
     title: "Page Section",
   },

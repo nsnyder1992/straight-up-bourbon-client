@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -17,6 +17,7 @@ const MetaPage = ({ children }) => {
   //meta states
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
+  const [textAlign, setTextAlign] = useState();
   const [image, setImage] = useState();
   const [sections, setSections] = useState([]);
 
@@ -42,6 +43,9 @@ const MetaPage = ({ children }) => {
             case "page":
               setDescription(meta.message);
               break;
+            case "text_align":
+              setTextAlign(meta.message);
+              break;
             case "image":
               setImage(meta.message);
               break;
@@ -63,6 +67,7 @@ const MetaPage = ({ children }) => {
   const clearMetas = () => {
     setTitle(null);
     setDescription(null);
+    setTextAlign(null);
     setImage(null);
     setError(null);
     setSections([]);
@@ -107,7 +112,7 @@ const MetaPage = ({ children }) => {
             style={{ maxWidth: 750, margin: 15 }}
             variant="body1"
             component="p"
-            align="left"
+            align={textAlign ? textAlign : "left"}
             paragraph
           >
             {description}

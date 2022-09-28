@@ -11,7 +11,7 @@ const Video = () => {
   };
 
   useEffect(() => {
-    if (isSafari() && videoParentRef.current) {
+    if (isSafari() && videoParentRef?.current) {
       const player = videoParentRef.current.children[0];
 
       if (player) {
@@ -26,7 +26,9 @@ const Video = () => {
 
           if (promise.then) {
             promise
-              .then(() => {})
+              .then((e) => {
+                console.log(e);
+              })
               .catch(() => {
                 videoParentRef.current.style.display = "none";
                 setShowImage(true);
@@ -35,14 +37,14 @@ const Video = () => {
         });
       }
     }
-  }, []);
+  }, [videoParentRef]);
 
   return (
     <>
       {showImage ? (
         <img
-          src="/web_intro.mp4"
-          alt="Muted Video"
+          src="/web_intro_Moment.jpg"
+          alt="Poster of Video"
           style={{ width: "100%", height: "100%" }}
         />
       ) : (

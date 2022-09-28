@@ -15,6 +15,7 @@ const LinkSection = ({ title, description, link }) => {
           <Typography variant="h6" style={{ paddingTop: 15 }}>
             {description}
           </Typography>
+          <br />
           <Button
             variant="contained"
             color="primary"

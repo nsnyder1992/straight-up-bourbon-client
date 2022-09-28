@@ -72,7 +72,6 @@ const BackgroundVideo = ({ title, description, image, link }) => {
   const refStopper = useRef();
 
   useEffect(() => {
-    console.log(refStopper);
     if (!refStopper?.current) return;
     window.addEventListener("scroll", isSticky);
     return () => {
@@ -86,7 +85,6 @@ const BackgroundVideo = ({ title, description, image, link }) => {
     const scrollTop =
       document.body.scrollTop || document.documentElement.scrollTop;
 
-    console.log(scrollTop, heightToHide);
     setVisable(scrollTop > heightToHide);
   };
 

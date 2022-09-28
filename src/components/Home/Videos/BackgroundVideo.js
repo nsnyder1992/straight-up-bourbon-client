@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sticky: {
     position: "fixed",
-    bottom: 50,
+    bottom: 40,
     zIndex: 999,
     width: "100%",
     animation: "500ms ease-in-out 1s normal none 1 running fadeInDown",
@@ -82,12 +82,13 @@ const BackgroundVideo = ({ title, description, image, link }) => {
       <Video />
       <div className={classes.overlay}>
         <Box
-          height="100%"
+          height="85%"
           display="flex"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
           color="#fff"
+          style={{ paddingBottom: 10 }}
         >
           <Typography variant="h3" component="h1" className={classes.title}>
             {title ? title : "Good Friends. Good Bourbon."}

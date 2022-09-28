@@ -89,7 +89,6 @@ const BackgroundVideo = ({ title, description, image, link }) => {
   };
 
   const getOffset = (element) => {
-    console.log(element.getBoundingClientRect());
     const elementRect = element.getBoundingClientRect();
     return elementRect?.top;
   };

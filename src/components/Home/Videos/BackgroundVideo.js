@@ -1,11 +1,16 @@
-import { Box, Button, makeStyles, Typography } from "@material-ui/core";
+import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
+
+import { Box, makeStyles, Typography } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
 import PayPalDonate from "../../Utils/PayPalDonate";
 import TextDivider from "../../Utils/TextDivider";
 import LinkButton from "../../Utils/LinkButton";
 import Video from "./Video";
-import { useEffect, useRef, useState } from "react";
+
+const animeTime = 0.9;
+const animeMovement = 0.1;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     width: "100%",
-    height: "100vh",
+    height: "calc(100vh - 60px)",
     position: "relative",
     "& video": {
       objectFit: "cover",
@@ -41,8 +46,22 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: 40,
     zIndex: 999,
-    width: "100%",
+    width: "100vw",
     animation: "500ms ease-in-out 1s normal none 1 running fadeInDown",
+  },
+  animatedText: {
+    animation: `$arrowAnimation ${animeTime}s infinite alternate ${theme.transitions.easing.easeInOut}`,
+  },
+  "@keyframes textAnimation": {
+    "0%": { opacity: 0.4 },
+    "100%": { opacity: 0.9 },
+  },
+  animatedArrow: {
+    animation: `$arrowAnimation ${animeTime}s infinite alternate ${theme.transitions.easing.easeInOut}`,
+  },
+  "@keyframes arrowAnimation": {
+    "0%": { transform: `translateY(-${animeMovement}em)`, opacity: 0.4 },
+    "100%": { transform: "translateY(0)", opacity: 0.9 },
   },
 }));
 
@@ -113,8 +132,28 @@ const BackgroundVideo = ({ title, description, image, link }) => {
           alignItems="center"
           color="#fff"
         >
-          <Typography style={{ marginBottom: 0 }}>Scroll Down</Typography>
-          <KeyboardArrowDownIcon style={{ fontSize: 40 }} />
+          <Typography
+            style={{ marginBottom: 0 }}
+            className={
+              visable
+                ? null
+                : clsx(classes.animatedText, {
+                    [classes.textAnimation]: !visable,
+                  })
+            }
+          >
+            Scroll Down
+          </Typography>
+          <KeyboardArrowDownIcon
+            style={{ fontSize: 40 }}
+            className={
+              visable
+                ? null
+                : clsx(classes.animatedArrow, {
+                    [classes.arrowAnimation]: !visable,
+                  })
+            }
+          />
         </Box>
       </div>
     </section>

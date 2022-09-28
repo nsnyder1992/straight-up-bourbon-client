@@ -1,18 +1,19 @@
 import { Box, Button, makeStyles, Typography } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
-import ReactPlayer from "react-player";
-
-import introVideo from "../../videos/web_intro.mp4";
-import introPoster from "../../images/web_intro_Moment.jpg";
 import PayPalDonate from "../../Utils/PayPalDonate";
 import TextDivider from "../../Utils/TextDivider";
 import LinkButton from "../../Utils/LinkButton";
+import Video from "./Video";
+import { useEffect, useRef, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "absolute",
+    top: 0,
+    left: 0,
     width: "100%",
-    height: "80vh",
+    height: "100vh",
     position: "relative",
     "& video": {
       objectFit: "cover",
@@ -36,26 +37,49 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingBottom: theme.spacing(4),
   },
+  sticky: {
+    position: "fixed",
+    bottom: 50,
+    zIndex: 999,
+    width: "100%",
+    animation: "500ms ease-in-out 1s normal none 1 running fadeInDown",
+  },
 }));
 
 const BackgroundVideo = ({ title, description, image, link }) => {
   const classes = useStyles();
+  const [visable, setVisable] = useState(false);
+
+  const refStopper = useRef();
+
+  useEffect(() => {
+    console.log(refStopper);
+    if (!refStopper?.current) return;
+    window.addEventListener("scroll", isSticky);
+    return () => {
+      window.removeEventListener("scroll", isSticky);
+    };
+  }, [refStopper]);
+
+  const isSticky = (e) => {
+    const heightToHide = getOffset(refStopper.current);
+
+    const scrollTop =
+      document.body.scrollTop || document.documentElement.scrollTop;
+
+    console.log(scrollTop, heightToHide);
+    setVisable(scrollTop > heightToHide);
+  };
+
+  const getOffset = (element) => {
+    console.log(element.getBoundingClientRect());
+    const elementRect = element.getBoundingClientRect();
+    return elementRect?.top;
+  };
 
   return (
-    <section className={classes.root}>
-      <ReactPlayer
-        fallback={<img src={introPoster} />}
-        poster={introPoster}
-        url={image ? image : introVideo}
-        playing
-        controls={false}
-        light={false}
-        volume={0}
-        loop
-        muted
-        width="100%"
-        height="100%"
-      />
+    <section className={classes.root} ref={refStopper}>
+      <Video />
       <div className={classes.overlay}>
         <Box
           height="100%"
@@ -78,7 +102,8 @@ const BackgroundVideo = ({ title, description, image, link }) => {
           />
         </Box>
       </div>
-      <div className={classes.overlayEnd}>
+      {/* className={classes.overlayEnd} */}
+      <div className={visable ? classes.overlayEnd : classes.sticky}>
         <Box
           height="100%"
           display="flex"

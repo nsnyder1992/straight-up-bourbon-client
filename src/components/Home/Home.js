@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 //components
 import YouTubeVideo from "./Videos/YouTubeVideo";
@@ -17,6 +17,8 @@ import LinkSection from "./LinkSection";
 import YouTubeSubscribe from "../Utils/YoutubeSubscribe";
 
 const Home = ({ sections }) => {
+  const videoSection = useRef(null);
+
   const [videos, setVideos] = useState();
   const [nowPlaying, setNowPlaying] = useState();
   const [nowPlayingIndex, setNowPlayingIndex] = useState();
@@ -55,10 +57,12 @@ const Home = ({ sections }) => {
               description={description}
               image={image}
               link={link}
+              refStopper={videoSection}
             />
           );
         }}
       </MetaSection>
+      <div ref={videoSection} />
       <MetaSection sectionId={"videos"}>
         {(title, description, image) => {
           return (

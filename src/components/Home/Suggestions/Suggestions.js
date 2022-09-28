@@ -73,6 +73,7 @@ const Suggestions = () => {
       .then((res) => res.json())
       .then((json) => {
         setLoading(false);
+        console.log(json);
         if (json?.err) {
           return setError(json.err);
         }
@@ -164,7 +165,7 @@ const Suggestions = () => {
           />
         </Paper>
       </Hidden>
-      <Hidden mdDown>
+      <Hidden smDown>
         <Paper className={classes.rootMdUp}>
           {loading ? <CircularProgress /> : null}
           {error ? <Typography color="secondary">{error}</Typography> : null}

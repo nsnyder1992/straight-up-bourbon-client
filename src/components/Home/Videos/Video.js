@@ -51,7 +51,7 @@ const Video = () => {
           style={{ height: "100%" }}
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(`
-            <video autoplay loop muted playsinline style="width: 100%; height: 100%;">
+            <video autoplay loop muted playsinline poster="/web_intro_Moment.jpg" style="width: 100%; height: 100%;">
                 <source src="/web_intro.mp4" type="video/mp4" />
             </video>
         `),

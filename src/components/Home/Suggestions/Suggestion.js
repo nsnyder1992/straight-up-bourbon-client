@@ -25,7 +25,9 @@ const Suggestion = ({ suggestion, classes }) => {
           <Link target="blank" href={suggestion.link}>
             See Review
           </Link>
-        ) : null}
+        ) : (
+          <div style={{ height: 21 }}></div>
+        )}
       </CardContent>
     </Card>
   );

@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 //material components
@@ -21,9 +21,12 @@ import "./styles/Shop.css";
 
 //helpers
 import APIURL from "../../helpers/environment";
+import ScrollDown from "../Utils/ScrollDown";
 
 const Shop = () => {
   const history = useHistory();
+
+  const refStopper = useRef();
 
   //states
   const [showDeactive, setShowDeactive] = useState(false);
@@ -31,9 +34,8 @@ const Shop = () => {
   const [error, setError] = useState("");
 
   //context
-  const { isAdmin, adminView, sessionToken, setAdminView } = useContext(
-    TokenContext
-  );
+  const { isAdmin, adminView, sessionToken, setAdminView } =
+    useContext(TokenContext);
   const { products, setProducts } = useContext(ProductContext);
 
   const handleDeactive = (e) => {
@@ -72,7 +74,7 @@ const Shop = () => {
         <Grid container spacing={3}>
           {products?.map((product, key) => {
             return product.isActive || showDeactive ? (
-              <Grid item sm={6} md={4} key={key}>
+              <Grid item sm={12} key={key}>
                 <Grid container spacing={0}>
                   <Grid
                     item
@@ -102,6 +104,8 @@ const Shop = () => {
         {loading ? <CircularProgress /> : null}
         {isAdmin && adminView ? <AddProduct /> : null}
       </div>
+      <ScrollDown refStopper={refStopper} />
+      <div ref={refStopper}></div>
     </div>
   );
 };

@@ -36,6 +36,7 @@ const ShoppingCartFooter = ({ cart, setProduct, error, setError }) => {
       .then((json) => {
         if (json?.err) {
           if (json.err?.statusCode) {
+            console.log(json.err);
             setError(
               "Something went wrong with Stripe Checkout. Please contact us"
             );

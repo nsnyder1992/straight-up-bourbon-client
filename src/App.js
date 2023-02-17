@@ -230,6 +230,7 @@ function App() {
     let tempCart = cart;
     if (tempCart.products.length <= 0) return;
 
+    let i = 0;
     for (let prod of tempCart.products) {
       if (
         prod.product.id === product.product.id &&
@@ -239,12 +240,15 @@ function App() {
         tempCart.numItems = tempCart.numItems - quantity;
         tempCart.subtotal -= product.product.cost * quantity;
         prod.quantity -= quantity;
+        if (prod.quantity <= 0) tempCart.products.splice(i, 1);
+
         setNumItems(tempCart.numItems);
         setCart(tempCart);
-        localStorage.setItem("cart", JSON.stringify(tempCart));
 
+        localStorage.setItem("cart", JSON.stringify(tempCart));
         return;
       }
+      i++;
     }
 
     localStorage.setItem("cart", JSON.stringify(tempCart));

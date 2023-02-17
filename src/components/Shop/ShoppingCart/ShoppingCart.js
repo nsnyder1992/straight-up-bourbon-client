@@ -57,22 +57,6 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
     useContext(CartContext);
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState();
-  const [refresh, setRefresh] = useState(false);
-  const [empty, setEmpty] = useState(true);
-
-  useEffect(() => {
-    if (refresh) setRefresh(false);
-
-    cart?.products?.map((product, key) => {
-      if (product.quantity > 0) {
-        setEmpty(false);
-        return;
-      }
-
-      setEmpty(true);
-      return;
-    });
-  }, [openCart, refresh]);
 
   return (
     <SwipeableDrawer
@@ -96,14 +80,13 @@ const ShoppingCart = ({ openCart, toggleCart }) => {
       <div className={clsx(classes.list)} role="presentation">
         <Divider style={{ marginTop: 25 }} />
         <List>
-          {!empty ? (
+          {cart?.products?.length > 0 ? (
             cart.products.map((product, key) => {
-              if (product.quantity > 0)
+              if (product?.quantity > 0)
                 return (
                   <ShoppingCartItem
                     product={product}
                     key={key}
-                    setRefresh={setRefresh}
                     addToCart={addToCart}
                     removeFromCart={removeFromCart}
                     setProduct={setProduct}
